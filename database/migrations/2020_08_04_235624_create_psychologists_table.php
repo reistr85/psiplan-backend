@@ -14,7 +14,21 @@ class CreatePsychologistsTable extends Migration
     public function up()
     {
         Schema::create('psychologists', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email');
+            $table->date('birth');
+            $table->string('cpf');
+            $table->string('phone', 11);
+            $table->string('country');
+            $table->string('crp');
+            $table->string('psi');
+            $table->string('bank');
+            $table->string('agency');
+            $table->string('type_account');
+            $table->string('number_account');
+            $table->string('cpf_holder_account');
+            $table->string('cnpj_holder_account');
             $table->timestamps();
         });
     }
