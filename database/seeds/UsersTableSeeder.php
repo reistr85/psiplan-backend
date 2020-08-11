@@ -12,13 +12,31 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'type_user_id' => 1,
-            'name' => 'Administrador',
-            'email' => 'admin@psiplan.com.br',
-            'cpf' => '02664093347',
-            'password' => bcrypt('re851120'),
-            'active' => 0,
-        ]);
+        $timestamp = date('Y-m-d H:i:s');
+
+        $data = [
+            [
+                'type_user_id' => 1,
+                'name' => 'Administrador',
+                'email' => 'admin@psiplan.com.br',
+                'cpf' => '02664093347',
+                'password' => bcrypt('re851120'),
+                'active' => 0,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            ],
+            [
+                'type_user_id' => 2,
+                'name' => 'Psicólogo de Teste',
+                'email' => 'psiteste@gmail.com',
+                'cpf' => '39793947004',
+                'password' => bcrypt('123456'),
+                'active' => 0,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            ]
+        ];
+
+        User::insert($data);
     }
 }

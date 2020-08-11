@@ -12,28 +12,15 @@ class TypeUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        TypeUser::create([
-            'description' => 'Administrador',
-            'slug' => 'admin',
-            'active' => 0,
-        ]);
+        $timestamp = date('Y-m-d H:i:s');
 
-        TypeUser::create([
-            'description' => 'Psicólogo',
-            'slug' => 'psi',
-            'active' => 0,
-        ]);
+        $data = [
+            ['description' => 'Administrador', 'slug' => 'admin', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Psicólogo', 'slug' => 'psi', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Cliente', 'slug' => 'cli', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Empresa', 'slug' => 'emp', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+        ];
+        TypeUser::insert($data);
 
-        TypeUser::create([
-            'description' => 'Cliente',
-            'slug' => 'cli',
-            'active' => 0,
-        ]);
-
-        TypeUser::create([
-            'description' => 'Empresa',
-            'slug' => 'emp',
-            'active' => 0,
-        ]);
     }
 }
