@@ -14,8 +14,22 @@ class CreatePsychologistSpecialtiesTable extends Migration
     public function up()
     {
         Schema::create('psychologist_specialties', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('psychologist_id')->unsigned();
+            $table->integer('specialty_id')->unsigned();
+            $table->integer('active');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('psychologist_id')
+                ->references('id')
+                ->on('psychologists')
+                ->onDelete('cascade');
+
+            $table->foreign('specialty_id')
+                ->references('id')
+                ->on('specialties')
+                ->onDelete('cascade');
         });
     }
 

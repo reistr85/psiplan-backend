@@ -14,8 +14,22 @@ class CreatePsychologistApproachesTable extends Migration
     public function up()
     {
         Schema::create('psychologist_approaches', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('psychologist_id')->unsigned();
+            $table->integer('approach_id')->unsigned();
+            $table->integer('active');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('psychologist_id')
+                ->references('id')
+                ->on('psychologists')
+                ->onDelete('cascade');
+
+            $table->foreign('approach_id')
+                ->references('id')
+                ->on('approaches')
+                ->onDelete('cascade');
         });
     }
 
