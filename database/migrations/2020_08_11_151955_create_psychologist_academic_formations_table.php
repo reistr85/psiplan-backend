@@ -14,8 +14,20 @@ class CreatePsychologistAcademicFormationsTable extends Migration
     public function up()
     {
         Schema::create('psychologist_academic_formations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('psychologist_id')->unsigned();
+            $table->string('description');
+            $table->string('institution');
+            $table->string('period');
+            $table->text('details');
+            $table->integer('active');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('psychologist_id')
+                ->references('id')
+                ->on('psychologists')
+                ->onDelete('cascade');
         });
     }
 
