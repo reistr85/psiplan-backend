@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePsychologistLanguagesTable extends Migration
+class CreatePsychologistVideoPlatformsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePsychologistLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('psychologist_languages', function (Blueprint $table) {
+        Schema::create('psychologist_video_platforms', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
-            $table->integer('language_id')->unsigned();
+            $table->integer('video_platform_id')->unsigned();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
@@ -26,9 +26,9 @@ class CreatePsychologistLanguagesTable extends Migration
                 ->on('psychologists')
                 ->onDelete('cascade');
 
-            $table->foreign('language_id')
+            $table->foreign('video_platform_id')
                 ->references('id')
-                ->on('languages')
+                ->on('video_platforms')
                 ->onDelete('cascade');
         });
     }
@@ -40,6 +40,6 @@ class CreatePsychologistLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('psychologist_languages');
+        Schema::dropIfExists('psychologist_video_platforms');
     }
 }

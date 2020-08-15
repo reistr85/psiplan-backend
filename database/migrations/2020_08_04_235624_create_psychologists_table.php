@@ -22,12 +22,11 @@ class CreatePsychologistsTable extends Migration
             $table->string('cpf')->nullable();
             $table->string('phone', 11)->nullable();
             $table->string('country')->nullable();
-
-            $table->decimal('query_value', 10, 2)->nullable();
-            $table->decimal('query_value_social', 10, 2)->nullable();
-            $table->integer('query_duration')->nullable();
+            $table->decimal('consultation_value', 10, 2)->nullable();
+            $table->integer('consultation_duration')->nullable();
+            $table->decimal('social_consultation_value', 10, 2)->nullable();
+            $table->integer('first_free_consultation')->nullable();
             $table->text('description')->nullable();
-
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
             $table->integer('bank_id')->unsigned();
@@ -36,9 +35,7 @@ class CreatePsychologistsTable extends Migration
             $table->string('number_account')->nullable();
             $table->string('cpf_holder_account')->nullable();
             $table->string('cnpj_holder_account')->nullable();
-
-            $table->integer('active');
-
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
 

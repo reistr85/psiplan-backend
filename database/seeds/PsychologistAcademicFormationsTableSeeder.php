@@ -22,7 +22,7 @@ class PsychologistAcademicFormationsTableSeeder extends Seeder
                 'institution' => Lorem::text(10),
                 'period' => '2015-2020',
                 'details' => Lorem::text(35),
-                'active' => 0,
+                'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],

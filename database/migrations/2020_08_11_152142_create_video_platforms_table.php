@@ -14,7 +14,11 @@ class CreateVideoPlatformsTable extends Migration
     public function up()
     {
         Schema::create('video_platforms', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('description');
+            $table->string('image');
+            $table->integer('is_active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

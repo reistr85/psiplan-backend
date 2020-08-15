@@ -15,9 +15,9 @@ class TargetAudiencesTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['description' => 'Criança', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Adolescente', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Adulto', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Criança', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Adolescente', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Adulto', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         TargetAudience::insert($data);

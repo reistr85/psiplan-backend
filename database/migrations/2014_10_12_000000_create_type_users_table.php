@@ -17,7 +17,7 @@ class CreateTypeUsersTable extends Migration
             $table->increments('id');
             $table->string('description');
             $table->string('slug');
-            $table->integer('active');
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
         });

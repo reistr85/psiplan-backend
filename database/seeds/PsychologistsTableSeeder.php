@@ -1,6 +1,6 @@
 <?php
 
-use App\Psychologist;
+use App\Models\Psychologist;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
@@ -20,13 +20,14 @@ class PsychologistsTableSeeder extends Seeder
                 'user_id' => 2,
                 'name' => 'Psicólogo de Teste',
                 'email' => 'psiteste@gmail.com',
-                'birth' => '1985-11-20',
+                'birth' => '1985-11-21',
                 'cpf' => '39793947004',
                 'phone' => '84988481941',
                 'country' => 'Brasil',
-                'query_value' => '85.00',
-                'query_value_social' => '45.00',
-                'query_duration' => '50',
+                'consultation_value' => '85.00',
+                'consultation_duration' => '50',
+                'social_consultation_value' => '45.00',
+                'first_free_consultation' => '1',
                 'description' => Lorem::text(250),
                 'crp' => '00000000',
                 'pis' => '0000000000',
@@ -36,7 +37,7 @@ class PsychologistsTableSeeder extends Seeder
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
                 'cnpj_holder_account' => null,
-                'active' => 0,
+                'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ]

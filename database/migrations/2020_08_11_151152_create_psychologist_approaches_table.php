@@ -17,7 +17,7 @@ class CreatePsychologistApproachesTable extends Migration
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
             $table->integer('approach_id')->unsigned();
-            $table->integer('active');
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
 

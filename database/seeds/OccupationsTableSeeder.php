@@ -15,7 +15,7 @@ class OccupationsTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['description' => 'Psicólogo', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Psicólogo', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         Occupation::insert($data);
     }

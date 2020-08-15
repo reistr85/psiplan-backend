@@ -15,10 +15,10 @@ class TypeUsersTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['description' => 'Administrador', 'slug' => 'admin', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Psicólogo', 'slug' => 'psi', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Cliente', 'slug' => 'cli', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Empresa', 'slug' => 'emp', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Administrador', 'slug' => 'admin', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Psicólogo', 'slug' => 'psi', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Cliente', 'slug' => 'cli', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Empresa', 'slug' => 'emp', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         TypeUser::insert($data);
 

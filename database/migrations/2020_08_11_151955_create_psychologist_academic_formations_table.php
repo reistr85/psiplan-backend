@@ -20,7 +20,7 @@ class CreatePsychologistAcademicFormationsTable extends Migration
             $table->string('institution');
             $table->string('period');
             $table->text('details');
-            $table->integer('active');
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
 

@@ -15,6 +15,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' =
      * */
     Route::resource('users', 'UserController');
     Route::post('forgot-password', 'UserController@forgotPassword');
+
+    /*
+     * Routes List of Psychologist
+     * */
+    Route::get('listpsychologist', 'ListPsychologist@index');
 });
 
 Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' => ['apiKey', 'apiJwt']], function() {

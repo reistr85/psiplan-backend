@@ -15,13 +15,13 @@ class BanksTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['description' => 'Caixa Econômica','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Banco do Brasil','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Santander','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Bradesco','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Itaú','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'NuBank','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Banco Inter','active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Caixa Econômica','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Banco do Brasil','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Santander','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Bradesco','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Itaú','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'NuBank','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Banco Inter','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         Bank::insert($data);

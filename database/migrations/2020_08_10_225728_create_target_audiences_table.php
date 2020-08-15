@@ -16,7 +16,7 @@ class CreateTargetAudiencesTable extends Migration
         Schema::create('target_audiences', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
-            $table->integer('active');
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
         });

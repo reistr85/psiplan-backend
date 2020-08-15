@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin@psiplan.com.br',
                 'cpf' => '02664093347',
                 'password' => bcrypt('re851120'),
-                'active' => 0,
+                'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'psiteste@gmail.com',
                 'cpf' => '39793947004',
                 'password' => bcrypt('123456'),
-                'active' => 0,
+                'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ]

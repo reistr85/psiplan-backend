@@ -14,8 +14,22 @@ class CreatePlanContentsTable extends Migration
     public function up()
     {
         Schema::create('plan_contents', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('plan_id')->unsigned();
+            $table->integer('plan_feature_id')->unsigned();
+            $table->integer('is_active');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('plan_id')
+                ->references('id')
+                ->on('plans')
+                ->onDelete('cascade');
+
+            $table->foreign('plan_feature_id')
+                ->references('id')
+                ->on('plan_features')
+                ->onDelete('cascade');
         });
     }
 

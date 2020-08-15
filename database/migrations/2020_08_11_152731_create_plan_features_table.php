@@ -14,7 +14,10 @@ class CreatePlanFeaturesTable extends Migration
     public function up()
     {
         Schema::create('plan_features', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('description');
+            $table->integer('is_active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -15,11 +15,11 @@ class LanguagesTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['description' => 'Português (Brasil)', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Português (Portugal)', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Inglês', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Espanhol', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['description' => 'Francês', 'active' => 0, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Português (Brasil)', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Português (Portugal)', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Inglês', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Espanhol', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Francês', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         Language::insert($data);
