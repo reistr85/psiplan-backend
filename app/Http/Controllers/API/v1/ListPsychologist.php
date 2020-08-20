@@ -15,11 +15,11 @@ class ListPsychologist extends Controller
         $this->listPsychologistService = $listPsychologistService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try{
 
-            $params = true;
+            $params = $request->only(['city_id', 'target_audiences', 'genres', 'order_price', 'specialties', 'languages']);
 
             $return = $this->listPsychologistService->index($params);
 

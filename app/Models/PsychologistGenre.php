@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PsychologistTargetAudience extends Model
+class PsychologistGenre extends Model
 {
     use SoftDeletes;
 
-    public function target_audience(){
-        return $this->belongsTo(TargetAudience::class);
+    public function genre(){
+        return $this->belongsTo(Genre::class);
     }
 
     public function psychologist(){

@@ -18,6 +18,7 @@ class PsychologistsTableSeeder extends Seeder
         $data = [
             [
                 'user_id' => 2,
+                'city_id' => 3240, //3240 - NATAL
                 'name' => 'Psicólogo de Teste',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',
@@ -29,6 +30,7 @@ class PsychologistsTableSeeder extends Seeder
                 'social_consultation_value' => '45.00',
                 'first_free_consultation' => '1',
                 'description' => Lorem::text(250),
+                'avatar' => 'avatar.jpg',
                 'crp' => '00000000',
                 'pis' => '0000000000',
                 'bank_id' => '1',

@@ -21,7 +21,7 @@ class ListPsychologistService
 
     public function index($params)
     {
-        $psychologists = $this->psychologist = $this->psychologistRepository->index($params);
-        return $psychologists;
+        $query = $this->psychologistRepository->index($params);
+        return $query->paginate(10);
     }
 }

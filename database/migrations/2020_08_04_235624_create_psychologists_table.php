@@ -16,6 +16,7 @@ class CreatePsychologistsTable extends Migration
         Schema::create('psychologists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('city_id')->unsigned();
             $table->string('name');
             $table->string('email');
             $table->date('birth')->nullable();
@@ -27,6 +28,7 @@ class CreatePsychologistsTable extends Migration
             $table->decimal('social_consultation_value', 10, 2)->nullable();
             $table->integer('first_free_consultation')->nullable();
             $table->text('description')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
             $table->integer('bank_id')->unsigned();
@@ -42,6 +44,11 @@ class CreatePsychologistsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('city_id')
+                ->references('id')
+                ->on('cities')
                 ->onDelete('cascade');
 
             $table->foreign('bank_id')
