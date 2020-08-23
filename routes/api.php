@@ -20,6 +20,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' =
      * Routes List of Psychologist
      * */
     Route::get('listpsychologist', 'ListPsychologist@index');
+    Route::get('getfilters', 'ListPsychologist@getFilters');
 });
 
 Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' => ['apiKey', 'apiJwt']], function() {

@@ -18,10 +18,19 @@ class ListPsychologist extends Controller
     public function index(Request $request)
     {
         try{
-
             $params = $request->only(['city_id', 'target_audiences', 'genres', 'order_price', 'specialties', 'languages']);
-
             $return = $this->listPsychologistService->index($params);
+
+            return response()->json($return, 200);
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getFilters(Request $request)
+    {
+        try{
+            $return = $this->listPsychologistService->getFilters();
 
             return response()->json($return, 200);
         }catch(\Exception $e){
