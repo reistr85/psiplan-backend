@@ -36,4 +36,10 @@ class Psychologist extends Model
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
+
+    public function languages()
+    {
+        return $this->belongsToMany('App\Models\Language','psychologist_languages',
+            'psychologist_id', 'language_id');
+    }
 }

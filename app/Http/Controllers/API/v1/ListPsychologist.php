@@ -18,7 +18,7 @@ class ListPsychologist extends Controller
     public function index(Request $request)
     {
         try{
-            $params = $request->only(['city_id', 'target_audiences', 'genres', 'order_price', 'specialties', 'languages']);
+            $params = $request->only(['city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id', 'language_id']);
             $return = $this->listPsychologistService->index($params);
 
             return response()->json($return, 200);
