@@ -18,6 +18,16 @@ class PsychologistGenresTableSeeder extends Seeder
             ['psychologist_id' => 1, 'genre_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'genre_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'genre_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'genre_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'genre_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'genre_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'genre_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'genre_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'genre_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'genre_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'genre_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'genre_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'genre_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         PsychologistGenre::insert($data);

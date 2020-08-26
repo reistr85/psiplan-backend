@@ -32,7 +32,7 @@ class ListPsychologistService
     public function index($params)
     {
         $query = $this->psychologistRepository->index($params);
-        return $query->paginate(10);
+        return $query->paginate(2);
     }
 
     public function getFilters()

@@ -19,6 +19,16 @@ class PsychologistApproachesTableSeeder extends Seeder
             ['psychologist_id' => 1, 'approach_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'approach_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'approach_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'approach_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'approach_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'approach_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'approach_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'approach_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'approach_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'approach_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'approach_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'approach_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'approach_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         PsychologistApproach::insert($data);

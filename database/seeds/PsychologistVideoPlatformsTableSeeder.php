@@ -19,6 +19,16 @@ class PsychologistVideoPlatformsTableSeeder extends Seeder
             ['psychologist_id' => 1, 'video_platform_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'video_platform_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'video_platform_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'video_platform_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'video_platform_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'video_platform_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'video_platform_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'video_platform_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'video_platform_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'video_platform_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'video_platform_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'video_platform_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'video_platform_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         PsychologistVideoPlatform::insert($data);

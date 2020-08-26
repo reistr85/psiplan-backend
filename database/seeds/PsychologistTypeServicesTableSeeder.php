@@ -17,6 +17,12 @@ class PsychologistTypeServicesTableSeeder extends Seeder
         $data = [
             ['psychologist_id' => 1, 'type_service_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'type_service_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 2, 'type_service_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 3, 'type_service_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'type_service_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 4, 'type_service_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 5, 'type_service_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['psychologist_id' => 6, 'type_service_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         PsychologistTypeService::insert($data);
