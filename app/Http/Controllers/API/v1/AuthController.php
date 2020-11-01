@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\AuthService;
+use Comtele\Services\TextMessageService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -65,4 +66,20 @@ class AuthController extends Controller
     {
         return $this->respondWithToken(auth()->refresh());
     }
+
+    public function sms()
+    {
+
+        $key = "69118cae-a8d9-461d-b592-f66a0e070f57";
+
+        $textMessageService = new TextMessageService($key);
+        $result = $textMessageService->send(
+            "my_id",          // Sender: Id de requisicao da sua aplicacao para ser retornado no relatorio, pode ser passado em branco.
+            "Hello PHP",      // Content: Conteudo da mensagem a ser enviada.
+            ["84988481941"]  // Receivers: Numero de telefone que vai ser enviado o SMS.
+        );
+
+        $teste = 1;
+    }
+
 }

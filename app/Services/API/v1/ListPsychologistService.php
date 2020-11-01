@@ -31,20 +31,29 @@ class ListPsychologistService
 
     public function index($params)
     {
-        $query = $this->psychologistRepository->index($params);
-        return $query->paginate(2);
+        try{
+            $query = $this->psychologistRepository->index($params);
+            return $query->paginate(10);
+        }catch (\Exception $e){
+
+        }
+
     }
 
     public function getFilters()
     {
-        $cities = $this->cityRepository->all();
-        $targetAudiences = $this->targetAudienceRepository->all();
-        $genres = $this->genreRepository->all();
+        try{
+            $cities = $this->cityRepository->all();
+            $targetAudiences = $this->targetAudienceRepository->all();
+            $genres = $this->genreRepository->all();
 
-        return [
-            'cities' => $cities,
-            'target_audiences' => $targetAudiences,
-            'genres' => $genres,
-        ];
+            return [
+                'cities' => $cities,
+                'target_audiences' => $targetAudiences,
+                'genres' => $genres,
+            ];
+        }catch (\Exception $e){
+
+        }
     }
 }

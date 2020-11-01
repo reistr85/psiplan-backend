@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8fee44b9b2b9e4117007e2e4e8fe5e7",
+    "content-hash": "b9b19a8360e7b0986470c8580066baf2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -57,6 +57,51 @@
                 "stack"
             ],
             "time": "2020-05-31T07:17:05+00:00"
+        },
+        {
+            "name": "comtele/comtele_sdk",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/comtele/comtele-php-sdk.git",
+                "reference": "e1b2b7009dbe932024285d4388d17b0f35a1649c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comtele/comtele-php-sdk/zipball/e1b2b7009dbe932024285d4388d17b0f35a1649c",
+                "reference": "e1b2b7009dbe932024285d4388d17b0f35a1649c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Comtele\\": "Comtele/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Diego Vieira",
+                    "email": "desenvolvimento@comtele.com.br"
+                }
+            ],
+            "description": "SDK para envio de mensagens de texto usando a plataforma Comtele",
+            "homepage": "https://docs.comtele.com.br",
+            "keywords": [
+                "api",
+                "comtele",
+                "rest",
+                "sdk",
+                "sms",
+                "telephony"
+            ],
+            "time": "2018-08-24T17:38:43+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -4891,6 +4936,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
