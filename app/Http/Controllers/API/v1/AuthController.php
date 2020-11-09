@@ -26,7 +26,7 @@ class AuthController extends Controller
      * Get a JWT via given credentials.
      *
      * @param Request $request
-     * @return array
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
@@ -36,7 +36,7 @@ class AuthController extends Controller
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
 
-            return response()->json(['status' => true, 'access_token' => $auth['access_token'], 'user' => $user], 200);
+            return response()->json(['status' => true, 'message' => 'Successfully logged in', 'access_token' => $auth['access_token'], 'user' => $user], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
@@ -63,8 +63,13 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        try{
+            auth()->logout();
+
+            return response()->json(['status' => true, 'message' => 'Successfully logged out'], 200);
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
