@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\API\v1;
+namespace App\Services\API\v1\Auth;
 
 
 use Illuminate\Http\Request;
@@ -13,9 +13,11 @@ class AuthService
      */
     public function login($credentials)
     {
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        if(empty($credentials['email']) || empty($credentials['password']))
+            throw new \Exception('Digite o e-mail e/ou senha.', 500);
+
+        if (!$token = auth()->attempt($credentials))
+            throw new \Exception('E-mail e/ou senha inválido(s).', 401);
 
         return $this->respondWithToken($token);
     }

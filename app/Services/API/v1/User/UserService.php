@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\API\v1;
+namespace App\Services\API\v1\User;
 
 use App\Repositories\UserRepository;
 use App\Services\API\v1\AuthService;

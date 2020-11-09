@@ -3,39 +3,49 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\AuthService;
+use App\Services\API\v1\Auth\AuthService;
+use App\Services\API\v1\Auth\CreateAuthService;
+use App\Services\API\v1\User\GetUserByEmailOrCPFService;
 use Comtele\Services\TextMessageService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
 
-    private $authService;
+    private $createAuthService;
+    private $getUserByEmailOrCPFService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(CreateAuthService $createAuthService, GetUserByEmailOrCPFService $getUserByEmailOrCPFService)
     {
-        $this->authService = $authService;
+        $this->createAuthService = $createAuthService;
+        $this->getUserByEmailOrCPFService = $getUserByEmailOrCPFService;
     }
 
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return array
      */
     public function login(Request $request)
     {
         try{
             $credentials = $request->only(['email', 'password']);
-            return $this->authService->login($credentials);
+
+            $auth = $this->createAuthService->execute($credentials);
+            $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
+
+            return response()->json(['status' => true, 'access_token' => $auth['access_token'], 'user' => $user], 200);
         }catch(\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function me()
     {
@@ -49,7 +59,7 @@ class AuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -60,7 +70,7 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
@@ -81,5 +91,4 @@ class AuthController extends Controller
 
         $teste = 1;
     }
-
 }
