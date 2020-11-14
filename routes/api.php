@@ -28,7 +28,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
 //    Route::post('sms', 'AuthController@sms');
 });
 
-Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' => ['apiKey', 'apiJwt']], function() {
+Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' => ['apiKey', 'apiJwt']], function() {
 
     Route::get('/', function(){ return response()->json(['status' => true]); });
 
