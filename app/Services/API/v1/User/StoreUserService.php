@@ -16,11 +16,10 @@ class StoreUserService extends UserRepository
     /**
      * Store new user
      *
-     * @param int $user_type_id
      * @param array $user
      * @throws Exception
      */
-    public function execute($user_type_id, $user)
+    public function execute($user)
     {
         $user = self::store($user);
 

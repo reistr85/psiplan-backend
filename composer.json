@@ -15,6 +15,7 @@
         "hashids/hashids": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
+        "lucascudo/laravel-pt-br-localization": "^1.1",
         "tymon/jwt-auth": "1.0.0-rc.5.1"
     },
     "require-dev": {

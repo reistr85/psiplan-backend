@@ -15,9 +15,6 @@ class CreateAuthService extends RespondWithTokenService
      */
     public function execute($credentials)
     {
-        if(empty($credentials['email']) || empty($credentials['password']))
-            throw new Exception('Digite o e-mail e/ou senha.', 500);
-
         if (!$token = auth()->attempt($credentials))
             throw new Exception('E-mail e/ou senha inválido(s).', 401);
 

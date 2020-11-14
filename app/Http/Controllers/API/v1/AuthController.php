@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\v1\CreateAuthRequest;
 use App\Services\API\v1\Auth\CreateAuthService;
 use App\Services\API\v1\Auth\MeService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
@@ -28,10 +29,10 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @param Request $request
+     * @param CreateAuthRequest $request
      * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(CreateAuthRequest $request)
     {
         try{
             $credentials = $request->only(['email', 'password']);

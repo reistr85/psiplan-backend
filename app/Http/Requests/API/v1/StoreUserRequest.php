@@ -28,10 +28,16 @@ class StoreUserRequest extends APIFormRequest
     {
         return [
             'type' => 'required',
-            'terms' => 'required',
-            'user.name' => 'required|min:3|max:150',
-            'user.email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
-            'user.password' => 'required|min:6',
+            'terms' => function($att, $value, $fail){
+                if(is_null($value)){
+                    return $fail("É necessário aceitar os termos de uso da plataforma.");
+                }
+            },
+            'name' => 'required|min:3|max:150',
+            'email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
+            'phone' => 'required|min:11',
+            'password' => 'required|min:6',
+
         ];
     }
 }

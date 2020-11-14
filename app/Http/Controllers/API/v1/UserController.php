@@ -30,17 +30,20 @@ class UserController extends Controller
         try{
 
             $user_type_id = null;
-            $data = $request->only('type', 'user.name', 'user.email', 'user.phone', 'user.password');
+            $data = $request->only('type', 'name', 'email', 'phone', 'password');
+
+            $user['name'] = $data['name'];
+            $user['email'] = $data['email'];
+            $user['password'] = bcrypt($data['password']);
 
             switch($data['type']){
-                case 'admin': $data['user']['type_user_id'] = 1; break;
-                case 'psi': $data['user']['type_user_id'] = 2; break;
-                case 'cli': $data['user']['type_user_id'] = 3; break;
-                case 'emp': $data['user']['type_user_id'] = 4; break;
+                case 'admin': $user['type_user_id'] = 1; break;
+                case 'psi': $user['type_user_id'] = 2; break;
+                case 'cli': $user['type_user_id'] = 3; break;
+                case 'emp': $user['type_user_id'] = 4; break;
             }
 
-            $data['user']['password'] = bcrypt($data['user']['password']);
-            $this->storeUserService->execute($user_type_id, $data['user']);
+            $this->storeUserService->execute($user);
 
             return response()->json(['status' => true, 'message' => 'Successfully'], 200);
         }catch(\Exception $e){
