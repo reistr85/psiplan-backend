@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\Auth\AuthService;
 use App\Services\API\v1\Auth\CreateAuthService;
+use App\Services\API\v1\Auth\MeService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
 use Comtele\Services\TextMessageService;
 use Illuminate\Http\JsonResponse;
@@ -15,11 +15,14 @@ class AuthController extends Controller
 
     private $createAuthService;
     private $getUserByEmailOrCPFService;
+    private $meService;
 
-    public function __construct(CreateAuthService $createAuthService, GetUserByEmailOrCPFService $getUserByEmailOrCPFService)
+    public function __construct(CreateAuthService $createAuthService, GetUserByEmailOrCPFService $getUserByEmailOrCPFService,
+                                MeService $meService)
     {
         $this->createAuthService = $createAuthService;
         $this->getUserByEmailOrCPFService = $getUserByEmailOrCPFService;
+        $this->meService = $meService;
     }
 
     /**
@@ -36,9 +39,9 @@ class AuthController extends Controller
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
 
-            return response()->json(['status' => true, 'access_token' => $auth['access_token'], 'user' => $user], 200);
+            return response()->json(['status' => true, 'message' => 'Successfully',  'access_token' => $auth['access_token'], 'user' => $user], 200);
         }catch(\Exception $e){
-            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -50,7 +53,8 @@ class AuthController extends Controller
     public function me()
     {
         try{
-            return $this->authService->me(auth()->user());
+            $data_user = $this->meService->execute(auth()->user());
+            return response()->json(['status' => true, 'message' => 'Successfully', 'data_user' => $data_user], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
@@ -63,8 +67,12 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        try{
+            auth()->logout();
+            return response()->json(['status' => true, 'message' => 'Successfully logged out'], 200);
+        }catch (\Exception $e){
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+        }
     }
 
     /**

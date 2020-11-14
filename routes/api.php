@@ -40,5 +40,4 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'Api\\v1', 'middleware' =
     Route::post('logout', 'AuthController@logout');
 
 
-
 });

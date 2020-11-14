@@ -3,47 +3,48 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\v1\UserFormRequest;
-use App\Services\API\v1\UserService;
+use App\Http\Requests\API\v1\StoreUserRequest;
+use App\Services\API\v1\User\StoreUserService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
 
     private $userService;
+    private $storeUserService;
 
-    public function __construct(UserService $userService)
+    public function __construct(StoreUserService $storeUserService)
     {
-        $this->userService = $userService;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+        $this->storeUserService = $storeUserService;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserRequest $request
+     * @return Response
      */
-    public function store(UserFormRequest $request)
+    public function store(StoreUserRequest $request)
     {
         try{
 
-            $data = $request->only('terms', 'name', 'email', 'cpf', 'password', 'type_user_id', 'active');
-            $user = $this->userService->userStore($data);
+            $user_type_id = null;
+            $data = $request->only('type', 'user.name', 'user.email', 'user.phone', 'user.password');
 
-            return response()->json($user, 201);
+            switch($data['type']){
+                case 'admin': $data['user']['type_user_id'] = 1; break;
+                case 'psi': $data['user']['type_user_id'] = 2; break;
+                case 'cli': $data['user']['type_user_id'] = 3; break;
+                case 'emp': $data['user']['type_user_id'] = 4; break;
+            }
 
+            $data['user']['password'] = bcrypt($data['user']['password']);
+            $this->storeUserService->execute($user_type_id, $data['user']);
+
+            return response()->json(['status' => true, 'message' => 'Successfully'], 200);
         }catch(\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -51,7 +52,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -61,9 +62,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -74,7 +75,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -83,17 +84,17 @@ class UserController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        try{
-
-            $data = $request->only('data');
-            $return = $this->userService->forgotPassword($data['data']);
-
-            if(!$return)
-                return response()->json(['message' => 'E-mail e/ou CPF não localizado.'], 202);
-
-            return response()->json(['message' => 'Foi enviado um e-mail com instruções para você alterar sua senha.'], 200);
-        }catch(\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
-        }
+//        try{
+//
+//            $data = $request->only('data');
+//            $return = $this->userService->forgotPassword($data['data']);
+//
+//            if(!$return)
+//                return response()->json(['message' => 'E-mail e/ou CPF não localizado.'], 202);
+//
+//            return response()->json(['message' => 'Foi enviado um e-mail com instruções para você alterar sua senha.'], 200);
+//        }catch(\Exception $e){
+//            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+//        }
     }
 }

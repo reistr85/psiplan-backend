@@ -5,7 +5,7 @@ namespace App\Http\Requests\API\v1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class UserFormRequest extends APIFormRequest
+class StoreUserRequest extends APIFormRequest
 {
 
 
@@ -27,12 +27,11 @@ class UserFormRequest extends APIFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:150',
-            'email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
-            'cpf' => 'required|unique:users,cpf,'.$this->id.',id,deleted_at,NULL',
-            'password' => 'required|min:6',
-            'type_user_id' => 'required:numeric',
-            'active' => 'required:numeric',
+            'type' => 'required',
+            'terms' => 'required',
+            'user.name' => 'required|min:3|max:150',
+            'user.email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
+            'user.password' => 'required|min:6',
         ];
     }
 }
