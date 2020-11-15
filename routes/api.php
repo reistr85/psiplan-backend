@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
-use App\Services\NFeService;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
 
@@ -38,4 +37,9 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('logout', 'AuthController@logout');
+
+    /*
+     * Profile
+     * */
+    Route::get('account/profile', 'ProfileController@index');
 });
