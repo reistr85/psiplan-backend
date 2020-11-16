@@ -6,6 +6,8 @@ namespace App\Repositories;
 
 use App\Models\Language;
 use App\Models\Psychologist;
+use App\Models\PsychologistSpecialty;
+use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Support\Facades\DB;
 
 class PsychologistRepository
@@ -65,5 +67,24 @@ class PsychologistRepository
             $ids = explode(',', $params);
             $query->whereIn($column, $ids)->whereNull($table.'.deleted_at');
         }
+    }
+
+    public function getByUserId($user_id)
+    {
+        return $this->model->where('user_id', $user_id)->first();
+    }
+
+    /**
+     * Get All Specialties by Psychologist Id.
+     *
+     * @param int $psychologist_id
+     * @return Query
+     */
+    public function getSpecialities($psychologist_id)
+    {
+        return $this->model->select('specialties.*')
+            ->join('psychologist_specialties', 'psychologist_specialties.psychologist_id', 'psychologists.id')
+            ->join('specialties', 'psychologist_specialties.specialty_id', 'specialties.id')
+            ->where('psychologist_specialties.psychologist_id', $psychologist_id);
     }
 }

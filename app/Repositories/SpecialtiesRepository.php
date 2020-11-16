@@ -4,9 +4,10 @@
 namespace App\Repositories;
 
 
+use App\Models\PsychologistSpecialty;
 use App\Models\Specialty;
 
-class SpecialitiesRepository
+class SpecialtiesRepository
 {
     private $model;
 
@@ -18,5 +19,10 @@ class SpecialitiesRepository
     public function getAll()
     {
         return $this->model->all();
+    }
+
+    public function getByPsychologist($psychologist_id)
+    {
+
     }
 }

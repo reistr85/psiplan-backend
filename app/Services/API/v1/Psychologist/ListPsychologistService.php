@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\API\v1;
+namespace App\Services\API\v1\Psychologist;
 
 
 use App\Models\Psychologist;
