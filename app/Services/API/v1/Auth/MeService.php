@@ -13,7 +13,7 @@ class MeService
      * Get the authenticated User.
      *
      * @param $user
-     * @return JsonResponse
+     * @return array
      * @throws Exception
      */
     public function execute($user)
@@ -21,12 +21,10 @@ class MeService
         if(!$user)
             throw new Exception('Usuário não encontrado', 500);
 
-        return response()->json(
-            [
-                'id' => encode($user->id),
-                'name' => $user->name,
-                'email' => $user->email,
-            ]
-        );
+        return [
+            'id' => encode($user->id),
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
     }
 }

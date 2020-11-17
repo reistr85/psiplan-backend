@@ -37,12 +37,14 @@ class ProfileController extends Controller
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
 
+            $description =
             $specialties = $this->getAllSpecialtiesService->execute();
             $psychologist_specialties = $this->getSpecialtiesByPsychologistIdService->execute($psychologist->id);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully',
+                'user' => $user,
                 'specialties' => $specialties,
                 'psychologist_specialities' => $psychologist_specialties
             ], 200);

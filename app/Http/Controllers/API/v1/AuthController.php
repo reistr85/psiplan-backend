@@ -53,8 +53,8 @@ class AuthController extends Controller
     public function me()
     {
         try{
-            $data_user = $this->meService->execute(auth()->user());
-            return response()->json(['status' => true, 'message' => 'Successfully', 'data_user' => $data_user], 200);
+            $user = $this->meService->execute(auth()->user());
+            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $user], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
