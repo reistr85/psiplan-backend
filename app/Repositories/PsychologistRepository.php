@@ -87,4 +87,17 @@ class PsychologistRepository
             ->join('specialties', 'psychologist_specialties.specialty_id', 'specialties.id')
             ->where('psychologist_specialties.psychologist_id', $psychologist_id);
     }
+
+    /**
+     * Get All Academic Formations by Psychologist Id.
+     *
+     * @param int $psychologist_id
+     * @return Query
+     */
+    public function getAcademicFormationsByPsychologistId($psychologist_id)
+    {
+        return $this->model->select('psychologist_academic_formations.*')
+            ->join('psychologist_academic_formations', 'psychologist_academic_formations.psychologist_id', 'psychologists.id')
+            ->where('psychologist_academic_formations.psychologist_id', $psychologist_id);
+    }
 }

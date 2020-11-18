@@ -16,10 +16,9 @@ class CreatePsychologistAcademicFormationsTable extends Migration
         Schema::create('psychologist_academic_formations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
+            $table->string('type');
             $table->string('description');
             $table->string('institution');
-            $table->string('period');
-            $table->text('details');
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

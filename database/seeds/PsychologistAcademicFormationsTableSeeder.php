@@ -18,60 +18,54 @@ class PsychologistAcademicFormationsTableSeeder extends Seeder
         $data=  [
             [
                 'psychologist_id' => 1,
+                'type' => 'Doutorado',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'psychologist_id' => 2,
+                'psychologist_id' => 1,
+                'type' => 'Mestrado',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
                 'psychologist_id' => 3,
+                'type' => 'Especialização',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
                 'psychologist_id' => 4,
+                'type' => 'Pós-graduação',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
                 'psychologist_id' => 5,
+                'type' => 'Doutorado',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
                 'psychologist_id' => 6,
+                'type' => 'Mestrado',
                 'description' => Lorem::text(20),
                 'institution' => Lorem::text(10),
-                'period' => '2015-2020',
-                'details' => Lorem::text(35),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp

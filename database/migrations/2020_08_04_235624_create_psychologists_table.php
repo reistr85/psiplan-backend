@@ -28,6 +28,7 @@ class CreatePsychologistsTable extends Migration
             $table->decimal('social_consultation_value', 10, 2)->nullable();
             $table->integer('first_free_consultation')->nullable();
             $table->text('description')->nullable();
+            $table->text('approach')->nullable();
             $table->string('avatar')->nullable();
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
