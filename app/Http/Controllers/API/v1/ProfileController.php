@@ -52,7 +52,7 @@ class ProfileController extends Controller
                 'psychologist_specialities' => $psychologist_specialties,
                 'psychologist_academic_formations' => $psychologist_academic_formations
             ], 200);
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }
     }

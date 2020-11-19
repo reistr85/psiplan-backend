@@ -42,4 +42,9 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * Profile
      * */
     Route::get('account/profile', 'ProfileController@index');
+
+    /*
+     * Psychologist Academic Formations
+     * */
+    Route::post('account/profile/formations', 'PsychologistAcademicFormationController@store');
 });
