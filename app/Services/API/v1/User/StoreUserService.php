@@ -17,6 +17,7 @@ class StoreUserService extends UserRepository
      * Store new user
      *
      * @param array $user
+     * @return array
      * @throws Exception
      */
     public function execute($user)
@@ -25,5 +26,7 @@ class StoreUserService extends UserRepository
 
         if(!$user)
             throw new Exception("Erro ao criar o usuário.", 500);
+
+        return $user;
     }
 }

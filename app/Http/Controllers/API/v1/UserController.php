@@ -4,19 +4,23 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreUserRequest;
+use App\Services\API\v1\Psychologist\CreatePsychologist;
 use App\Services\API\v1\User\StoreUserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
 
     private $userService;
     private $storeUserService;
+    private $createPsychologist;
 
-    public function __construct(StoreUserService $storeUserService)
+    public function __construct(StoreUserService $storeUserService, CreatePsychologist $createPsychologist)
     {
         $this->storeUserService = $storeUserService;
+        $this->createPsychologist = $createPsychologist;
     }
 
     /**
@@ -27,9 +31,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        DB::beginTransaction();
         try{
-
             $user_type_id = null;
+            $data_psychologist = [];
+            $client = [];
             $data = $request->only('type', 'name', 'email', 'phone', 'password');
 
             $user['name'] = $data['name'];
@@ -43,10 +49,28 @@ class UserController extends Controller
                 case 'emp': $user['type_user_id'] = 4; break;
             }
 
-            $this->storeUserService->execute($user);
+            $user = $this->storeUserService->execute($user);
+
+            if($user->type_user_id == 2) {
+                $data_psychologist = [
+                    'user_id' => $user->id,
+                    'city_id' => 1,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => onlyNumber($request->input('phone')),
+                    'country' => 'Brasil',
+                    'avatar' => 'avatar.jpg',
+                    'bank_id' => 1,
+                ];
+
+                $psychologist = $this->createPsychologist->execute($data_psychologist);
+            }
+
+            DB::commit();
 
             return response()->json(['status' => true, 'message' => 'Successfully'], 200);
         }catch(\Exception $e){
+            DB::rollBack();
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
     }

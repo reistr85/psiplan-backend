@@ -3,12 +3,8 @@
 
 namespace App\Repositories;
 
-
-use App\Models\Language;
 use App\Models\Psychologist;
-use App\Models\PsychologistSpecialty;
 use Facade\Ignition\QueryRecorder\Query;
-use Illuminate\Support\Facades\DB;
 
 class PsychologistRepository
 {
@@ -43,6 +39,16 @@ class PsychologistRepository
                 $query->orderBy('consultation_value', $params['order_price']);
 
         return  $query;
+    }
+
+    public function store($data)
+    {
+        return $this->model::create($data);
+    }
+
+    public function update(Psychologist $psychologist, $data)
+    {
+        return $psychologist->update($data);
     }
 
     private function getResumeColumns()
@@ -86,18 +92,5 @@ class PsychologistRepository
             ->join('psychologist_specialties', 'psychologist_specialties.psychologist_id', 'psychologists.id')
             ->join('specialties', 'psychologist_specialties.specialty_id', 'specialties.id')
             ->where('psychologist_specialties.psychologist_id', $psychologist_id);
-    }
-
-    /**
-     * Get All Academic Formations by Psychologist Id.
-     *
-     * @param int $psychologist_id
-     * @return Query
-     */
-    public function getAcademicFormationsByPsychologistId($psychologist_id)
-    {
-        return $this->model->select('psychologist_academic_formations.*')
-            ->join('psychologist_academic_formations', 'psychologist_academic_formations.psychologist_id', 'psychologists.id')
-            ->where('psychologist_academic_formations.psychologist_id', $psychologist_id);
     }
 }

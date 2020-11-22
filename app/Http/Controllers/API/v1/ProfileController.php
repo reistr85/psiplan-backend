@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\v1\UpdatePsychologistRequest;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetAllSpecialtiesService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,14 +19,17 @@ class ProfileController extends Controller
     private $getSpecialtiesByPsychologistIdService;
     private $getPsychologistByUserIdService;
     private $getAcademicFormationsByPsychologistIdService;
+    private $updatePsychologistService;
 
     public function __construct(GetAllSpecialtiesService $getAllSpecialtiesService, GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
-                                GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService)
+                                GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
+                                UpdatePsychologistService $updatePsychologistService)
     {
         $this->getAllSpecialtiesService = $getAllSpecialtiesService;
         $this->getSpecialtiesByPsychologistIdService = $getSpecialtiesByPsychologistIdService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getAcademicFormationsByPsychologistIdService = $getAcademicFormationsByPsychologistIdService;
+        $this->updatePsychologistService = $updatePsychologistService;
     }
 
     /**
@@ -52,6 +57,26 @@ class ProfileController extends Controller
                 'psychologist_specialities' => $psychologist_specialties,
                 'psychologist_academic_formations' => $psychologist_academic_formations
             ], 200);
+        }catch (\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @param $action
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update($action, Request $request)
+    {
+        try{
+            $user = auth()->user();
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $this->updatePsychologistService->execute($psychologist, $action, $request);
+
+            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso'], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }

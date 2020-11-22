@@ -4,9 +4,9 @@
 namespace App\Services\API\v1\Psychologist;
 
 
-use App\Repositories\PsychologistRepository;
+use App\Repositories\PsychologistAcademicFormationRepository;
 
-class GetAcademicFormationsByPsychologistIdService extends PsychologistRepository
+class GetAcademicFormationsByPsychologistIdService extends PsychologistAcademicFormationRepository
 {
 
     /**
@@ -17,6 +17,6 @@ class GetAcademicFormationsByPsychologistIdService extends PsychologistRepositor
      */
     public function execute($psychologist_id)
     {
-        return parent::getAcademicFormationsByPsychologistId($psychologist_id)->get();
+        return parent::getAllByPsychologistId($psychologist_id)->get();
     }
 }

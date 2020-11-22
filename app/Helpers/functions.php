@@ -99,3 +99,10 @@ if(!function_exists('checkCPF')){
     }
 }
 
+if(!function_exists('onlyNumber')){
+    function onlyNumber($str)
+    {
+        return preg_replace("/[^0-9]/", "", $str);
+    }
+}
+

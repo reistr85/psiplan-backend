@@ -179,6 +179,7 @@ return [
 
         App\Providers\API\v1\UserServiceProvider::class,
         App\Providers\API\v1\PsychologistAcademicFormationServiceProvider::class,
+        App\Providers\API\v1\PsychologistServiceProvider::class
     ],
 
     /*
