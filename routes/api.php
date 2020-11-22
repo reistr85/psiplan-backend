@@ -42,7 +42,9 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * Profile
      * */
     Route::get('account/profile', 'ProfileController@index');
-    Route::put('account/profile/{action}', 'ProfileController@update');
+    Route::post('account/profile/description', 'ProfileController@update');
+    Route::post('account/profile/approach', 'ProfileController@update');
     Route::post('account/profile/formations', 'PsychologistAcademicFormationController@store');
     Route::delete('account/profile/formations/{id}', 'PsychologistAcademicFormationController@destroy');
+    Route::post('account/profile/specialties', 'PsychologistSpecialtyController@store');
 });

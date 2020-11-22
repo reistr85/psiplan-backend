@@ -69,11 +69,12 @@ class ProfileController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function update($action, Request $request)
+    public function update(Request $request)
     {
         try{
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $action = $request->input('action');
             $this->updatePsychologistService->execute($psychologist, $action, $request);
 
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso'], 200);
