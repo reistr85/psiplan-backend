@@ -14,12 +14,22 @@ class CreatePsychologistSpecialtyService extends PsychologistSpecialtyRepository
             throw new \Exception("É preciso selecionar pelo menos uma especialidade.", 500);
 
 
-        $psychologistSpecialties = parent::getAllByPsychologistId($psychologist_id)->get();
+        $psychologist_specialties = parent::getAllByPsychologistId($psychologist_id)->get();
 
-        $psychologistSpecialties->map(function($item) {
+        $psychologist_specialties->map(function($item) {
             parent::destroy($item);
         });
 
-        parent::store($specialties);
+        foreach($specialties as $specialty){
+            $data = [
+                'psychologist_id' => $psychologist_id,
+                'specialty_id' => $specialty['id'],
+            ];
+
+            $psychologist_specialty = parent::store($data);
+
+            if(!$psychologist_specialty)
+                throw new \Exception("Erro ao registrar as especialidades. Tente novamente.", 500);
+        }
     }
 }

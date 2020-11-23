@@ -91,6 +91,6 @@ class PsychologistRepository
         return $this->model->select('specialties.*')
             ->join('psychologist_specialties', 'psychologist_specialties.psychologist_id', 'psychologists.id')
             ->join('specialties', 'psychologist_specialties.specialty_id', 'specialties.id')
-            ->where('psychologist_specialties.psychologist_id', $psychologist_id);
+            ->where('psychologist_specialties.psychologist_id', $psychologist_id)->whereNull('psychologist_specialties.deleted_at');
     }
 }

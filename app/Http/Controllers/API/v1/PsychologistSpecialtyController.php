@@ -37,8 +37,7 @@ class PsychologistSpecialtyController extends Controller
             $this->createPsychologistSpecialtyService->execute($psychologist->id, $specialties);
 
             DB::commit();
-
-            return response()->json(['status' => true, 'message' => 'Successfully'], 200);
+            return response()->json(['status' => true, 'message' => 'Especialidades cadastradas com sucesso.'], 200);
         }catch(\Exception $e){
             DB::rollBack();
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());

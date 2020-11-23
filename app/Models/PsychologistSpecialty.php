@@ -9,6 +9,8 @@ class PsychologistSpecialty extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['psychologist_id', 'specialty_id', 'is_active'];
+
     public function specialty(){
         return $this->belongsTo(Specialty::class);
     }
