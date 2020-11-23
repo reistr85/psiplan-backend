@@ -4,11 +4,30 @@
 namespace App\Services\API\v1\Psychologist;
 
 
-class CreatePsychologistDocumentService
+use App\Repositories\PsychologistDocumentRepository;
+use Illuminate\Support\Facades\Storage;
+
+class CreatePsychologistDocumentService extends PsychologistDocumentRepository
 {
     public function execute($psychologist_id, $files)
     {
-        $file = $files['fileCrp'];
-        $file->store('products');
+        $data['psychologist_id'] = $psychologist_id;
+        $psychologist_document = parent::getByPsychologistId($psychologist_id);
+
+        Storage::deleteDirectory($psychologist_id."/documents/");
+
+        if($psychologist_document->first())
+            parent::destroy($psychologist_document->first());
+
+        foreach($files as $key => $file){
+            $name = uniqid(date('HisYmd'));
+            $extension = $file->extension();
+            $nameFile = "{$name}.{$extension}";
+            $data[$key] = $nameFile;
+
+            $file->storeAs($psychologist_id."/documents/", $nameFile);
+        }
+
+        return parent::store($data);
     }
 }

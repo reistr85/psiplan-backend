@@ -181,7 +181,10 @@ return [
         'year'      => 'ano',
         'description' => 'descrição',
         'password_confirmation' => 'confirmação da senha',
-        'institution' => 'instituição'
+        'institution' => 'instituição',
+        'crp' => 'CRP',
+        'certificate_crp' => 'certificado CRP',
+        'epsi' => 'E-PSI',
     ],
 
 ];

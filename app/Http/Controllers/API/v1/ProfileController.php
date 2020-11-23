@@ -7,6 +7,7 @@ use App\Http\Requests\API\v1\UpdatePsychologistRequest;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetAllSpecialtiesService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
+use App\Services\API\v1\Psychologist\GetPsychologistDocumentService;
 use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\JsonResponse;
@@ -20,16 +21,18 @@ class ProfileController extends Controller
     private $getPsychologistByUserIdService;
     private $getAcademicFormationsByPsychologistIdService;
     private $updatePsychologistService;
+    private $getPsychologistDocumentService;
 
     public function __construct(GetAllSpecialtiesService $getAllSpecialtiesService, GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
                                 GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
-                                UpdatePsychologistService $updatePsychologistService)
+                                UpdatePsychologistService $updatePsychologistService, GetPsychologistDocumentService $getPsychologistDocumentService)
     {
         $this->getAllSpecialtiesService = $getAllSpecialtiesService;
         $this->getSpecialtiesByPsychologistIdService = $getSpecialtiesByPsychologistIdService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getAcademicFormationsByPsychologistIdService = $getAcademicFormationsByPsychologistIdService;
         $this->updatePsychologistService = $updatePsychologistService;
+        $this->getPsychologistDocumentService = $getPsychologistDocumentService;
     }
 
     /**
@@ -47,6 +50,7 @@ class ProfileController extends Controller
             $specialties = $this->getAllSpecialtiesService->execute();
             $psychologist_specialties = $this->getSpecialtiesByPsychologistIdService->execute($psychologist->id);
             $psychologist_academic_formations = $this->getAcademicFormationsByPsychologistIdService->execute($psychologist->id);
+            $psychologist_document = $this->getPsychologistDocumentService->execute($psychologist->id);
 
             return response()->json([
                 'status' => true,
@@ -55,7 +59,8 @@ class ProfileController extends Controller
                 'psychologist' => $psychologist,
                 'specialties' => $specialties,
                 'psychologist_specialities' => $psychologist_specialties,
-                'psychologist_academic_formations' => $psychologist_academic_formations
+                'psychologist_academic_formations' => $psychologist_academic_formations,
+                'psychologist_document' => $psychologist_document,
             ], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
