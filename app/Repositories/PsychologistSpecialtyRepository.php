@@ -17,6 +17,11 @@ class PsychologistSpecialtyRepository
         $this->model = $model;
     }
 
+    public function getAll()
+    {
+        return $this->model::all();
+    }
+
     /**
      * Get All Academic Formations by Psychologist Id.
      *

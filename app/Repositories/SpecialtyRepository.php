@@ -7,7 +7,7 @@ namespace App\Repositories;
 use App\Models\PsychologistSpecialty;
 use App\Models\Specialty;
 
-class SpecialtiesRepository
+class SpecialtyRepository
 {
     private $model;
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\ListPsychologistService;
+use App\Services\API\v1\Psychologist\ListPsychologistService;
 use Illuminate\Http\Request;
 
 class ListPsychologist extends Controller

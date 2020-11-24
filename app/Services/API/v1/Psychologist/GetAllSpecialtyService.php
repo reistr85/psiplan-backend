@@ -3,9 +3,9 @@
 
 namespace App\Services\API\v1\Psychologist;
 
-use App\Repositories\SpecialtiesRepository;
+use App\Repositories\SpecialtyRepository;
 
-class GetAllSpecialtiesService extends SpecialtiesRepository
+class GetAllSpecialtyService extends SpecialtyRepository
 {
     public function execute()
     {

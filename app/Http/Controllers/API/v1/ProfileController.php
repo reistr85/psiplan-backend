@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
-use App\Services\API\v1\Psychologist\GetAllSpecialtiesService;
+use App\Services\API\v1\Psychologist\GetAllSpecialtyService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistDocumentService;
 use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
@@ -23,7 +23,7 @@ class ProfileController extends Controller
     private $updatePsychologistService;
     private $getPsychologistDocumentService;
 
-    public function __construct(GetAllSpecialtiesService $getAllSpecialtiesService, GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
+    public function __construct(GetAllSpecialtyService $getAllSpecialtiesService, GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
                                 GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
                                 UpdatePsychologistService $updatePsychologistService, GetPsychologistDocumentService $getPsychologistDocumentService)
     {

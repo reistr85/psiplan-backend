@@ -15,7 +15,7 @@ class GenreRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function all()
+    public function getAll()
     {
         return self::findAll($this->model);
     }
