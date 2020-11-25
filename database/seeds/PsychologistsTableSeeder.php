@@ -20,6 +20,7 @@ class PsychologistsTableSeeder extends Seeder
                 'user_id' => 1,
                 'city_id' => 3240, //3240 - NATAL
                 'name' => 'Administrador',
+                'plan_id' => '3',
                 'email' => 'admin@psiplan.com.br',
                 'birth' => '1985-11-21',
                 'cpf' => '39793947004',
@@ -47,6 +48,7 @@ class PsychologistsTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'city_id' => 4111, //3240 - RECIFE
+                'plan_id' => '1',
                 'name' => 'Psicólogo de Teste 2',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',
@@ -75,6 +77,7 @@ class PsychologistsTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'city_id' => 2596, //3240 - JOAO PESSOA
+                'plan_id' => '2',
                 'name' => 'Psicólogo de Teste 3',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',
@@ -103,6 +106,7 @@ class PsychologistsTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'city_id' => 5210, //3240 - TERESINA
+                'plan_id' => '1',
                 'name' => 'Psicólogo de Teste 4',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',
@@ -131,6 +135,7 @@ class PsychologistsTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'city_id' => 1928, //3240 - GOIANIA
+                'plan_id' => '2',
                 'name' => 'Psicólogo de Teste 5',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',
@@ -159,6 +164,7 @@ class PsychologistsTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'city_id' => 4811, //3240 - SAO LUIS
+                'plan_id' => '1',
                 'name' => 'Psicólogo de Teste 6',
                 'email' => 'psiteste@gmail.com',
                 'birth' => '1985-11-21',

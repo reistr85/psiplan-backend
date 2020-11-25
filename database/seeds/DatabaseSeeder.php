@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
         $this->call(BanksTableSeeder::class);
+        $this->call(PlansTableSeeder::class);
+        $this->call(PlansFeaturesTableSeeder::class);
+        $this->call(PlansContentsTableSeeder::class);
         $this->call(PsychologistsTableSeeder::class);
         $this->call(LanguagesTableSeeder::class);
         $this->call(PsychologistLanguagesTableSeeder::class);
@@ -27,9 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PsychologistAcademicFormationsTableSeeder::class);
         $this->call(VideoPlatformsTableSeeder::class);
         $this->call(PsychologistVideoPlatformsTableSeeder::class);
-        $this->call(PlansTableSeeder::class);
-        $this->call(PlansFeaturesTableSeeder::class);
-        $this->call(PlansContentsTableSeeder::class);
         $this->call(GenresTableSeeder::class);
         $this->call(PsychologistGenresTableSeeder::class);
     }

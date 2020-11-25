@@ -17,6 +17,7 @@ class CreatePsychologistsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('city_id')->unsigned();
+            $table->integer('plan_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('email');
             $table->date('birth')->nullable();
@@ -50,6 +51,12 @@ class CreatePsychologistsTable extends Migration
             $table->foreign('city_id')
                 ->references('id')
                 ->on('cities')
+                ->onDelete('cascade');
+
+            $table->foreign('plan_id')
+                ->nullable()
+                ->references('id')
+                ->on('plans')
                 ->onDelete('cascade');
 
             $table->foreign('bank_id')

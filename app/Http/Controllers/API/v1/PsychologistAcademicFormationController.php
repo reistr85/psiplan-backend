@@ -7,7 +7,6 @@ use App\Http\Requests\API\v1\CreatePsychologistAcademicFormationRequest;
 use App\Services\API\v1\Psychologist\DestroyPsychologistAcademicFormationService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\CreatePsychologistAcademicFormationService;
-use Illuminate\Http\Request;
 
 class PsychologistAcademicFormationController extends Controller
 {

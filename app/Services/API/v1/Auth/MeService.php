@@ -4,10 +4,10 @@
 namespace App\Services\API\v1\Auth;
 
 
+use App\Repositories\PsychologistRepository;
 use Exception;
-use Illuminate\Http\JsonResponse;
 
-class MeService
+class MeService extends PsychologistRepository
 {
     /**
      * Get the authenticated User.
@@ -18,6 +18,8 @@ class MeService
      */
     public function execute($user)
     {
+        $psychologist = parent::getByUserId($user->id);
+
         if(!$user)
             throw new Exception('Usuário não encontrado', 500);
 
@@ -25,6 +27,7 @@ class MeService
             'id' => encode($user->id),
             'name' => $user->name,
             'email' => $user->email,
+            'plan_id' => encode($psychologist->plan_id),
         ];
     }
 }

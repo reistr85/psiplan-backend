@@ -9,6 +9,6 @@ class GetUserByEmailOrCPFService extends UserRepository
 {
     public function execute($column, $email)
     {
-        return self::getUserByEmailOrCPF($column, $email);
+        return parent::getUserByEmailOrCPF($column, $email);
     }
 }
