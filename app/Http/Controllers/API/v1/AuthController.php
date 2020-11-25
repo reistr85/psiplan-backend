@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateAuthRequest;
 use App\Services\API\v1\Auth\CreateAuthService;
 use App\Services\API\v1\Auth\MeService;
+use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
 use Comtele\Services\TextMessageService;
 use Illuminate\Http\JsonResponse;
@@ -15,13 +16,15 @@ class AuthController extends Controller
 
     private $createAuthService;
     private $getUserByEmailOrCPFService;
+    private $getPsychologistByUserIdService;
     private $meService;
 
     public function __construct(CreateAuthService $createAuthService, GetUserByEmailOrCPFService $getUserByEmailOrCPFService,
-                                MeService $meService)
+                                GetPsychologistByUserIdService $getPsychologistByUserIdService, MeService $meService)
     {
         $this->createAuthService = $createAuthService;
         $this->getUserByEmailOrCPFService = $getUserByEmailOrCPFService;
+        $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->meService = $meService;
     }
 
@@ -38,8 +41,14 @@ class AuthController extends Controller
 
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
 
-            return response()->json(['status' => true, 'message' => 'Successfully',  'access_token' => $auth['access_token'], 'user' => $user], 200);
+            $userData['id'] = encode($user->id);
+            $userData['name'] = $user->name;
+            $userData['email'] = $user->email;
+            $userData['plan_id'] = encode($psychologist->plan_id);
+
+            return response()->json(['status' => true, 'message' => 'Successfully',  'access_token' => $auth['access_token'], 'user' => $userData], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
