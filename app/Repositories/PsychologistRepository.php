@@ -77,7 +77,14 @@ class PsychologistRepository
 
     public function getByUserId($user_id)
     {
-        return $this->model->where('user_id', $user_id)->first();
+        return $this->model->select(
+                "psychologists.*",
+                "cities.description as city",
+                "banks.description as bank"
+            )->where('user_id', $user_id)
+            ->join('cities', 'cities.id',  'psychologists.city_id')
+            ->join('banks', 'banks.id',  'psychologists.bank_id')
+            ->first();
     }
 
     /**
