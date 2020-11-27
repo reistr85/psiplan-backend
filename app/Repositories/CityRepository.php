@@ -17,6 +17,11 @@ class CityRepository extends BaseRepository
 
     public function all()
     {
-        return self::findAll($this->model);
+        return parent::findAll($this->model);
+    }
+
+    public function getByState($state)
+    {
+        return $this->model::where('state', $state)->get();
     }
 }
