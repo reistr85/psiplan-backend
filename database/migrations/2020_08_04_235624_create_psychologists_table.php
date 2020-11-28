@@ -33,7 +33,7 @@ class CreatePsychologistsTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
-            $table->integer('bank_id')->unsigned();
+            $table->string('bank')->nullable();
             $table->string('agency')->nullable();
             $table->string('type_account')->nullable();
             $table->string('number_account')->nullable();
@@ -57,11 +57,6 @@ class CreatePsychologistsTable extends Migration
                 ->nullable()
                 ->references('id')
                 ->on('plans')
-                ->onDelete('cascade');
-
-            $table->foreign('bank_id')
-                ->references('id')
-                ->on('banks')
                 ->onDelete('cascade');
         });
     }

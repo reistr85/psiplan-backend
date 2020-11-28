@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\API\v1\Auth;
+namespace App\Services\API\v1\Language;
 
 
 use App\Repositories\LanguageRepository;

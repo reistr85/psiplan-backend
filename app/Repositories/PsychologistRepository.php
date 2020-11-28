@@ -80,11 +80,9 @@ class PsychologistRepository
         return $this->model->select(
                 "psychologists.*",
                 "cities.state as state",
-                "cities.description as city",
-                "banks.description as bank"
-            )->where('user_id', $user_id)
+                "cities.description as city")
+            ->where('user_id', $user_id)
             ->join('cities', 'cities.id',  'psychologists.city_id')
-            ->join('banks', 'banks.id',  'psychologists.bank_id')
             ->with(['psychologist_languages.language'])->first();
     }
 

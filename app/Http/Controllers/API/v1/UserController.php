@@ -60,7 +60,6 @@ class UserController extends Controller
                     'phone' => onlyNumber($request->input('phone')),
                     'country' => 'Brasil',
                     'avatar' => 'avatar.jpg',
-                    'bank_id' => 1,
                 ];
 
                 $psychologist = $this->createPsychologist->execute($data_psychologist);

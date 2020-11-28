@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
-use App\Services\API\v1\Auth\GetAllLanguagesService;
+use App\Services\API\v1\Language\GetAllLanguagesService;
 use App\Services\API\v1\City\GetAllCitiesService;
 use App\Services\API\v1\City\GetCitiesByStateService;
 use App\Services\API\v1\Psychologist\CreatePsychologistLanguageService;
@@ -71,6 +71,11 @@ class AccountController extends Controller
                 $data['pis'] = onlyNumber($data['pis']);
 
                 $this->createPsychologistLanguageService->execute($psychologist->id, $data['psychologist_languages']);
+            }
+
+            if($request->input('action') === 'infobank') {
+                $data = $request->input('infoBank');
+                $data['cpf_holder_account'] = onlyNumber($data['cpf_holder_account']);
             }
 
             $this->updatePsychologistService->execute($psychologist, $data);
