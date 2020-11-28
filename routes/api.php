@@ -42,17 +42,18 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * Profile
      * */
     Route::get('account/profile', 'ProfileController@index');
-    Route::post('account/profile/description', 'ProfileController@update');
-    Route::post('account/profile/approach', 'ProfileController@update');
+    Route::post('account/profile', 'ProfileController@update');
+    Route::post('account/profile', 'ProfileController@update');
     Route::post('account/profile/formations', 'PsychologistAcademicFormationController@store');
     Route::delete('account/profile/formations/{id}', 'PsychologistAcademicFormationController@destroy');
     Route::post('account/profile/specialties', 'PsychologistSpecialtyController@store');
-    Route::post('account/profile/crp', 'PsychologistDocumentController@store');
+    Route::post('account/profile/documents', 'PsychologistDocumentController@store');
 
     /*
      * Account
      * */
     Route::get('account/account', 'AccountController@index');
+    Route::post('account/account', 'AccountController@store');
 
     /*
      * City

@@ -24,7 +24,6 @@ class CreatePsychologistDocumentRequest extends APIFormRequest
         return [
             'crp' => 'required|file|mimes:pdf',
             'address' => 'required|file|mimes:pdf',
-            'certificate_crp' => 'required|file|mimes:pdf',
             'epsi' => 'required|file|mimes:pdf',
         ];
     }

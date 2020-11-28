@@ -20,12 +20,14 @@ class CreatePsychologistDocumentService extends PsychologistDocumentRepository
             parent::destroy($psychologist_document->first());
 
         foreach($files as $key => $file){
-            $name = uniqid(date('HisYmd'));
-            $extension = $file->extension();
-            $nameFile = "{$name}.{$extension}";
-            $data[$key] = $nameFile;
+            if($file) {
+                $name = uniqid(date('HisYmd'));
+                $extension = $file->extension();
+                $nameFile = "{$name}.{$extension}";
+                $data[$key] = $nameFile;
 
-            $file->storeAs($psychologist_id."/documents/", $nameFile);
+                $file->storeAs($psychologist_id . "/documents/", $nameFile);
+            }
         }
 
         return parent::store($data);
