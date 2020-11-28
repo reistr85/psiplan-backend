@@ -10,6 +10,8 @@ class PsychologistLanguage extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['psychologist_id', 'language_id', 'is_active'];
+
     protected static function boot()
     {
         parent::boot();

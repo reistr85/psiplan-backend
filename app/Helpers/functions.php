@@ -113,3 +113,30 @@ if(!function_exists('dateEN')){
     }
 }
 
+if(!function_exists('checkPIS')){
+    function checkPIS($pis)
+    {
+        $pis = str_pad( onlyNumber($pis), 11, '0', STR_PAD_LEFT);
+
+        if (strlen($pis) != 11 || intval($pis) == 0) {
+
+            return false;
+
+        } else {
+
+            for ($d = 0, $p = 3, $c = 0; $c < 10; $c++) {
+
+                $d += $pis{$c} * $p;
+
+                $p = ($p < 3) ? 9 : --$p;
+
+            }
+
+            $d = ((10 * $d) % 11) % 10;
+
+            return ($pis{$c} == $d) ? true : false;
+
+        }
+    }
+}
+

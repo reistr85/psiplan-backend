@@ -85,7 +85,7 @@ class PsychologistRepository
             )->where('user_id', $user_id)
             ->join('cities', 'cities.id',  'psychologists.city_id')
             ->join('banks', 'banks.id',  'psychologists.bank_id')
-            ->first();
+            ->with(['psychologist_languages.language'])->first();
     }
 
     /**

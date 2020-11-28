@@ -182,6 +182,7 @@ return [
         App\Providers\API\v1\PsychologistServiceProvider::class,
         App\Providers\API\v1\PsychologistSpecialtyServiceProvider::class,
         App\Providers\API\v1\PsychologistDocumentServiceProvider::class,
+        App\Providers\API\v1\PsychologistLanguageServiceProvider::class,
     ],
 
     /*

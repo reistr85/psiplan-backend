@@ -60,6 +60,17 @@ class UpdatePsychologistRequest extends APIFormRequest
             ];
         }
 
+        if($this->input('action') === 'infoadditional') {
+            return [
+                'infoAdditional.crp' => 'required|min:3',
+                'infoAdditional.pis' => function ($att, $value, $fail) {
+                    $pis = onlyNumber($value);
+                    if (!checkPIS($pis))
+                        return $fail("Digite um PIS válido");
+                },
+            ];
+        }
+
         return [];
     }
 }
