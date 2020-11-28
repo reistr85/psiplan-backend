@@ -79,6 +79,7 @@ class PsychologistRepository
     {
         return $this->model->select(
                 "psychologists.*",
+                "cities.state as state",
                 "cities.description as city",
                 "banks.description as bank"
             )->where('user_id', $user_id)

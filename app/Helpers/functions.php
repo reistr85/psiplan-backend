@@ -106,3 +106,10 @@ if(!function_exists('onlyNumber')){
     }
 }
 
+if(!function_exists('dateEN')){
+    function dateEN($date)
+    {
+        return substr($date, 6, 4)."-".substr($date, 3, 2)."-".substr($date, 0, 2);
+    }
+}
+

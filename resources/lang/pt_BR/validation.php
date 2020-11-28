@@ -180,11 +180,18 @@ return [
         'username'  => 'usuário',
         'year'      => 'ano',
         'description' => 'descrição',
+        'approach' => 'abordagem',
         'password_confirmation' => 'confirmação da senha',
         'institution' => 'instituição',
         'crp' => 'CRP',
         'certificate_crp' => 'certificado CRP',
         'epsi' => 'E-PSI',
+        'infoPersonal.name' => 'nome',
+        'infoPersonal.email' => 'e-mail',
+        'infoPersonal.birth' => 'nascimento',
+        'infoPersonal.cpf' => 'CPF',
+        'infoPersonal.city_id' => 'cidade',
+        'infoPersonal.phone' => 'telefone',
     ],
 
 ];
