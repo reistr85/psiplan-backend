@@ -56,6 +56,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('account/account', 'AccountController@store');
 
     /*
+     * Preferences
+     * */
+    Route::get('account/preferences', 'PreferenceController@index');
+
+    /*
      * City
      * */
     Route::post('city', 'CityController@index');

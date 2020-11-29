@@ -15,17 +15,17 @@ use Illuminate\Http\Request;
 class AccountController extends Controller
 {
     private $getPsychologistByUserIdService;
-    private $getByState;
+    private $getCitiesByStateService;
     private $updatePsychologistService;
     private $getAllLanguagesService;
     private $createPsychologistLanguageService;
 
-    public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService, GetCitiesByStateService $getByState,
+    public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService, GetCitiesByStateService $getCitiesByStateService,
                                 UpdatePsychologistService $updatePsychologistService, GetAllLanguagesService $getAllLanguagesService,
                                 CreatePsychologistLanguageService $createPsychologistLanguageService)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
-        $this->getByState = $getByState;
+        $this->getCitiesByStateService = $getCitiesByStateService;
         $this->updatePsychologistService = $updatePsychologistService;
         $this->getAllLanguagesService = $getAllLanguagesService;
         $this->createPsychologistLanguageService = $createPsychologistLanguageService;
@@ -36,7 +36,7 @@ class AccountController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
-            $cities = $this->getByState->execute($psychologist->state);
+            $cities = $this->getCitiesByState->execute($psychologist->state);
             $languages = $this->getAllLanguagesService->execute();
 
             return response()->json([
