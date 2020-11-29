@@ -31,5 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PsychologistVideoPlatformsTableSeeder::class);
         $this->call(GenresTableSeeder::class);
         $this->call(PsychologistGenresTableSeeder::class);
+        $this->call(NotificationsTableSeeder::class);
+        $this->call(PsychologistNotificationsTableSeeder::class);
     }
 }
