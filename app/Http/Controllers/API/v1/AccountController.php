@@ -36,7 +36,7 @@ class AccountController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
-            $cities = $this->getCitiesByState->execute($psychologist->state);
+            $cities = $this->getCitiesByStateService->execute($psychologist->state);
             $languages = $this->getAllLanguagesService->execute();
 
             return response()->json([

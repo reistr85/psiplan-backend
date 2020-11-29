@@ -8,7 +8,7 @@ use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\Eloquent\Builder;
 use PhpParser\Node\Expr\Cast\Object_;
 
-class PsychologistRepository
+class PsychologistRepository extends BaseRepository
 {
     private $model;
     private $columns_filters = ['specialties_id'];
@@ -46,11 +46,6 @@ class PsychologistRepository
     public function store($data)
     {
         return $this->model::create($data);
-    }
-
-    public function update(Psychologist $psychologist, $data)
-    {
-        return $psychologist->update($data);
     }
 
     private function getResumeColumns()

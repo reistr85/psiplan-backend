@@ -7,6 +7,7 @@ use App\Http\Requests\API\v1\StoreUserRequest;
 use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
 use App\Services\API\v1\Psychologist\CreatePsychologist;
 use App\Services\API\v1\User\StoreUserService;
+use App\Services\API\v1\User\UpdateUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,14 +16,15 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-    private $userService;
     private $storeUserService;
+    private $updateUserService;
     private $createPsychologist;
 
-    public function __construct(StoreUserService $storeUserService, CreatePsychologist $createPsychologist)
+    public function __construct(StoreUserService $storeUserService, CreatePsychologist $createPsychologist, UpdateUserService $updateUserService)
     {
         $this->storeUserService = $storeUserService;
         $this->createPsychologist = $createPsychologist;
+        $this->updateUserService = $updateUserService;
     }
 
     /**
@@ -87,6 +89,9 @@ class UserController extends Controller
     {
         try{
             $user = auth()->user();
+            $data['password'] = bcrypt($request->input('new_password'));
+
+            $this->updateUserService->execute($user, $data);
 
             return response()->json(['status' => true, 'message' => 'Sua senha foi alterada com sucesso.'], 200);
         }catch(\Exception $e){

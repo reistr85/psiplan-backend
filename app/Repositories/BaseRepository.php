@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class BaseRepository
 {
