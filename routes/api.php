@@ -60,6 +60,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * */
     Route::get('account/preferences', 'PreferenceController@index');
     Route::put('account/preferences/{id}', 'PreferenceController@update');
+    Route::put('account/preferences/users/{id}', 'UserController@update');
 
     /*
      * City

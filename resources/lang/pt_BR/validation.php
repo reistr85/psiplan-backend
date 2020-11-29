@@ -192,6 +192,8 @@ return [
         'infoPersonal.cpf' => 'CPF',
         'infoPersonal.city_id' => 'cidade',
         'infoPersonal.phone' => 'telefone',
+        'new_password' => 'nova senha',
+        'new_password_confirm' => 'confirma nova senha',
     ],
 
 ];

@@ -7,6 +7,7 @@ use App\Services\API\v1\Notification\GetAllNotificationsService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistNotificationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistNotificationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PreferenceController extends Controller
@@ -26,7 +27,12 @@ class PreferenceController extends Controller
         $this->updatePsychologistNotificationService = $updatePsychologistNotificationService;
     }
 
-    public function index()
+    /**
+     * Get All Data Preferences
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         try{
             $user = auth()->user();
@@ -46,7 +52,14 @@ class PreferenceController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update Preferences
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $id): JsonResponse
     {
         try{
             $user = auth()->user();

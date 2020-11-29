@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\PsychologistNotification;
 use Illuminate\Database\Eloquent\Builder;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class PsychologistNotificationRepository extends BaseRepository
 {
@@ -24,7 +23,7 @@ class PsychologistNotificationRepository extends BaseRepository
      * @param int $notification_id
      * @return Builder
      * */
-    public function getPsychologistNotificationByPsychologistIdAndNotificationId($psychologist_id, $notification_id): Builder
+    public function getPsychologistNotificationByPsychologistIdAndNotificationId(int $psychologist_id, int $notification_id): Builder
     {
         return $this->model::where('psychologist_id', $psychologist_id)->where('notification_id', $notification_id);
     }

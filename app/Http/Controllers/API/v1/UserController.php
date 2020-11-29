@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreUserRequest;
+use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
 use App\Services\API\v1\Psychologist\CreatePsychologist;
 use App\Services\API\v1\User\StoreUserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -75,52 +77,21 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @param UpdateUserPasswordRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserPasswordRequest $request, int $id): JsonResponse
     {
-        //
-    }
+        try{
+            $user = auth()->user();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function forgotPassword(Request $request)
-    {
-//        try{
-//
-//            $data = $request->only('data');
-//            $return = $this->userService->forgotPassword($data['data']);
-//
-//            if(!$return)
-//                return response()->json(['message' => 'E-mail e/ou CPF não localizado.'], 202);
-//
-//            return response()->json(['message' => 'Foi enviado um e-mail com instruções para você alterar sua senha.'], 200);
-//        }catch(\Exception $e){
-//            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
-//        }
+            return response()->json(['status' => true, 'message' => 'Sua senha foi alterada com sucesso.'], 200);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+        }
     }
 }

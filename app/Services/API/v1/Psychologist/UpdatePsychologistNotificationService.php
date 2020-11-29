@@ -23,6 +23,9 @@ class UpdatePsychologistNotificationService extends PsychologistNotificationRepo
         if(!$psychologist_notification = $queryBuilder->first())
             throw new Exception("Erro ao atualizar a notificação.", 500);
 
-        parent::update($psychologist_notification, ['is_active' => $is_active]);
+        $return = parent::update($psychologist_notification, ['is_active' => $is_active]);
+
+        if(!$return)
+            throw new Exception("Erro ao atualizar a notificação.", 500);
     }
 }
