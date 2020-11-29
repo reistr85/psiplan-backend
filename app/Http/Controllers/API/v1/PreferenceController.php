@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\API\v1\Notification\GetAllNotificationsService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistNotificationsByPsychologistIdService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistNotificationService;
 use Illuminate\Http\Request;
 
 class PreferenceController extends Controller
@@ -13,13 +14,16 @@ class PreferenceController extends Controller
     private $getPsychologistByUserIdService;
     private $getAllNotificationsService;
     private $getPsychologistNotificationsByPsychologistIdService;
+    private $updatePsychologistNotificationService;
 
     public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAllNotificationsService $getAllNotificationsService,
-                                GetPsychologistNotificationsByPsychologistIdService $getPsychologistNotificationsByPsychologistIdService)
+                                GetPsychologistNotificationsByPsychologistIdService $getPsychologistNotificationsByPsychologistIdService,
+                                UpdatePsychologistNotificationService $updatePsychologistNotificationService)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getAllNotificationsService = $getAllNotificationsService;
         $this->getPsychologistNotificationsByPsychologistIdService = $getPsychologistNotificationsByPsychologistIdService;
+        $this->updatePsychologistNotificationService = $updatePsychologistNotificationService;
     }
 
     public function index()
@@ -35,6 +39,26 @@ class PreferenceController extends Controller
                 'message' => 'Successfully',
                 'notifications' => $notifications,
                 'psychologist_notifications' => $psychologist_notifications,
+            ], 200);
+
+        }catch(\Exception $e){
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try{
+            $user = auth()->user();
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $notification_id = $id;
+            $is_active = $request->input('is_active');
+
+            $this->updatePsychologistNotificationService->execute($psychologist->id, $notification_id, $is_active);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Notificação atualizada com sucesso.',
             ], 200);
 
         }catch(\Exception $e){
