@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 use App\Models\Psychologist;
 use Facade\Ignition\QueryRecorder\Query;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class PsychologistRepository
 {
@@ -98,5 +99,19 @@ class PsychologistRepository
             ->join('psychologist_specialties', 'psychologist_specialties.psychologist_id', 'psychologists.id')
             ->join('specialties', 'psychologist_specialties.specialty_id', 'specialties.id')
             ->where('psychologist_specialties.psychologist_id', $psychologist_id)->whereNull('psychologist_specialties.deleted_at');
+    }
+
+    /**
+     * Get All Specialties by Psychologist Id.
+     *
+     * @param int $psychologist_id
+     * @return Query
+     */
+    public function getNotifications(int $psychologist_id)
+    {
+        return $this->model->select('psychologist_notifications.*')
+            ->join('psychologist_notifications', 'psychologist_notifications.psychologist_id', 'psychologists.id')
+            ->join('notifications', 'psychologist_notifications.notification_id', 'notifications.id')
+            ->where('psychologist_notifications.psychologist_id', $psychologist_id)->whereNull('psychologist_notifications.deleted_at');
     }
 }

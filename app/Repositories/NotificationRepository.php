@@ -4,6 +4,8 @@
 namespace App\Repositories;
 
 
+use App\Models\Notification;
+
 class NotificationRepository extends BaseRepository
 {
     private $model;
