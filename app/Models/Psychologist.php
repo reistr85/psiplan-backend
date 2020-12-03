@@ -12,8 +12,8 @@ class Psychologist extends Model
 
     protected $fillable = ['user_id', 'city_id', 'name', 'email', 'birth', 'cpf', 'phone', 'country', 'consultation_value',
         'consultation_duration', 'social_consultation_value', 'first_free_consultation', 'description', 'approach', 'avatar',
-        'crp', 'pis', 'bank', 'agency', 'type_account', 'number_account', 'cpf_holder_account', 'cnpj_holder_account',
-        'is_active'];
+        'gallery_one', 'gallery_tow', 'gallery_three', 'gallery_four', 'gallery_five', 'crp', 'pis', 'bank', 'agency', 'type_account',
+        'number_account', 'cpf_holder_account', 'cnpj_holder_account', 'is_active'];
 
     protected static function boot()
     {

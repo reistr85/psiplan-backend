@@ -14,8 +14,12 @@ use Intervention\Image\Facades\Image;
 
 class UpdatePsychologistService extends PsychologistRepository
 {
+    private $path;
+    private $path_file_delete;
+    private $uploadService;
+
     /**
-     * Update Psychologist
+     * Execute UpdatePsychologistService
      *
      * @param Psychologist $psychologist
      * @param array $data
@@ -26,25 +30,19 @@ class UpdatePsychologistService extends PsychologistRepository
     public function execute(Psychologist $psychologist, array $data, string $action = null): string
     {
         if(array_key_exists("image", $data)){
-            $path = null;
-            $path_file_delete = null;
-            $uploadService = new UploadImagesService();
-            $width = 800;
-            $height = 600;
-
             if($action === 'avatar'){
-                $width = 300;
-                $height = 300;
-                $path = "images/users/{$psychologist->id}/avatar";
-                $path_file_delete = "{$path}/{$psychologist->avatar}";
-            }else if($action === 'image_gallery_one'){
-                $path = "images/users/{$psychologist->id}/avatar";
-                $path_file_delete = "{$path}/{$psychologist->avatar}";
+                $this->uploadService = new UploadImagesService(300, 300);
+                $this->path = "images/users/{$psychologist->id}/avatar";
+                $this->path_file_delete = "{$this->path}/{$psychologist->avatar}";
+            }else if($action === 'gallery_one'){
+                $this->uploadService = new UploadImagesService();
+                $this->path = "images/users/{$psychologist->id}/gallery";
+                $this->path_file_delete = "{$this->path}/{$psychologist[$action]}";
             }
 
 
-            Storage::disk('s3')->delete($path_file_delete);
-            $name_image = $uploadService->execute($path, $data['image'], $width, $height);
+            Storage::disk('s3')->delete($this->path_file_delete);
+            $name_image = $this->uploadService->execute($this->path, $data['image']);
             $data[$action] = $name_image;
         }
 
