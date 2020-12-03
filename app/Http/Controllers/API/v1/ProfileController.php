@@ -82,9 +82,9 @@ class ProfileController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
             $data = $request->all();
 
-            $avatar = $this->updatePsychologistService->execute($psychologist, $data, $action);
+            $image = $this->updatePsychologistService->execute($psychologist, $data, $action);
 
-            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'avatar' => $avatar], 200);
+            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }
