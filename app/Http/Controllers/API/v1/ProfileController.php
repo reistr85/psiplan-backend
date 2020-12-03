@@ -12,6 +12,7 @@ use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -81,9 +82,9 @@ class ProfileController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
             $data = $request->all();
 
-            $this->updatePsychologistService->execute($psychologist, $data, $action);
+            $avatar = $this->updatePsychologistService->execute($psychologist, $data, $action);
 
-            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso'], 200);
+            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'avatar' => $avatar], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }
