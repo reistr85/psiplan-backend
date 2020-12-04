@@ -12,17 +12,20 @@ class UploadImagesService
 
     private $width;
     private $height;
+    private $thumbnail;
 
     /**
      * Construct UploadImageService
      *
      * @param int $width
      * @param int $height
+     * @param bool $thumbnail
      */
-    public function __construct(int $width = 800, int $height = 600)
+    public function __construct(int $width = 800, int $height = 600, $thumbnail = false)
     {
         $this->width = $width;
         $this->height = $height;
+        $this->thumbnail = $thumbnail;
     }
 
     /**
@@ -39,6 +42,13 @@ class UploadImagesService
         $image = Image::make($file)->crop($this->width, $this->height);
         $image = $image->stream();
         $storagePath = Storage::disk('s3')->put("{$path}/{$name_image}", $image->__toString(), 'public');
+
+        if($this->thumbnail){
+            $image = Image::make($file)->resize(85, 85, function ($constraint) {
+            })->encode('jpg');
+            $image = $image->stream();
+            $storagePath = Storage::disk('s3')->put("{$path}/thumbnail_{$name_image}", $image->__toString(), 'public');
+        }
 
         if(!$storagePath)
             throw new Exception("Erro ao fazer o upload da imagem.", 500);
