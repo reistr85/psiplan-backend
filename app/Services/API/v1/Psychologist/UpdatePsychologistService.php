@@ -51,6 +51,6 @@ class UpdatePsychologistService extends PsychologistRepository
         if(!$psi)
             throw new Exception("Erro ao alterar a(s) informação(s).", 500);
 
-        return array_key_exists("image", $data) ? $data[$action] : null;
+        return array_key_exists("image", $data) ? $data[$action] : '';
     }
 }

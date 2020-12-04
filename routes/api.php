@@ -5,18 +5,18 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
 
     /*
-     * Auth
+     * AuthController
      * */
     Route::post('login', 'AuthController@login');
 
     /*
-     * Routes Users
+     * UserController
      * */
     Route::resource('users', 'UserController');
     Route::post('forgot-password', 'UserController@forgotPassword');
 
     /*
-     * Routes List of Psychologist
+     * ListPsychologist
      * */
     Route::get('listpsychologist', 'ListPsychologist@index');
     Route::get('getfilters', 'ListPsychologist@getFilters');
@@ -32,22 +32,34 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::get('/', function(){ return response()->json(['status' => true]); });
 
     /*
-     * Routes Auth
+     * AuthController
      * */
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('logout', 'AuthController@logout');
 
     /*
-     * Profile
+     * ProfileController
      * */
     Route::get('account/profile', 'ProfileController@index');
     Route::post('account/profile/{action?}', 'ProfileController@update');
-//    Route::post('account/profile', 'ProfileController@update');
-    Route::post('account/profile/formations', 'PsychologistAcademicFormationController@store');
-    Route::delete('account/profile/formations/{id}', 'PsychologistAcademicFormationController@destroy');
-    Route::post('account/profile/specialties', 'PsychologistSpecialtyController@store');
-    Route::post('account/profile/documents', 'PsychologistDocumentController@store');
+
+
+    /*
+     * PsychologistAcademicFormationController
+     * */
+    Route::post('account/formations', 'PsychologistAcademicFormationController@store');
+    Route::delete('account/formations/{id}', 'PsychologistAcademicFormationController@destroy');
+
+    /*
+     * PsychologistSpecialtyController
+     * */
+    Route::post('account/specialties', 'PsychologistSpecialtyController@store');
+
+    /*
+     * PsychologistDocumentController
+     * */
+    Route::post('account/documents', 'PsychologistDocumentController@store');
 
     /*
      * Account
@@ -56,14 +68,14 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('account/account', 'AccountController@store');
 
     /*
-     * Preferences
+     * PreferenceController
      * */
     Route::get('account/preferences', 'PreferenceController@index');
     Route::put('account/preferences/{id}', 'PreferenceController@update');
     Route::put('account/preferences/users/{id}', 'UserController@update');
 
     /*
-     * City
+     * CityController
      * */
     Route::post('city', 'CityController@index');
 });
