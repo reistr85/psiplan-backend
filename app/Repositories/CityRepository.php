@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Models\City;
+use Illuminate\Database\Eloquent\Builder;
 
 class CityRepository extends BaseRepository
 {
@@ -23,5 +24,10 @@ class CityRepository extends BaseRepository
     public function getByState($state)
     {
         return $this->model::where('state', $state)->get();
+    }
+
+    public function getByName(string $name): Builder
+    {
+        return $this->model::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc');
     }
 }

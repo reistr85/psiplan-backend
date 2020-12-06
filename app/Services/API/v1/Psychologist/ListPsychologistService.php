@@ -48,13 +48,13 @@ class ListPsychologistService
     public function getFilters()
     {
         try{
-            $cities = $this->cityRepository->all();
+            //$cities = $this->cityRepository->all();
             $targetAudiences = $this->targetAudienceRepository->all();
             $genres = $this->genreRepository->getAll();
             $specialties = $this->specialtyRepository->getAll();
 
             return [
-                'cities' => $cities,
+                'cities' => [],
                 'target_audiences' => $targetAudiences,
                 'specialties' => $specialties,
             ];

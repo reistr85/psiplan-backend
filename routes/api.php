@@ -22,6 +22,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::get('getfilters', 'ListPsychologist@getFilters');
 
     /*
+     * CityController
+     * */
+    Route::post('cities-by-name', 'CityController@getCitiesByName');
+
+    /*
      * SMS
      * */
 //    Route::post('sms', 'AuthController@sms');
@@ -77,5 +82,5 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     /*
      * CityController
      * */
-    Route::post('city', 'CityController@index');
+    Route::post('cities', 'CityController@index');
 });
