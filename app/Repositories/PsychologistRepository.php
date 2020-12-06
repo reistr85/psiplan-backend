@@ -21,24 +21,31 @@ class PsychologistRepository extends BaseRepository
     public function index($params)
     {
         $query = $this->model::select($this->getResumeColumns())->distinct('psychologists.id')
-            ->join('psychologist_languages', function ($query) use($params) {
-                $query->on('psychologist_languages.psychologist_id', '=', 'psychologists.id');
-            })->join('psychologist_specialties', function ($query) use($params) {
+            ->join('psychologist_specialties', function ($query) use($params) {
                 $query->on('psychologist_specialties.psychologist_id', '=', 'psychologists.id');
-            })->join('psychologist_genres', function ($query) use($params) {
-                $query->on('psychologist_genres.psychologist_id', '=', 'psychologists.id');
-                $this->filters($query, $params['genre_id'], 'psychologist_genres.genre_id', 'psychologist_genres');
             })->join('psychologist_target_audiences', function ($query) use($params) {
                 $query->on('psychologist_target_audiences.psychologist_id', '=', 'psychologists.id');
                 $this->filters($query, $params['target_audience_id'], 'psychologist_target_audiences.target_audience_id', 'psychologist_target_audiences');
-            })->join('cities', 'psychologists.city_id', 'cities.id')
-            ->with(['languages']);
+            })->join('cities', 'psychologists.city_id', 'cities.id');
 
-            if($params['city_id'])
-                $query->where('psychologists.city_id', $params['city_id']);
+        if($params['text'])
+            $query->where(function($query)use ($params){
+                $query->orWhere('psychologists.name', 'like', '%' . $params['text'] . '%');
+                $query->orWhere('psychologists.approach', 'like', '%' . $params['text'] . '%');
+                $query->orWhere('cities.description', 'like', '%' . $params['text'] . '%');
+            });
 
-            if($params['order_price'])
-                $query->orderBy('consultation_value', $params['order_price']);
+        if($params['target_audience_id'])
+            $query->where('psychologist_target_audiences.target_audience_id', $params['target_audience_id'])->whereNull('psychologist_target_audiences.deleted_at');
+
+        if($params['specialty_id'])
+            $query->where('psychologist_specialties.specialty_id', $params['specialty_id'])->whereNull('psychologist_specialties.deleted_at');
+
+        if($params['city_id'])
+            $query->where('psychologists.city_id', $params['city_id'])->whereNull('cities.deleted_at');
+
+        if($params['order_price'])
+            $query->orderBy('consultation_value', $params['order_price']);
 
         return  $query;
     }
@@ -52,9 +59,11 @@ class PsychologistRepository extends BaseRepository
     {
         return [
             'psychologists.id',
+            'psychologists.user_id',
             'psychologists.avatar',
             'psychologists.consultation_value',
             'psychologists.consultation_duration',
+            'psychologists.first_free_consultation',
             'psychologists.name',
             'psychologists.description',
             'psychologists.crp',
