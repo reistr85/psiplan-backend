@@ -28,6 +28,7 @@ class MeService extends PsychologistRepository
             'name' => $user->name,
             'email' => $user->email,
             'plan_id' => encode($psychologist->plan_id),
+            'psychologist_id' => encode($psychologist->id),
         ];
     }
 }

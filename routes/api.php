@@ -67,10 +67,15 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('account/documents', 'PsychologistDocumentController@store');
 
     /*
-     * Account
+     * AccountController
      * */
     Route::get('account/account', 'AccountController@index');
     Route::post('account/account', 'AccountController@store');
+
+    /*
+     * QueryController
+     * */
+    Route::get('account/queries', 'QueryController@index');
 
     /*
      * PreferenceController

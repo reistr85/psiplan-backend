@@ -47,6 +47,7 @@ class AuthController extends Controller
             $userData['name'] = $user->name;
             $userData['email'] = $user->email;
             $userData['plan_id'] = encode($psychologist->plan_id);
+            $userData['psychologist_id'] = encode($psychologist->id);
 
             return response()->json(['status' => true, 'message' => 'Successfully',  'access_token' => $auth['access_token'], 'user' => $userData], 200);
         }catch(\Exception $e){

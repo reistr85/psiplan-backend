@@ -38,8 +38,6 @@ class UserController extends Controller
         DB::beginTransaction();
         try{
             $user_type_id = null;
-            $data_psychologist = [];
-            $client = [];
             $data = $request->only('type', 'name', 'email', 'phone', 'password');
 
             $user['name'] = $data['name'];
@@ -65,7 +63,7 @@ class UserController extends Controller
                     'country' => 'Brasil',
                 ];
 
-                $psychologist = $this->createPsychologist->execute($data_psychologist);
+                $this->createPsychologist->execute($data_psychologist);
             }
 
             DB::commit();
