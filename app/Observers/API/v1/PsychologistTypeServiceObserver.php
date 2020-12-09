@@ -5,7 +5,6 @@ namespace App\Observers\API\v1;
 
 
 use App\Models\PsychologistTypeService;
-use App\User;
 
 class PsychologistTypeServiceObserver
 {

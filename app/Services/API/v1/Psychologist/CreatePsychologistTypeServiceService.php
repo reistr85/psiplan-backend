@@ -3,8 +3,6 @@
 
 namespace App\Services\API\v1\Psychologist;
 
-
-use App\Models\PsychologistTypeService;
 use App\Repositories\PsychologistTypeServiceRepository;
 
 class CreatePsychologistTypeServiceService extends PsychologistTypeServiceRepository

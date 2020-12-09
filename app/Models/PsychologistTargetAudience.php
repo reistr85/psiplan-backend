@@ -9,6 +9,8 @@ class PsychologistTargetAudience extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['psychologist_id', 'target_audience_id', 'is_active'];
+
     public function target_audience(){
         return $this->belongsTo(TargetAudience::class);
     }

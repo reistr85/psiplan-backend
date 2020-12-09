@@ -26,16 +26,16 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
         $verify_address = false;
 
         //verifica se o tipo de atendimento presencial foi selecionado.
-        if(array_search(1, array_column($this->input('psychologist_type_services'), 'type_service_id')) !== false)
+        if(array_search(1, array_column($this->input('type_services'), 'type_service_id')) !== false)
             $verify_address = true;
 
         if($verify_address) {
             return [
-                'address.zip_code' => 'required|digits:8',
-                'address.state' => 'required|min:2|max:2',
-                'address.city' => 'required',
-                'address.neighborhood' => 'required',
-                'address.street' => 'required',
+                'service_address.zip_code' => 'required|digits:8',
+                'service_address.state' => 'required|min:2|max:2',
+                'service_address.city' => 'required',
+                'service_address.neighborhood' => 'required',
+                'service_address.street' => 'required',
                 'target_audiences' => 'required',
                 'value_query' => function ($att, $value, $fail) {
                     if ($value <= 0) {
@@ -46,8 +46,8 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
         }
 
         return [
-            'psychologist_type_services' => function ($att, $value, $fail){
-                if (!count($this->input('psychologist_type_services'))) {
+            'type_services' => function ($att, $value, $fail){
+                if (!count($this->input('type_services'))) {
                     return $fail("Você precisa escolher pelo menos um tipo de atendimento.");
                 }
             },
