@@ -24,7 +24,6 @@ class CreateServiceAddressesTable extends Migration
             $table->string('number');
             $table->string('complement');
             $table->string('reference');
-            $table->string('ibge');
             $table->integer('active');
             $table->softDeletes();
             $table->timestamps();

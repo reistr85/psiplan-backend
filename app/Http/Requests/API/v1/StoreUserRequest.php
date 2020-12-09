@@ -37,7 +37,6 @@ class StoreUserRequest extends APIFormRequest
             'email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
             'phone' => 'required|min:11',
             'password' => 'required|min:6',
-
         ];
     }
 }

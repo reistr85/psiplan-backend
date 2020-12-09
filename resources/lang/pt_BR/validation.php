@@ -194,6 +194,16 @@ return [
         'infoPersonal.phone' => 'telefone',
         'new_password' => 'nova senha',
         'new_password_confirm' => 'confirma nova senha',
+        'address.zip_code' => 'CEP',
+        'address.state' => 'UF',
+        'address.city' => 'cidade',
+        'address.neighborhood' => 'bairro',
+        'address.street' => 'endereço',
+        'address.number' => 'número',
+        'address.complement' => 'complemento',
+        'address.reference' => 'referencia',
+        'target_audiences' => 'público alvo',
+        'value_query' => 'valor da consulta',
     ],
 
 ];
