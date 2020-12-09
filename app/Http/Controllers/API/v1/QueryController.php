@@ -8,6 +8,7 @@ use App\Services\API\v1\Psychologist\CreatePsychologistTargetAudienceService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTypeServiceService;
 use App\Services\API\v1\Psychologist\GetInfoQueriesService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use App\Services\API\v1\TargetAudience\GetAllTargetAudiencesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,19 +20,22 @@ class QueryController extends Controller
     private $getTargetAudiencesService;
     private $createPsychologistTypeServiceService;
     private $createPsychologistTargetAudienceService;
+    private $updatePsychologistService;
 
     public function __construct(
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
         GetInfoQueriesService $getInfoQueriesService,
         GetAllTargetAudiencesService $getTargetAudiencesService,
         CreatePsychologistTypeServiceService $createPsychologistTypeServiceService,
-        CreatePsychologistTargetAudienceService $createPsychologistTargetAudienceService)
+        CreatePsychologistTargetAudienceService $createPsychologistTargetAudienceService,
+        UpdatePsychologistService $updatePsychologistService)
     {
         $this->getInfoQueriesService = $getInfoQueriesService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getTargetAudiencesService = $getTargetAudiencesService;
         $this->createPsychologistTypeServiceService = $createPsychologistTypeServiceService;
         $this->createPsychologistTargetAudienceService = $createPsychologistTargetAudienceService;
+        $this->updatePsychologistService = $updatePsychologistService;
     }
 
     public function index(Request $request)
@@ -60,9 +64,11 @@ class QueryController extends Controller
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
             $data = $request->all();
+            $dataUpdatePsychologist = ['consultation_value' => $data['consultation_value'], 'accessibility' => $data['accessibility']];
 
             $this->createPsychologistTypeServiceService->execute($psychologist->id, $data['type_services']);
             $this->createPsychologistTargetAudienceService->execute($psychologist->id, $data['target_audiences']);
+            $this->updatePsychologistService->execute($psychologist, $dataUpdatePsychologist);
 
             DB::commit();
             return response()->json([
