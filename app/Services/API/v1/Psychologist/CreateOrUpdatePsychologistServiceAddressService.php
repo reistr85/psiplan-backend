@@ -11,7 +11,10 @@ class CreateOrUpdatePsychologistServiceAddressService extends PsychologistServic
     public function execute(int $psychologist_id, array $data)
     {
         $data['psychologist_id'] = $psychologist_id;
-        $data = array_filter($data);
+
+        $data = array_map(function($item){
+            return $item === null ? '' : $item;
+        }, $data);
 
         $psychologistServiceAddress = parent::getPsychologistServiceAddressByPsychologistId($psychologist_id);
 

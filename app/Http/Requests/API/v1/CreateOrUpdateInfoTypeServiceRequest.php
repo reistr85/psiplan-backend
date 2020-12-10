@@ -31,11 +31,11 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
 
         if($verify_address) {
             return [
-                'service_address.zip_code' => 'required|digits:8',
-                'service_address.state' => 'required|min:2|max:2',
-                'service_address.city' => 'required',
-                'service_address.neighborhood' => 'required',
-                'service_address.street' => 'required',
+                'address.zip_code' => 'required|digits:8',
+                'address.state' => 'required|min:2|max:2',
+                'address.city' => 'required',
+                'address.neighborhood' => 'required',
+                'address.street' => 'required',
                 'target_audiences' => 'required',
                 'consultation_value' => function ($att, $value, $fail) {
                     if ($value <= 0) {

@@ -10,6 +10,7 @@ use App\Services\API\v1\Psychologist\CreatePsychologistTypeServiceService;
 use App\Services\API\v1\Psychologist\GetInfoQueriesService;
 use App\Services\API\v1\Psychologist\GetPsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
+use App\Services\API\v1\Psychologist\GetPsychologistTargetAudienceService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use App\Services\API\v1\TargetAudience\GetAllTargetAudiencesService;
 use Illuminate\Http\Request;
@@ -54,13 +55,16 @@ class QueryController extends Controller
 
             $target_audiences = $this->getTargetAudiencesService->execute();
             $psychologist_address_service = $this->getPsychologistServiceAddressService->execute($psychologist->id);
-            $this->getInfoQueriesService->execute($psychologist);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully',
                 'target_audiences' => $target_audiences,
-                'psychologist_service_address' => $psychologist_address_service
+                'psychologist_service_address' => $psychologist_address_service,
+                'psychologist_type_services' => $psychologist->type_services,
+                'psychologist_target_audiences' => $psychologist->target_audiences,
+                'consultation_value' => $psychologist->consultation_value,
+                'accessibility' => $psychologist->accessibility,
             ], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
@@ -78,7 +82,7 @@ class QueryController extends Controller
 
             $this->createPsychologistTypeServiceService->execute($psychologist->id, $data['type_services']);
             $this->createPsychologistTargetAudienceService->execute($psychologist->id, $data['target_audiences']);
-            $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['service_address']);
+            $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['address']);
             $this->updatePsychologistService->execute($psychologist, $dataUpdatePsychologist);
 
             DB::commit();

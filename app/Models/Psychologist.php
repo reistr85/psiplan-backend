@@ -43,6 +43,18 @@ class Psychologist extends Model
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
+    public function type_services()
+    {
+        return $this->belongsToMany('App\Models\TypeService','psychologist_type_services',
+            'psychologist_id', 'type_service_id')->whereNull('psychologist_type_services.deleted_at');
+    }
+
+    public function target_audiences()
+    {
+        return $this->belongsToMany('App\Models\TargetAudience','psychologist_target_audiences',
+            'psychologist_id', 'target_audience_id')->whereNull('psychologist_target_audiences.deleted_at');
+    }
+
     public function languages()
     {
         return $this->belongsToMany('App\Models\Language','psychologist_languages',
