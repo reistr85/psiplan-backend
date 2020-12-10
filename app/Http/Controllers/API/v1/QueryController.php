@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateOrUpdateInfoTypeServiceRequest;
+use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTargetAudienceService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTypeServiceService;
 use App\Services\API\v1\Psychologist\GetInfoQueriesService;
+use App\Services\API\v1\Psychologist\GetPsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use App\Services\API\v1\TargetAudience\GetAllTargetAudiencesService;
@@ -21,6 +23,8 @@ class QueryController extends Controller
     private $createPsychologistTypeServiceService;
     private $createPsychologistTargetAudienceService;
     private $updatePsychologistService;
+    private $getPsychologistServiceAddressService;
+    private $createOrUpdatePsychologistServiceAddressService;
 
     public function __construct(
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
@@ -28,7 +32,9 @@ class QueryController extends Controller
         GetAllTargetAudiencesService $getTargetAudiencesService,
         CreatePsychologistTypeServiceService $createPsychologistTypeServiceService,
         CreatePsychologistTargetAudienceService $createPsychologistTargetAudienceService,
-        UpdatePsychologistService $updatePsychologistService)
+        UpdatePsychologistService $updatePsychologistService,
+        GetPsychologistServiceAddressService $getPsychologistServiceAddressService,
+        CreateOrUpdatePsychologistServiceAddressService $createOrUpdatePsychologistServiceAddressService)
     {
         $this->getInfoQueriesService = $getInfoQueriesService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
@@ -36,6 +42,8 @@ class QueryController extends Controller
         $this->createPsychologistTypeServiceService = $createPsychologistTypeServiceService;
         $this->createPsychologistTargetAudienceService = $createPsychologistTargetAudienceService;
         $this->updatePsychologistService = $updatePsychologistService;
+        $this->getPsychologistServiceAddressService = $getPsychologistServiceAddressService;
+        $this->createOrUpdatePsychologistServiceAddressService = $createOrUpdatePsychologistServiceAddressService;
     }
 
     public function index(Request $request)
@@ -45,19 +53,21 @@ class QueryController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
 
             $target_audiences = $this->getTargetAudiencesService->execute();
+            $psychologist_address_service = $this->getPsychologistServiceAddressService->execute($psychologist->id);
             $this->getInfoQueriesService->execute($psychologist);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully',
                 'target_audiences' => $target_audiences,
+                'psychologist_service_address' => $psychologist_address_service
             ], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
     }
 
-    public function store(CreateOrUpdateInfoTypeServiceRequest $request)
+    public function storeTypeService(CreateOrUpdateInfoTypeServiceRequest $request)
     {
         DB::beginTransaction();
         try{
@@ -68,6 +78,7 @@ class QueryController extends Controller
 
             $this->createPsychologistTypeServiceService->execute($psychologist->id, $data['type_services']);
             $this->createPsychologistTargetAudienceService->execute($psychologist->id, $data['target_audiences']);
+            $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['service_address']);
             $this->updatePsychologistService->execute($psychologist, $dataUpdatePsychologist);
 
             DB::commit();

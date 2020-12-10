@@ -76,7 +76,8 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * QueryController
      * */
     Route::get('account/queries', 'QueryController@index');
-    Route::post('account/queries', 'QueryController@store');
+    Route::post('account/queries/type-service', 'QueryController@storeTypeService');
+    Route::post('account/queries/info-extras', 'QueryController@storeInfoExtras');
 
     /*
      * PreferenceController

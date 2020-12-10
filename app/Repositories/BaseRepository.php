@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
 {
+    public function findById(Model $model, $id)
+    {
+        return $model->find($id);
+    }
+
     public function findAll($model)
     {
         return $model->all();

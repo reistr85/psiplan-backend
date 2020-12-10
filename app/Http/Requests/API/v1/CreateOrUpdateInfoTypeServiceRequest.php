@@ -37,7 +37,7 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
                 'service_address.neighborhood' => 'required',
                 'service_address.street' => 'required',
                 'target_audiences' => 'required',
-                'value_query' => function ($att, $value, $fail) {
+                'consultation_value' => function ($att, $value, $fail) {
                     if ($value <= 0) {
                         return $fail("O valor da consulta precisa ser maior que zero.");
                     }
@@ -52,7 +52,7 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
                 }
             },
             'target_audiences' => 'required',
-            'value_query' => function ($att, $value, $fail) {
+            'consultation_value' => function ($att, $value, $fail) {
                 if ($value <= 0) {
                     return $fail("O valor da consulta precisa ser maior que zero.");
                 }
