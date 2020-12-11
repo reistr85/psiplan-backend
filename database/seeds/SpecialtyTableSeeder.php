@@ -54,6 +54,7 @@ class SpecialtyTableSeeder extends Seeder
             ['description' => 'Emagrecimento', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['description' => 'LGBT', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['description' => 'Relacionamentos afetivos', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['description' => 'Depressão', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
 
         Specialty::insert($data);
