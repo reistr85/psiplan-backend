@@ -18,7 +18,7 @@ class SpecialtyRepository
 
     public function getAll()
     {
-        return $this->model->all();
+        return $this->model->select('*')->orderBy('description')->get();
     }
 
     public function getByPsychologist($psychologist_id)
