@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateOrUpdateInfoTypeServiceRequest;
+use App\Http\Requests\API\v1\UpdateInfoExtrasPsychologistRequest;
 use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTargetAudienceService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTypeServiceService;
@@ -88,6 +89,27 @@ class QueryController extends Controller
             $this->createPsychologistTargetAudienceService->execute($psychologist->id, $data['target_audiences']);
             $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['address']);
             $this->updatePsychologistService->execute($psychologist, $dataUpdatePsychologist);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'As informações foram salvas com sucesso.',
+            ], 200);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function storeInfoExtras(UpdateInfoExtrasPsychologistRequest $request)
+    {
+        DB::beginTransaction();
+        try{
+            $user = auth()->user();
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $data = $request->all();
+
+            $this->updatePsychologistService->execute($psychologist, $data);
 
             DB::commit();
             return response()->json([
