@@ -85,6 +85,26 @@ class UpdatePsychologistRequest extends APIFormRequest
             ];
         }
 
+        if(array_key_exists("image", $this->all())){
+            $resolution = ['width' => 800, 'height' => 800];
+
+            if($this->input('action') !== 'avatar')
+                $resolution = ['width' => 1920, 'height' => 1080];
+
+            return [
+                'image' => function ($att, $value, $fail) use($resolution) {
+                    $info_image = getimagesize($value);
+                    $format_images = ['image/png', 'image/jpeg', 'image/jpg'];
+
+                    if ($info_image[0] > $resolution['width'] || $info_image[1] > $resolution['height'])
+                        return $fail("A imagem não pode ser maior que {$resolution['width']}x{$resolution['height']} pixels");
+
+                    if (array_search($info_image['mime'], $format_images) === false)
+                        return $fail("A imagem tem que ser nos formatos (jpg, jpeg ou png)");
+                }
+            ];
+        }
+
         return [];
     }
 }

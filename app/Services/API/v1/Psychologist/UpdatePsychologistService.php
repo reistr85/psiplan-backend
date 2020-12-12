@@ -30,6 +30,8 @@ class UpdatePsychologistService extends PsychologistRepository
     public function execute(Psychologist $psychologist, array $data, string $action = null): string
     {
         if(array_key_exists("image", $data)){
+
+
             if($action === 'avatar'){
                 $this->uploadService = new UploadImagesService(300, 300);
                 $this->path = "images/users/{$psychologist->id}/avatar";
