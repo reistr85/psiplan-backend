@@ -41,6 +41,7 @@ class CreatePsychologistsTable extends Migration
             $table->string('gallery_three')->nullable();
             $table->string('gallery_four')->nullable();
             $table->string('gallery_five')->nullable();
+            $table->string('url_youtube')->nullable();
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
             $table->string('bank')->nullable();

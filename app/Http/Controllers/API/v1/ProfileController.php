@@ -71,8 +71,8 @@ class ProfileController extends Controller
     /**
      * Get a JWT via given credentials.
      *
+     * @param UpdatePsychologistRequest $request
      * @param $action
-     * @param Request $request
      * @return JsonResponse
      */
     public function update(UpdatePsychologistRequest $request, $action = null)
