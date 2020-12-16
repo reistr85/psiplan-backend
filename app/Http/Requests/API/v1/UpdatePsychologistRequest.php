@@ -108,8 +108,9 @@ class UpdatePsychologistRequest extends APIFormRequest
         if($this->input('action') === 'url_youtube') {
             return [
                 'url_youtube' => function ($att, $value, $fail) {
-                    $valid = preg_match("/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v\=\w+$/", $value);
-                    if ($valid)
+                    $pattern = '%^(?:https?://)?(?:www.)?(?:youtu.be/|youtube.com(?:/embed/|/v/|/watch?v=))([\w-]{10,12})(?:\S+)$%x';
+
+                    if (!preg_match($pattern, $value) && $value)
                         return $fail("Digite uma URL válida do Youtube");
                 }
             ];
