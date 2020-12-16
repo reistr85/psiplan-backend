@@ -37,7 +37,7 @@ class UpdatePsychologistService extends PsychologistRepository
                 $this->path = "images/users/{$psychologist->id}/avatar";
                 $this->path_file_delete = "{$this->path}/{$psychologist->avatar}";
             }else{
-                $this->uploadService = new UploadImagesService(800, 600, true);
+                $this->uploadService = new UploadImagesService(1024, 768, true);
                 $this->path = "images/users/{$psychologist->id}/gallery";
                 $this->path_file_delete = "{$this->path}/{$psychologist[$action]}";
                 Storage::disk('s3')->delete("{$this->path}/thumbnail_{$psychologist[$action]}");

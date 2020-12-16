@@ -89,14 +89,14 @@ class UpdatePsychologistRequest extends APIFormRequest
             $resolution = ['width' => 800, 'height' => 800];
 
             if($this->input('action') !== 'avatar')
-                $resolution = ['width' => 1920, 'height' => 1080];
+                $resolution = ['width' => 1024, 'height' => 768];
 
             return [
                 'image' => function ($att, $value, $fail) use($resolution) {
                     $info_image = getimagesize($value);
                     $format_images = ['image/png', 'image/jpeg', 'image/jpg'];
 
-                    if ($info_image[0] > $resolution['width'] || $info_image[1] > $resolution['height'])
+                    if (($info_image[0] > ($resolution['width']+10)) || ($info_image[1] > ($resolution['height']+10)))
                         return $fail("A imagem não pode ser maior que {$resolution['width']}x{$resolution['height']} pixels");
 
                     if (array_search($info_image['mime'], $format_images) === false)
