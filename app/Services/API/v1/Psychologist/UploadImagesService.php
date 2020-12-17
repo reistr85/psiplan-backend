@@ -39,7 +39,6 @@ class UploadImagesService
     public function execute($path, $file): string
     {
         $name_image = uniqid(date('HisYmd')) . ".jpg";
-//        $image = Image::make($file)->resize($this->width, $this->height);
         $image = Image::make($file)->resize($this->width, $this->height, function ($constraint) {
         })->encode('jpg');
         $image = $image->stream();

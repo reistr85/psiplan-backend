@@ -21,17 +21,17 @@ class UpdatePsychologistService extends PsychologistRepository
     /**
      * Execute UpdatePsychologistService
      *
-     * @param Psychologist $psychologist
+     * @param int $psychologist_id
      * @param array $data
      * @param string $action
      * @return string
      * @throws Exception
      */
-    public function execute(Psychologist $psychologist, array $data, string $action = null): string
+    public function execute(int $psychologist_id, array $data, string $action = null): string
     {
+        $psychologist = parent::find($psychologist_id);
+
         if(array_key_exists("image", $data)){
-
-
             if($action === 'avatar'){
                 $this->uploadService = new UploadImagesService(300, 300);
                 $this->path = "images/users/{$psychologist->id}/avatar";
@@ -47,6 +47,9 @@ class UpdatePsychologistService extends PsychologistRepository
             $name_image = $this->uploadService->execute($this->path, $data['image']);
             $data[$action] = $name_image;
         }
+
+        if($action === 'delete_gallery')
+            $data = [$data['type'] => null];
 
         $psi = parent::update($psychologist, $data);
 

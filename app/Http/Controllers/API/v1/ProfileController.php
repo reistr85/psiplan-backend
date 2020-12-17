@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
+use App\Services\API\v1\Psychologist\DeleteImageGalleryService;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetAllSpecialtyService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
@@ -24,9 +25,13 @@ class ProfileController extends Controller
     private $updatePsychologistService;
     private $getPsychologistDocumentService;
 
-    public function __construct(GetAllSpecialtyService $getAllSpecialtiesService, GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
-                                GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
-                                UpdatePsychologistService $updatePsychologistService, GetPsychologistDocumentService $getPsychologistDocumentService)
+    public function __construct(
+        GetAllSpecialtyService $getAllSpecialtiesService,
+        GetSpecialtiesByPsychologistIdService $getSpecialtiesByPsychologistIdService,
+        GetPsychologistByUserIdService $getPsychologistByUserIdService,
+        GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
+        UpdatePsychologistService $updatePsychologistService,
+        GetPsychologistDocumentService $getPsychologistDocumentService)
     {
         $this->getAllSpecialtiesService = $getAllSpecialtiesService;
         $this->getSpecialtiesByPsychologistIdService = $getSpecialtiesByPsychologistIdService;
@@ -69,7 +74,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Update Psychologist.
      *
      * @param UpdatePsychologistRequest $request
      * @param $action
@@ -82,7 +87,7 @@ class ProfileController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
             $data = $request->all();
 
-            $image = $this->updatePsychologistService->execute($psychologist, $data, $action);
+            $image = $this->updatePsychologistService->execute($psychologist->id, $data, $action);
 
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image], 200);
         }catch (\Exception $e){

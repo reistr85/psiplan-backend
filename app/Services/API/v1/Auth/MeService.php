@@ -18,7 +18,7 @@ class MeService extends PsychologistRepository
      */
     public function execute($user)
     {
-        $psychologist = parent::getByUserId($user->id);
+        $psychologist = parent::getPsychologistByUserId($user->id);
 
         if(!$user)
             throw new Exception('Usuário não encontrado', 500);
