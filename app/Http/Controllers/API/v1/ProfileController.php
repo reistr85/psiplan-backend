@@ -42,7 +42,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Get Info Profile
      *
      * @param Request $request
      * @return JsonResponse
