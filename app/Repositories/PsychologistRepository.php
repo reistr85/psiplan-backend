@@ -97,7 +97,10 @@ class PsychologistRepository extends BaseRepository
                 "cities.description as city")
             ->where('user_id', $user_id)
             ->join('cities', 'cities.id',  'psychologists.city_id')
-            ->with(['psychologist_languages.language'])->first();
+            ->with([
+                'psychologist_languages.language',
+                'psychologist_specialties.specialty',
+                'psychologist_target_audiences.target_audience'])->first();
     }
 
     /**

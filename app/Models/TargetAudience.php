@@ -15,4 +15,10 @@ class TargetAudience extends Model
         parent::boot();
         static::addGlobalScope(new ActiveScope());
     }
+
+    public function psychologists()
+    {
+        return $this->belongsToMany('App\Models\Psychologist', 'psychologist_target_audiences',
+            'audience_id', 'psychologist_id');
+    }
 }

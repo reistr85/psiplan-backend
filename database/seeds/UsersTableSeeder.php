@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Administrador',
                 'email' => 'admin@psiplan.com.br',
                 'cpf' => '02664093347',
-                'password' => bcrypt('re851120'),
+                'password' => bcrypt('12345678'),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Psicólogo de Teste',
                 'email' => 'psiteste@gmail.com',
                 'cpf' => '39793947004',
-                'password' => bcrypt('123456'),
+                'password' => bcrypt('12345678'),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp

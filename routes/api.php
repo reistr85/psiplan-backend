@@ -20,6 +20,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * */
     Route::get('listpsychologist', 'ListPsychologist@index');
     Route::get('getfilters', 'ListPsychologist@getFilters');
+    Route::post('get-psychologist/{id}', 'ListPsychologist@show');
 
     /*
      * CityController
