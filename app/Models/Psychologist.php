@@ -22,20 +22,8 @@ class Psychologist extends Model
         static::addGlobalScope(new ActiveScope());
     }
 
-    public function psychologist_languages(){
-        return $this->hasMany(PsychologistLanguage::class);
-    }
-
-    public function psychologist_specialties(){
-        return $this->hasMany(PsychologistSpecialty::class);
-    }
-
-    public function psychologist_genres(){
+    public function psychologistGenres(){
         return $this->hasMany(PsychologistGenre::class);
-    }
-
-    public function psychologist_target_audiences(){
-        return $this->hasMany(PsychologistTargetAudience::class);
     }
 
     public function city()
@@ -43,13 +31,19 @@ class Psychologist extends Model
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function type_services()
+    public function specialties()
+    {
+        return $this->belongsToMany('App\Models\Specialty','psychologist_specialties',
+            'psychologist_id', 'specialty_id')->whereNull('psychologist_specialties.deleted_at');
+    }
+
+    public function typeServices()
     {
         return $this->belongsToMany('App\Models\TypeService','psychologist_type_services',
             'psychologist_id', 'type_service_id')->whereNull('psychologist_type_services.deleted_at');
     }
 
-    public function target_audiences()
+    public function targetAudiences()
     {
         return $this->belongsToMany('App\Models\TargetAudience','psychologist_target_audiences',
             'psychologist_id', 'target_audience_id')->whereNull('psychologist_target_audiences.deleted_at');
@@ -58,6 +52,11 @@ class Psychologist extends Model
     public function languages()
     {
         return $this->belongsToMany('App\Models\Language','psychologist_languages',
-            'psychologist_id', 'language_id');
+            'psychologist_id', 'language_id')->whereNull('psychologist_languages.deleted_at');
+    }
+
+    public function academicFormations()
+    {
+        return $this->hasMany(PsychologistAcademicFormation::class);
     }
 }

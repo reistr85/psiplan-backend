@@ -8,10 +8,4 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Specialty extends Model
 {
     use SoftDeletes;
-
-    public function psychologists()
-    {
-        return $this->belongsToMany('App\Models\Psychologist', 'psychologist_specialties',
-            'specialty_id', 'psychologist_id');
-    }
 }
