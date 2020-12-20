@@ -7,7 +7,7 @@ use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\ListPsychologistService;
 use Illuminate\Http\Request;
 
-class ListPsychologist extends Controller
+class ListPsychologistController extends Controller
 {
     private $listPsychologistService;
     private $getPsychologistByUserIdService;

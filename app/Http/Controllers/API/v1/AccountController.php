@@ -78,7 +78,7 @@ class AccountController extends Controller
                 $data['cpf_holder_account'] = onlyNumber($data['cpf_holder_account']);
             }
 
-            $this->updatePsychologistService->execute($psychologist, $data);
+            $this->updatePsychologistService->execute($psychologist->id, $data);
 
 
             return response()->json(['status' => true, 'message' => 'Dados cadastrados com sucesso.'], 200);

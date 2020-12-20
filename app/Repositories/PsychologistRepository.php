@@ -101,7 +101,10 @@ class PsychologistRepository extends BaseRepository
                 'languages',
                 'specialties',
                 'targetAudiences',
-                'academicFormations'])->first();
+                'academicFormations',
+                'serviceAddress',
+                'typeServices',
+            ])->first();
     }
 
     /**

@@ -59,4 +59,9 @@ class Psychologist extends Model
     {
         return $this->hasMany(PsychologistAcademicFormation::class);
     }
+
+    public function serviceAddress()
+    {
+        return $this->hasOne(PsychologistServiceAddress::class);
+    }
 }
