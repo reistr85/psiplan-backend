@@ -29,4 +29,9 @@ class PsychologistServiceAddressRepository extends BaseRepository
     {
         return parent::save($this->model, $data);
     }
+
+    public function destroy(PsychologistServiceAddress $psychologistServiceAddress)
+    {
+        return parent::delete($psychologistServiceAddress);
+    }
 }

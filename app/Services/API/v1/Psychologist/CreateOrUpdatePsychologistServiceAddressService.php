@@ -8,19 +8,25 @@ use App\Repositories\PsychologistServiceAddressRepository;
 
 class CreateOrUpdatePsychologistServiceAddressService extends PsychologistServiceAddressRepository
 {
-    public function execute(int $psychologist_id, array $data)
+    public function execute(int $psychologist_id, array $address, array $type_services)
     {
-        $data['psychologist_id'] = $psychologist_id;
-
-        $data = array_map(function($item){
-            return $item === null ? '' : $item;
-        }, $data);
-
+        $address['psychologist_id'] = $psychologist_id;
         $psychologistServiceAddress = parent::getPsychologistServiceAddressByPsychologistId($psychologist_id);
 
-        if($psychologistServiceAddress)
-            return parent::update($psychologistServiceAddress, $data);
+        if(array_search(1, array_column($type_services, 'type_service_id')) === false && array_search(2, array_column($type_services, 'type_service_id')) !== false){
+            if($psychologistServiceAddress)
+                parent::destroy($psychologistServiceAddress);
 
-        return parent::store($data);
+            return true;
+        }
+
+        $address = array_map(function ($item) {
+            return $item === null ? '' : $item;
+        }, $address);
+
+        if ($psychologistServiceAddress)
+            return parent::update($psychologistServiceAddress, $address);
+
+        return parent::store($address);
     }
 }

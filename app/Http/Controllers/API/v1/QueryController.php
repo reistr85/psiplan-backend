@@ -85,10 +85,9 @@ class QueryController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
             $data = $request->all();
             $dataUpdatePsychologist = ['consultation_value' => $data['consultation_value'], 'accessibility' => $data['accessibility']];
-
             $this->createPsychologistTypeServiceService->execute($psychologist->id, $data['type_services']);
             $this->createPsychologistTargetAudienceService->execute($psychologist->id, $data['target_audiences']);
-            $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['address']);
+            $this->createOrUpdatePsychologistServiceAddressService->execute($psychologist->id, $data['address'], $data['type_services']);
             $this->updatePsychologistService->execute($psychologist->id, $dataUpdatePsychologist);
 
             DB::commit();

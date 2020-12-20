@@ -3,13 +3,9 @@
 
 namespace App\Services\API\v1\Psychologist;
 
-
-use App\Models\Psychologist;
 use App\Repositories\PsychologistRepository;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 
 class UpdatePsychologistService extends PsychologistRepository
