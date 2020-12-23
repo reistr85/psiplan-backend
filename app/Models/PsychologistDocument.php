@@ -9,5 +9,6 @@ class PsychologistDocument extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['psychologist_id', 'crp', 'address', 'certificate_crp', 'epsi', 'is_active'];
+    protected $fillable = ['psychologist_id', 'crp', 'status_crp', 'address', 'status_address', 'certificate_crp',
+        'status_certificate_crp', 'epsi', 'status_epsi', 'is_active'];
 }

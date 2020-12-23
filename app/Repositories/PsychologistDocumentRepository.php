@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Models\PsychologistDocument;
 
-class PsychologistDocumentRepository
+class PsychologistDocumentRepository extends BaseRepository
 {
     private $model;
 
@@ -28,5 +28,10 @@ class PsychologistDocumentRepository
     public function destroy(PsychologistDocument $psychologistDocument)
     {
         return $psychologistDocument->delete();
+    }
+
+    public function edit(PsychologistDocument $psychologistDocument, $data)
+    {
+        parent::update($psychologistDocument, $data);
     }
 }

@@ -66,7 +66,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     /*
      * PsychologistDocumentController
      * */
-    Route::post('account/documents/{action?}', 'PsychologistDocumentController@store');
+    Route::post('account/documents', 'PsychologistDocumentController@store');
 
     /*
      * AccountController

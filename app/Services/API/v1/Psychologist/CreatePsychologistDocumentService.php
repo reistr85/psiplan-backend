@@ -12,12 +12,7 @@ class CreatePsychologistDocumentService extends PsychologistDocumentRepository
     public function execute($psychologist_id, $files)
     {
         $data['psychologist_id'] = $psychologist_id;
-        $psychologist_document = parent::getByPsychologistId($psychologist_id);
-
-        Storage::deleteDirectory($psychologist_id."/documents/");
-
-        if($psychologist_document->first())
-            parent::destroy($psychologist_document->first());
+        $psychologist_document = parent::getByPsychologistId($psychologist_id)->first();
 
         foreach($files as $key => $file){
             if($file) {
@@ -25,10 +20,14 @@ class CreatePsychologistDocumentService extends PsychologistDocumentRepository
                 $extension = $file->extension();
                 $nameFile = "{$name}.{$extension}";
                 $data[$key] = $nameFile;
+                $data["status_{$key}"] = 1;
 
                 $file->storeAs($psychologist_id . "/documents/", $nameFile);
             }
         }
+
+        if($psychologist_document->first())
+            return parent::update($psychologist_document, $data);
 
         return parent::store($data);
     }
