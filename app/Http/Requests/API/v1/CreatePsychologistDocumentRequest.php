@@ -21,10 +21,15 @@ class CreatePsychologistDocumentRequest extends APIFormRequest
      */
     public function rules()
     {
-        return [
-            'crp' => 'required|file|mimes:pdf',
-            'address' => 'required|file|mimes:pdf',
-            'epsi' => 'required|file|mimes:pdf',
-        ];
+        if($this['crp'])
+            return ['crp' => 'required|file|mimes:pdf'];
+
+        if($this['address'])
+            return ['address' => 'required|file|mimes:pdf'];
+
+        if($this['epsi'])
+            return ['epsi' => 'required|file|mimes:pdf'];
+
+        return [];
     }
 }
