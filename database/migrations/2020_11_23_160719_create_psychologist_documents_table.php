@@ -21,7 +21,7 @@ class CreatePsychologistDocumentsTable extends Migration
             $table->string('address')->nullable();
             $table->integer('status_address')->nullable();
             $table->string('certificate_crp')->nullable();
-            $table->integer('status_certificate')->nullable();
+            $table->integer('status_certificate_crp')->nullable();
             $table->string('epsi')->nullable();
             $table->integer('status_epsi')->nullable();
             $table->integer('is_active');

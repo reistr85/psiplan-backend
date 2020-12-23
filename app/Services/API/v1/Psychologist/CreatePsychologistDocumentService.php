@@ -22,7 +22,7 @@ class CreatePsychologistDocumentService extends PsychologistDocumentRepository
                 $data[$key] = $nameFile;
                 $data["status_{$key}"] = 1;
 
-                $file->storeAs($psychologist_id . "/documents/", $nameFile);
+                $file->storeAs("/documents/{$psychologist_id}/", $nameFile);
             }
         }
 
