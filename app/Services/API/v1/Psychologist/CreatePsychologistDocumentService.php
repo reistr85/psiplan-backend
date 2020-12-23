@@ -26,7 +26,7 @@ class CreatePsychologistDocumentService extends PsychologistDocumentRepository
             }
         }
 
-        if($psychologist_document->first())
+        if($psychologist_document)
             return parent::update($psychologist_document, $data);
 
         return parent::store($data);
