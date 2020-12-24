@@ -16,7 +16,7 @@ class CreateQueriesTable extends Migration
         Schema::create('queries', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
-            $table->integer('patient_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->integer('psychologist_availability_calendar_id')->unsigned();
             $table->dateTime('day_hour');
             $table->integer('available')->nullable();
@@ -31,9 +31,9 @@ class CreateQueriesTable extends Migration
                 ->onDelete('cascade');
 
             $table
-                ->foreign('patient_id')
+                ->foreign('client_id')
                 ->references('id')
-                ->on('patients')
+                ->on('clients')
                 ->onDelete('cascade');
 
             $table

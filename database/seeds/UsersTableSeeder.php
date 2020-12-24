@@ -34,6 +34,16 @@ class UsersTableSeeder extends Seeder
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
+            ],
+            [
+                'type_user_id' => 3,
+                'name' => 'Cliente de Teste 1',
+                'email' => 'cliente1@gmail.com',
+                'cpf' => '39793947004',
+                'password' => bcrypt('12345678'),
+                'is_active' => 1,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
             ]
         ];
 
