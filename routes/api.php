@@ -96,5 +96,6 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     /*
      * PsychologistAvailabilityCalendarController
      * */
+    Route::get('availability', 'PsychologistAvailabilityCalendarController@index');
     Route::post('availability', 'PsychologistAvailabilityCalendarController@store');
 });

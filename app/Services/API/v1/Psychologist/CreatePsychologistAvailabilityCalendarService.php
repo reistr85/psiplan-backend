@@ -4,12 +4,23 @@
 namespace App\Services\API\v1\Psychologist;
 
 
+use App\Models\PsychologistAvailabilityCalendar;
 use App\Repositories\PsychologistAvailabilityCalendarRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabilityCalendarRepository
 {
+    private $getPsychologistAvailabilityCalendarByPsychologistIdService;
+
+    public function __construct(
+        PsychologistAvailabilityCalendar $model,
+        GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistIdService)
+    {
+        parent::__construct($model);
+
+        $this->getPsychologistAvailabilityCalendarByPsychologistIdService = $getPsychologistAvailabilityCalendarByPsychologistIdService;
+    }
 
     /**
      * Execute
@@ -22,13 +33,18 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         DB::beginTransaction();
         try {
             $list_dates = $this->getListDates($data);
+            $schedules = $this->getPsychologistAvailabilityCalendarByPsychologistIdService->execute($psychologist_id)
+                            ->pluck('day_hour')
+                            ->toArray();
 
             foreach ($list_dates as $key => $value) {
-                parent::store([
-                    'psychologist_id' => $psychologist_id,
-                    'day_hour' => $value['date'],
-                    'is_active' => 1,
-                ]);
+                if(array_search($value['date'], $schedules) === false)
+                    parent::store([
+                        'psychologist_id' => $psychologist_id,
+                        'type_service_id' => $data['type_service_id'],
+                        'day_hour' => $value['date'],
+                        'is_active' => 1,
+                    ]);
             }
 
             DB::commit();
@@ -67,14 +83,18 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         }
 
         foreach($data['items'] as $key => $value){
-            for($i=0; $i<count($day); $i++){
-                if($day[$i]['weekday'] === $value['day_week_name']){
-                    $year = $day[$i]['year'];
-                    $mon = $this->strPadLeft($day[$i]['mon'], '2', '0');
-                    $mday = $this->strPadLeft($day[$i]['mday'], '2', '0');
+            for($j=0; $j<count($day); $j++){
+                if($day[$j]['weekday'] === $value['day_week_name']){
+                    $year = $day[$j]['year'];
+                    $mon = $this->strPadLeft($day[$j]['mon'], '2', '0');
+                    $mday = $this->strPadLeft($day[$j]['mday'], '2', '0');
 
-                    $date = "{$year}-{$mon}-{$mday}";
-                    array_push($day_time_available, ['date' => "{$date} {$value['hour']}"]);
+                    $date = "{$year}-{$mon}-{$mday} {$value['hour']}";
+                    $current_hour = date("H:i:s");
+                    $current_date_time = "{$today} {$current_hour}";
+
+                    if(getdate(strtotime($date))[0] > getdate(strtotime($current_date_time))[0])
+                        array_push($day_time_available, ['date' => $date]);
                 }
             }
         }
@@ -82,7 +102,14 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         return $day_time_available;
     }
 
-    private function strPadLeft(string $input, string $pad_length, string $pad_string)
+    /**
+     * Str Pad Left
+     * @param string $input
+     * @param string $pad_length
+     * @param string $pad_string
+     * @return string
+     */
+    private function strPadLeft(string $input, string $pad_length, string $pad_string): string
     {
         return str_pad($input, $pad_length, $pad_string, STR_PAD_LEFT);
     }

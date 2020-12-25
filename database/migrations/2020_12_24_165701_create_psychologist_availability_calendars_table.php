@@ -16,6 +16,7 @@ class CreatePsychologistAvailabilityCalendarsTable extends Migration
         Schema::create('psychologist_availability_calendars', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
+            $table->integer('type_service_id')->unsigned();
             $table->dateTime('day_hour');
             $table->integer('available')->nullable();
             $table->integer('is_active');
@@ -26,6 +27,12 @@ class CreatePsychologistAvailabilityCalendarsTable extends Migration
                 ->foreign('psychologist_id')
                 ->references('id')
                 ->on('psychologists')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('type_service_id')
+                ->references('id')
+                ->on('type_services')
                 ->onDelete('cascade');
         });
     }
