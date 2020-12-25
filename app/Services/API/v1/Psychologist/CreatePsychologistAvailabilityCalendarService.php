@@ -5,11 +5,18 @@ namespace App\Services\API\v1\Psychologist;
 
 
 use App\Repositories\PsychologistAvailabilityCalendarRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
 
 class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabilityCalendarRepository
 {
+
+    /**
+     * Execute
+     * @param int $psychologist_id
+     * @param array $data
+     * @throws Exception
+     */
     public function execute(int $psychologist_id, array $data): void
     {
         DB::beginTransaction();
@@ -25,18 +32,35 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
             }
 
             DB::commit();
-        }catch (\Exception $e){
+        }catch (Exception $e){
             DB::rollBack();
-            throw new \Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    private function getListDates(array $data)
+    /**
+     * Get List Dates
+     * @param array $data
+     * @return array $day_time_available
+     */
+    private function getListDates(array $data): array
     {
         $day_time_available = [];
         $today = date("Y-m-d");
-        $qtd_day = 7*$data['week_repeat_id'];
+        $qtd_day = 0;
         $day = [];
+
+        if($data['week'])
+            $qtd_day = 7*$data['week_repeat_id'];
+
+        if($data['month']) {
+            $year = date('Y');
+            $month = $this->strPadLeft($data['months_selected'][count($data['months_selected'])-1]['id'], '2', '0');
+            $m_day = $this->strPadLeft(cal_days_in_month(CAL_GREGORIAN, $month, $year), '2', '0');
+
+            $last_date = "{$year}-{$month}-{$m_day}";
+            $qtd_day = getdate(strtotime($last_date))['yday']-getdate(strtotime("{$today}"))['yday'];
+        }
 
         for($i=0; $i<$qtd_day; $i++){
             array_push($day, getdate(strtotime("{$today} +{$i} day")));
@@ -46,8 +70,8 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
             for($i=0; $i<count($day); $i++){
                 if($day[$i]['weekday'] === $value['day_week_name']){
                     $year = $day[$i]['year'];
-                    $mon = str_pad($day[$i]['mon'], 2, "0", STR_PAD_LEFT);
-                    $mday = str_pad($day[$i]['mday'], 2, "0", STR_PAD_LEFT);
+                    $mon = $this->strPadLeft($day[$i]['mon'], '2', '0');
+                    $mday = $this->strPadLeft($day[$i]['mday'], '2', '0');
 
                     $date = "{$year}-{$mon}-{$mday}";
                     array_push($day_time_available, ['date' => "{$date} {$value['hour']}"]);
@@ -56,5 +80,10 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         }
 
         return $day_time_available;
+    }
+
+    private function strPadLeft(string $input, string $pad_length, string $pad_string)
+    {
+        return str_pad($input, $pad_length, $pad_string, STR_PAD_LEFT);
     }
 }
