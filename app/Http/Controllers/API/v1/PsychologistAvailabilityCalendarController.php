@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\Psychologist\CreatePsychologistAvailabilityCalendarService;
+use App\Services\API\v1\Psychologist\DestroyAllPsychologistAvailabilityCalendarService;
 use App\Services\API\v1\Psychologist\DestroyPsychologistAvailabilityCalendarService;
 use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
@@ -17,19 +18,22 @@ class PsychologistAvailabilityCalendarController extends Controller
     private $getPsychologistAvailabilityCalendarByPsychologistIdService;
     private $getServiceHoursByDateByPsychologistIdService;
     private $destroyPsychologistAvailabilityCalendarService;
+    private $destroyAllPsychologistAvailabilityCalendarService;
 
     public function __construct(
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
         CreatePsychologistAvailabilityCalendarService $createPsychologistAvailabilityCalendarService,
         GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistIdService,
         GetServiceHoursByDateByPsychologistIdService $getServiceHoursByDateByPsychologistIdService,
-        DestroyPsychologistAvailabilityCalendarService $destroyPsychologistAvailabilityCalendarService)
+        DestroyPsychologistAvailabilityCalendarService $destroyPsychologistAvailabilityCalendarService,
+        DestroyAllPsychologistAvailabilityCalendarService $destroyAllPsychologistAvailabilityCalendarService)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->createPsychologistAvailabilityCalendarService = $createPsychologistAvailabilityCalendarService;
         $this->getPsychologistAvailabilityCalendarByPsychologistIdService = $getPsychologistAvailabilityCalendarByPsychologistIdService;
         $this->getServiceHoursByDateByPsychologistIdService = $getServiceHoursByDateByPsychologistIdService;
         $this->destroyPsychologistAvailabilityCalendarService = $destroyPsychologistAvailabilityCalendarService;
+        $this->destroyAllPsychologistAvailabilityCalendarService = $destroyAllPsychologistAvailabilityCalendarService;
     }
 
     public function index(Request $request)
@@ -67,6 +71,20 @@ class PsychologistAvailabilityCalendarController extends Controller
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
 
             $this->destroyPsychologistAvailabilityCalendarService->execute($psychologist->id, $id);
+
+            return response()->json(['status' => true, 'message' => 'Registros deletedo com sucesso!'], 200);
+        }catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function destroyAll(Request $request)
+    {
+        try{
+            $user = auth()->user();
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+
+            $this->destroyAllPsychologistAvailabilityCalendarService->execute($psychologist);
 
             return response()->json(['status' => true, 'message' => 'Registros deletedo com sucesso!'], 200);
         }catch (\Exception $e) {

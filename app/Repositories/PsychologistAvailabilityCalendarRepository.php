@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Models\Psychologist;
 use App\Models\PsychologistAvailabilityCalendar;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -70,5 +71,17 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
     public function destroy(PsychologistAvailabilityCalendar $psychologist_availability_calendar): bool
     {
         return parent::delete($psychologist_availability_calendar);
+    }
+
+    /**
+     * Destroy ALl
+     *
+     * @param Psychologist $psychologist
+     * @return boolean
+     * @throws Exception
+     */
+    public function destroyAll(Psychologist $psychologist): bool
+    {
+        return $psychologist->availabilityCalendars()->whereNull('available')->delete();
     }
 }

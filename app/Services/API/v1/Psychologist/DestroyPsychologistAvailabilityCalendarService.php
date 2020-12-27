@@ -3,8 +3,6 @@
 
 namespace App\Services\API\v1\Psychologist;
 
-
-use App\Models\PsychologistAvailabilityCalendar;
 use App\Repositories\PsychologistAvailabilityCalendarRepository;
 use Exception;
 

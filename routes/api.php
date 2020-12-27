@@ -100,4 +100,5 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('availability', 'PsychologistAvailabilityCalendarController@store');
     Route::delete('availability/{id}', 'PsychologistAvailabilityCalendarController@destroy');
     Route::post('get-service-hours', 'PsychologistAvailabilityCalendarController@getServiceHours');
+    Route::post('delete-all-hours', 'PsychologistAvailabilityCalendarController@destroyAll');
 });
