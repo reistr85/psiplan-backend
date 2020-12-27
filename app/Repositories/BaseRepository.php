@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
@@ -47,7 +48,7 @@ class BaseRepository
      *
      * @param Model $model
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(Model $model): bool
     {
