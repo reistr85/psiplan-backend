@@ -15,7 +15,7 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
 
     public function __construct(
         PsychologistAvailabilityCalendar $model,
-        GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistIdService)
+        GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService $getPsychologistAvailabilityCalendarByPsychologistIdService)
     {
         parent::__construct($model);
 

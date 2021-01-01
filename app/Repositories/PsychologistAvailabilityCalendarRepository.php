@@ -47,6 +47,18 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
     }
 
     /**
+     * Get Psychologist Availability Calendar By Psychologist Id By TypeService Id
+     *
+     * @param int $psychologist_id
+     * @param int $type_service_id
+     * @return Builder
+     */
+    public function getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceId(int $psychologist_id, int $type_service_id): Builder
+    {
+        return $this->model::where('psychologist_id', $psychologist_id)->where('type_service_id', $type_service_id);
+    }
+
+    /**
      * Get Psychologist Availability Calendar By Date By Psychologist Id
      *
      * @param int $psychologist_id

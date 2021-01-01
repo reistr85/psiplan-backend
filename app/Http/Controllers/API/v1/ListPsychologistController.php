@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdService;
+use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetServiceHoursByDateByPsychologistIdService;
 use App\Services\API\v1\Psychologist\ListPsychologistService;
@@ -13,18 +13,18 @@ class ListPsychologistController extends Controller
 {
     private $listPsychologistService;
     private $getPsychologistByUserIdService;
-    private $getPsychologistAvailabilityCalendarByPsychologistIdService;
+    private $getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService;
     private $getServiceHoursByDateByPsychologistIdService;
 
     public function __construct(
         ListPsychologistService $listPsychologistService,
-        GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistIdService,
+        GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService $getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService,
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
         GetServiceHoursByDateByPsychologistIdService $getServiceHoursByDateByPsychologistIdService)
     {
         $this->listPsychologistService = $listPsychologistService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
-        $this->getPsychologistAvailabilityCalendarByPsychologistIdService = $getPsychologistAvailabilityCalendarByPsychologistIdService;
+        $this->getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService = $getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService;
         $this->getServiceHoursByDateByPsychologistIdService = $getServiceHoursByDateByPsychologistIdService;
     }
 
@@ -67,10 +67,11 @@ class ListPsychologistController extends Controller
         }
     }
 
-    public function getPsychologistAvailability($id)
+    public function getPsychologistAvailabilityByTypeServiceId($psychologist_id, $type_service_id)
     {
         try{
-            $appointments_available = $this->getPsychologistAvailabilityCalendarByPsychologistIdService->execute($id);
+            $appointments_available = $this->getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService
+                ->execute($psychologist_id, $type_service_id);
 
             return response()->json([
                 'status' => true,

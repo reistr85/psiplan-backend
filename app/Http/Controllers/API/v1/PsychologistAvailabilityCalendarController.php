@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\API\v1\Psychologist\CreatePsychologistAvailabilityCalendarService;
 use App\Services\API\v1\Psychologist\DestroyAllPsychologistAvailabilityCalendarService;
 use App\Services\API\v1\Psychologist\DestroyPsychologistAvailabilityCalendarService;
+use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetServiceHoursByDateByPsychologistIdService;
