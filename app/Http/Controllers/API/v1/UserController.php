@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreUserRequest;
 use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
+use App\Services\API\v1\Client\CreateClientService;
 use App\Services\API\v1\Psychologist\CreatePsychologist;
 use App\Services\API\v1\User\StoreUserService;
 use App\Services\API\v1\User\UpdateUserService;
@@ -19,12 +20,18 @@ class UserController extends Controller
     private $storeUserService;
     private $updateUserService;
     private $createPsychologist;
+    private $createClientService;
 
-    public function __construct(StoreUserService $storeUserService, CreatePsychologist $createPsychologist, UpdateUserService $updateUserService)
+    public function __construct(
+        StoreUserService $storeUserService,
+        CreatePsychologist $createPsychologist,
+        UpdateUserService $updateUserService,
+        CreateClientService $createClientService)
     {
         $this->storeUserService = $storeUserService;
         $this->createPsychologist = $createPsychologist;
         $this->updateUserService = $updateUserService;
+        $this->createClientService = $createClientService;
     }
 
     /**
@@ -64,6 +71,18 @@ class UserController extends Controller
                 ];
 
                 $this->createPsychologist->execute($data_psychologist);
+            }
+
+            if($user->type_user_id == 3) {
+                $data_client = [
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => onlyNumber($request->input('phone')),
+                    'country' => 'Brasil',
+                ];
+
+                $this->createClientService->execute($data_client);
             }
 
             DB::commit();

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateAuthRequest;
 use App\Services\API\v1\Auth\CreateAuthService;
 use App\Services\API\v1\Auth\MeService;
+use App\Services\API\v1\Psychologist\GetClientByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
 use Comtele\Services\TextMessageService;
@@ -17,15 +18,21 @@ class AuthController extends Controller
     private $createAuthService;
     private $getUserByEmailOrCPFService;
     private $getPsychologistByUserIdService;
+    private $getClientByUserIdService;
     private $meService;
 
-    public function __construct(CreateAuthService $createAuthService, GetUserByEmailOrCPFService $getUserByEmailOrCPFService,
-                                GetPsychologistByUserIdService $getPsychologistByUserIdService, MeService $meService)
+    public function __construct(
+        CreateAuthService $createAuthService,
+        GetUserByEmailOrCPFService $getUserByEmailOrCPFService,
+        GetPsychologistByUserIdService $getPsychologistByUserIdService,
+        MeService $meService,
+        GetClientByUserIdService $getClientByUserIdService)
     {
         $this->createAuthService = $createAuthService;
         $this->getUserByEmailOrCPFService = $getUserByEmailOrCPFService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->meService = $meService;
+        $this->getClientByUserIdService = $getClientByUserIdService;
     }
 
     /**
@@ -41,13 +48,26 @@ class AuthController extends Controller
 
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
 
-            $userData['id'] = encode($user->id);
-            $userData['name'] = $user->name;
-            $userData['email'] = $user->email;
-            $userData['plan_id'] = encode($psychologist->plan_id);
-            $userData['psychologist_id'] = encode($psychologist->id);
+
+            if($user->type_user_id === 2) {
+                $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+                $userData['id'] = encode($user->id);
+                $userData['type_user_id'] = encode($user->id);
+                $userData['name'] = $user->name;
+                $userData['email'] = $user->email;
+                $userData['plan_id'] = encode($psychologist->plan_id);
+                $userData['psychologist_id'] = encode($psychologist->id);
+            }
+
+            if($user->type_user_id === 3) {
+                $client = $this->getClientByUserIdService->execute($user->id);
+                $userData['id'] = encode($user->id);
+                $userData['type_user_id'] = encode($user->id);
+                $userData['name'] = $user->name;
+                $userData['email'] = $user->email;
+                $userData['client_id'] = encode($client->id);
+            }
 
             return response()->json(['status' => true, 'message' => 'Successfully',  'access_token' => $auth['access_token'], 'user' => $userData], 200);
         }catch(\Exception $e){
@@ -63,8 +83,33 @@ class AuthController extends Controller
     public function me()
     {
         try{
-            $user = $this->meService->execute(auth()->user());
-            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $user], 200);
+            $user = auth()->user();
+            $psychologist = null;
+            $client = null;
+            $data_user = [];
+
+            if($user->type_user_id === 2){
+                $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+
+                $data_user = [
+                    'id' => encode($user->id),
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'plan_id' => encode($psychologist->plan_id),
+                    'psychologist_id' => encode($psychologist->id),
+                ];
+            }else if($user->type_user_id === 3){
+                $client = $this->getClientByUserIdService->execute($user->id);
+
+                $data_user = [
+                    'id' => encode($user->id),
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'client_id' => encode($client->id),
+                ];
+            }
+
+            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $data_user], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }

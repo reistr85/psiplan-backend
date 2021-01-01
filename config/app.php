@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -186,6 +186,7 @@ return [
         App\Providers\API\v1\PsychologistTypeServiceServiceProvider::class,
         App\Providers\API\v1\PsychologistTargetAudienceServiceProvider::class,
         App\Providers\API\v1\PsychologistServiceAddressServiceProvider::class,
+        App\Providers\API\v1\ClientServiceProvider::class,
     ],
 
     /*
