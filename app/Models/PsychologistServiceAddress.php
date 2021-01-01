@@ -9,5 +9,6 @@ class PsychologistServiceAddress extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['psychologist_id', 'zip_code', 'state', 'city', 'neighborhood', 'street', 'number', 'complement', 'reference', 'is_active'];
+    protected $fillable = ['psychologist_id', 'zip_code', 'state', 'city', 'neighborhood', 'street', 'number',
+        'complement', 'reference', 'maps', 'is_active'];
 }

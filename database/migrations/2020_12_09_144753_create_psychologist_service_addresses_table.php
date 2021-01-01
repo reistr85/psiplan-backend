@@ -24,6 +24,7 @@ class CreatePsychologistServiceAddressesTable extends Migration
             $table->string('number')->nullable();
             $table->string('complement')->nullable();
             $table->string('reference')->nullable();
+            $table->text('maps')->nullable();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

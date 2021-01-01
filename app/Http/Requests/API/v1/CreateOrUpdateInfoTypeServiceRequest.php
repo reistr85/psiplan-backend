@@ -36,6 +36,9 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
                 'address.city' => 'required',
                 'address.neighborhood' => 'required',
                 'address.street' => 'required',
+                'address.maps' => function ($att, $value, $fail) {
+
+                },
                 'target_audiences' => 'required',
                 'consultation_value' => function ($att, $value, $fail) {
                     if ($value <= 0) {
