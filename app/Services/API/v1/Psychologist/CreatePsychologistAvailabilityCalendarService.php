@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabilityCalendarRepository
 {
-    private $getPsychologistAvailabilityCalendarByPsychologistIdService;
+    private $getPsychologistAvailabilityCalendarByPsychologistService;
 
     public function __construct(
         PsychologistAvailabilityCalendar $model,
-        GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService $getPsychologistAvailabilityCalendarByPsychologistIdService)
+        GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistService)
     {
         parent::__construct($model);
 
-        $this->getPsychologistAvailabilityCalendarByPsychologistIdService = $getPsychologistAvailabilityCalendarByPsychologistIdService;
+        $this->getPsychologistAvailabilityCalendarByPsychologistService = $getPsychologistAvailabilityCalendarByPsychologistService;
     }
 
     /**
@@ -33,7 +33,7 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         DB::beginTransaction();
         try {
             $list_dates = $this->getListDates($data);
-            $schedules = $this->getPsychologistAvailabilityCalendarByPsychologistIdService->execute($psychologist_id)
+            $schedules = $this->getPsychologistAvailabilityCalendarByPsychologistService->execute($psychologist_id)
                             ->pluck('day_hour')
                             ->toArray();
 
