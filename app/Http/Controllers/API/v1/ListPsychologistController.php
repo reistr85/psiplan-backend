@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
+use App\Services\API\v1\Psychologist\GetServiceHoursByDateByPsychologistIdService;
 use App\Services\API\v1\Psychologist\ListPsychologistService;
 use Illuminate\Http\Request;
 
@@ -13,21 +14,25 @@ class ListPsychologistController extends Controller
     private $listPsychologistService;
     private $getPsychologistByUserIdService;
     private $getPsychologistAvailabilityCalendarByPsychologistIdService;
+    private $getServiceHoursByDateByPsychologistIdService;
 
     public function __construct(
         ListPsychologistService $listPsychologistService,
         GetPsychologistAvailabilityCalendarByPsychologistIdService $getPsychologistAvailabilityCalendarByPsychologistIdService,
-        GetPsychologistByUserIdService $getPsychologistByUserIdService)
+        GetPsychologistByUserIdService $getPsychologistByUserIdService,
+        GetServiceHoursByDateByPsychologistIdService $getServiceHoursByDateByPsychologistIdService)
     {
         $this->listPsychologistService = $listPsychologistService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getPsychologistAvailabilityCalendarByPsychologistIdService = $getPsychologistAvailabilityCalendarByPsychologistIdService;
+        $this->getServiceHoursByDateByPsychologistIdService = $getServiceHoursByDateByPsychologistIdService;
     }
 
     public function index(Request $request)
     {
         try{
-            $params = $request->only(['text', 'city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id', 'language_id']);
+            $params = $request->only(['text', 'city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id',
+                'language_id']);
             $return = $this->listPsychologistService->index($params);
 
             return response()->json($return, 200);
@@ -74,6 +79,19 @@ class ListPsychologistController extends Controller
             ], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getServiceHours(Request $request)
+    {
+        try{
+            $hours = $this->getServiceHoursByDateByPsychologistIdService->execute(
+                $request->input('psychologist_id'),
+                $request->input('date'));
+
+            return response()->json(['status' => true, 'message' => 'Successfully', 'hours' => $hours], 200);
+        }catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }
     }
 }

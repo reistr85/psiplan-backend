@@ -22,6 +22,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::get('get-filters', 'ListPsychologistController@getFilters');
     Route::post('get-psychologist/{id}', 'ListPsychologistController@show');
     Route::get('get-psychologist-availability/{psychologist_id}', 'ListPsychologistController@getPsychologistAvailability');
+    Route::post('get-psychologist-service-hours', 'ListPsychologistController@getServiceHours');
 
     /*
      * CityController

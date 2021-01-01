@@ -104,6 +104,7 @@ class PsychologistRepository extends BaseRepository
                 'academicFormations',
                 'serviceAddress',
                 'typeServices',
+                'videoPlatforms'
             ])->first();
     }
 

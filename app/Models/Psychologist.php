@@ -56,6 +56,12 @@ class Psychologist extends Model
             'psychologist_id', 'language_id')->whereNull('psychologist_languages.deleted_at');
     }
 
+    public function videoPlatforms()
+    {
+        return $this->belongsToMany('App\Models\VideoPlatform','psychologist_video_platforms',
+            'psychologist_id', 'video_platform_id')->whereNull('psychologist_video_platforms.deleted_at');
+    }
+
     public function academicFormations()
     {
         return $this->hasMany(PsychologistAcademicFormation::class);
