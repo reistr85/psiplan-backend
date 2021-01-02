@@ -48,6 +48,7 @@ class AuthController extends Controller
 
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
+            $userData = [];
 
 
             if($user->type_user_id === 2) {
@@ -93,6 +94,7 @@ class AuthController extends Controller
 
                 $data_user = [
                     'id' => encode($user->id),
+                    'type_user_id' => encode($user->id),
                     'name' => $user->name,
                     'email' => $user->email,
                     'plan_id' => encode($psychologist->plan_id),
@@ -103,6 +105,7 @@ class AuthController extends Controller
 
                 $data_user = [
                     'id' => encode($user->id),
+                    'type_user_id' => encode($user->id),
                     'name' => $user->name,
                     'email' => $user->email,
                     'client_id' => encode($client->id),
