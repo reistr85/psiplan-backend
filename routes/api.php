@@ -16,7 +16,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('forgot-password', 'UserController@forgotPassword');
 
     /*
-     * ListPsychologist
+     * ListPsychologist 
      * */
     Route::get('list-psychologist', 'ListPsychologistController@index');
     Route::get('get-filters', 'ListPsychologistController@getFilters');
