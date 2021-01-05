@@ -1,18 +1,20 @@
 <?php
 
 
-namespace App\Services\API\Payment;
-
+namespace App\Services\API\v1\PaymentQueryClient;
 
 use GuzzleHttp\Client;
 
-class CreatePaymentUniqueQueryPagarmeService
+class CreatePaymentClientUniqueQueryPagarmeService
 {
     public function execute(array $data)
     {
         $client = new Client();
-        $body_request = json_encode($data);
-        $request = $client->post('https://api.pagar.me/1/transactions', [
+
+        $data['api_key'] = env('API_KEY_PAGARME');
+        $url_base = env('URL_BASE_PAGARME');
+
+        $request = $client->post("{$url_base}/transactions", [
             'headers' => [
                 'Accept'     => 'application/json',
             ],

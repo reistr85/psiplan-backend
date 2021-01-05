@@ -107,5 +107,5 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     /*
      * Payment Client
      * */
-    Route::post('payment/client', 'PaymentController@store');
+    Route::post('payment/client', 'PaymentQueryClientController@store');
 });

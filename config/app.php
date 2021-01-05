@@ -187,6 +187,9 @@ return [
         App\Providers\API\v1\PsychologistTargetAudienceServiceProvider::class,
         App\Providers\API\v1\PsychologistServiceAddressServiceProvider::class,
         App\Providers\API\v1\ClientServiceProvider::class,
+        App\Providers\API\v1\PagarmeTransactionServiceProvider::class,
+        App\Providers\API\v1\PagarmeSubscriptionServiceProvider::class,
+        App\Providers\API\v1\PagarmeSubscriptionTransactionServiceProvider::class
     ],
 
     /*
