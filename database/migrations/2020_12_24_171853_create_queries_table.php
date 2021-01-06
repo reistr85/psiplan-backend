@@ -19,7 +19,9 @@ class CreateQueriesTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('psychologist_availability_calendar_id')->unsigned();
             $table->dateTime('day_hour');
-            $table->integer('available')->nullable();
+            $table->integer('evaluation')->nullable();
+            $table->string('status_query')->nullable();
+            $table->string('status_payment')->nullable();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

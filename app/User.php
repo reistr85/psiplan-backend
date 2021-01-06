@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Models\Client;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,5 +61,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Return the client to User
+     *
+     * @return HasOne
+     */
+    public function client(): HasOne
+    {
+        return $this->hasOne(Client::class);
     }
 }

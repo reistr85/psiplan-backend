@@ -104,8 +104,17 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('get-service-hours', 'PsychologistAvailabilityCalendarController@getServiceHours');
     Route::post('delete-all-hours', 'PsychologistAvailabilityCalendarController@destroyAll');
 
-    /*
-     * Payment Client
-     * */
-    Route::post('payment/client', 'PaymentQueryClientController@store');
+
+    Route::group(['prefix' => 'client'], function() {
+
+        /*
+        * Query
+        * */
+        Route::get('queries', 'ClientQueryController@index');
+
+        /*
+        * Payment
+        * */
+        Route::post('payment', 'PaymentQueryClientController@store');
+    });
 });
