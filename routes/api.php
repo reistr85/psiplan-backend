@@ -111,6 +111,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         * Query
         * */
         Route::get('queries', 'ClientQueryController@index');
+        Route::post('queries/{id}', 'ClientQueryController@show');
 
         /*
         * Payment

@@ -23,9 +23,14 @@ class QueryRepository extends BaseRepository
      * @param int $id
      * @return Model
      */
-    public function find(int $id): Model
+    public function find(int $id): ?Model
     {
-        return parent::findById($this->model, $id);
+        $query = parent::findById($this->model, $id);
+
+        if($query)
+            return $query->with('psychologist', 'client')->first();
+
+        return null;
     }
 
     /**

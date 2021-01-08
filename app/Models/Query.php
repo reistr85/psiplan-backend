@@ -16,4 +16,9 @@ class Query extends Model
     {
         return $this->belongsTo(Psychologist::class);
     }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\v1\QueryPaymentClientRequest;
 use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
 use App\Services\API\v1\PaymentQueryClient\CreatePaymentClientUniqueQueryPagarmeService;
 use App\Services\API\v1\Query\UpdateQueryPaymentStatusService;
@@ -39,10 +40,10 @@ class PaymentQueryClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param QueryPaymentClientRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(QueryPaymentClientRequest $request)
     {
         try{
             $user = auth()->user();
