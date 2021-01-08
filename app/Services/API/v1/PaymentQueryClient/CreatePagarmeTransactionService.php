@@ -18,6 +18,6 @@ class CreatePagarmeTransactionService extends PagarmeTransactionRepository
             'amount' => $data_transaction['amount'],
         ];
 
-        return parent::create($data);
+        return parent::create($data_transaction);
     }
 }

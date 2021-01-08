@@ -6,8 +6,9 @@ namespace App\Repositories;
 
 use App\Models\Query;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-class QueryRepository
+class QueryRepository extends BaseRepository
 {
     private $model;
 
@@ -18,6 +19,17 @@ class QueryRepository
 
     /**
      * Find
+     *
+     * @param int $id
+     * @return Model
+     */
+    public function find(int $id): Model
+    {
+        return parent::findById($this->model, $id);
+    }
+
+    /**
+     * getAllQueriesFindByClientId
      *
      * @param int $id
      * @return Collection

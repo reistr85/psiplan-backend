@@ -17,6 +17,7 @@ class CreatePagarmeTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('transaction_id');
+            $table->integer('query_id')->unsigned();
             $table->string('status');
             $table->integer('amount');
             $table->integer('is_active');
@@ -26,6 +27,11 @@ class CreatePagarmeTransactionsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('query_id')
+                ->references('id')
+                ->on('queries')
                 ->onDelete('cascade');
         });
     }

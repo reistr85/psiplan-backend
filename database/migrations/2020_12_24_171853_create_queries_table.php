@@ -21,6 +21,7 @@ class CreateQueriesTable extends Migration
             $table->dateTime('day_hour');
             $table->integer('evaluation')->nullable();
             $table->string('status_query')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->string('status_payment')->nullable();
             $table->integer('is_active');
             $table->softDeletes();

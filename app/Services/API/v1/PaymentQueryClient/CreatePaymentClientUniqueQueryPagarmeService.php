@@ -14,15 +14,16 @@ class CreatePaymentClientUniqueQueryPagarmeService
         $data['api_key'] = env('API_KEY_PAGARME');
         $url_base = env('URL_BASE_PAGARME');
 
-        $request = $client->post("{$url_base}/transactions", [
+        $response = $client->post("{$url_base}/transactions", [
             'headers' => [
                 'Accept'     => 'application/json',
             ],
             'json' => $data,
         ]);
 
-        $response = json_decode($request->getBody()->getContents());
+        if($response->getStatusCode() != 200)
+            throw new \Exception("Ocorre um erro no pagamento!", $response->getStatusCode());
 
-        return $response;
+        return json_decode($response->getBody()->getContents());
     }
 }
