@@ -16,11 +16,13 @@ class PaymentQueryClientController extends Controller
     private $createPaymentClientUniqueQueryPagarmeService;
     private $createPagarmeTransactionService;
     private $updateQueryPaymentStatusService;
+    private $getAllTransactionsPagarmeClientService;
 
     public function __construct(
         CreatePaymentClientUniqueQueryPagarmeService $createPaymentClientUniqueQueryPagarmeService,
         CreatePagarmeTransactionService $createPagarmeTransactionService,
-        UpdateQueryPaymentStatusService $updateQueryPaymentStatusService)
+        UpdateQueryPaymentStatusService $updateQueryPaymentStatusService,
+        GetAllTransactionsPagarmeClientService $getAllTransactionsPagarmeClientService)
     {
         $this->createPaymentClientUniqueQueryPagarmeService = $createPaymentClientUniqueQueryPagarmeService;
         $this->createPagarmeTransactionService = $createPagarmeTransactionService;
@@ -34,7 +36,15 @@ class PaymentQueryClientController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $user = auth()->user();
+            $transactions = $this->getAllTransactionsPagarmeClientService->execute($user->client->id, $data);
+
+
+            return response()->json(['status' => true, 'message' => 'Success', 'transactions' => $transactions], 200);
+        }catch (\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+        }
     }
 
     /**
@@ -49,7 +59,7 @@ class PaymentQueryClientController extends Controller
             $user = auth()->user();
             $data = $request->all();
 
-            $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($data);
+            $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
             $query_id = $response->items[0]->id;
 
             $pagarme_transaction = $this->createPagarmeTransactionService->execute(
@@ -67,7 +77,7 @@ class PaymentQueryClientController extends Controller
                 'status_payment' => $response->status,
             ]);
 
-            return response()->json(['status' => true, 'message' => 'Success', 'pagarme_transaction' => $pagarme_transaction], 200);
+            return response()->json(['status' => true, 'message' => 'Seu pagamento foi efetuado com sucesso.', 'pagarme_transaction' => $pagarme_transaction], 200);
         }catch (\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
         }

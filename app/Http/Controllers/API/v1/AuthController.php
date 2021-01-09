@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateAuthRequest;
 use App\Services\API\v1\Auth\CreateAuthService;
 use App\Services\API\v1\Auth\MeService;
+use App\Services\API\v1\Auth\RefreshAuthService;
 use App\Services\API\v1\Psychologist\GetClientByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
@@ -20,19 +21,22 @@ class AuthController extends Controller
     private $getPsychologistByUserIdService;
     private $getClientByUserIdService;
     private $meService;
+    private $refreshAuthService;
 
     public function __construct(
         CreateAuthService $createAuthService,
         GetUserByEmailOrCPFService $getUserByEmailOrCPFService,
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
         MeService $meService,
-        GetClientByUserIdService $getClientByUserIdService)
+        GetClientByUserIdService $getClientByUserIdService,
+        RefreshAuthService $refreshAuthService)
     {
         $this->createAuthService = $createAuthService;
         $this->getUserByEmailOrCPFService = $getUserByEmailOrCPFService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->meService = $meService;
         $this->getClientByUserIdService = $getClientByUserIdService;
+        $this->refreshAuthService = $refreshAuthService;
     }
 
     /**
@@ -112,7 +116,9 @@ class AuthController extends Controller
                 ];
             }
 
-            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $data_user], 200);
+            $token = '';//auth()->refresh();
+
+            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $data_user, 'access_token' => $token], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }

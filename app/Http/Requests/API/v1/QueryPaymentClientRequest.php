@@ -25,9 +25,17 @@ class QueryPaymentClientRequest extends APIFormRequest
         return [
             'customer.name' => 'required',
             'customer.email' => 'required|email',
-            'customer.documents.0.number' => 'required',
+            'customer.documents.0.number' => function ($att, $value, $fail) {
+                $cpf = onlyNumber($value);
+                if (!checkCPF($cpf))
+                    return $fail("Digite um CPF válido");
+            },
             'customer.phone_numbers' => 'required',
-            'customer.birthday' => 'required|date',
+            'customer.birthday' => function($att, $value, $fail){
+                $d = \DateTime::createFromFormat('d/m/Y', $value);
+                if(!$d || $d->format('d/m/Y') != $value)
+                    return $fail("Digite uma data de nascimento válida.");
+            },
         ];
     }
 }
