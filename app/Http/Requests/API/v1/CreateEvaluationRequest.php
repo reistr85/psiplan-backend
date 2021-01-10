@@ -24,7 +24,6 @@ class CreateEvaluationRequest extends APIFormRequest
     {
         return [
             'star' => 'required',
-            'psychologist_id' => 'required',
             'comment' => 'required|min:10',
         ];
     }

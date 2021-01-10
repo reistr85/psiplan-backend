@@ -204,6 +204,8 @@ return [
         'address.reference' => 'referencia',
         'target_audiences' => 'público alvo',
         'value_query' => 'valor da consulta',
+        'comment' => 'avaliação',
+        'star' => 'estrela',
     ],
 
 ];

@@ -15,12 +15,19 @@ class CreateEvaluationsTable extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('query_id')->unsigned();
             $table->integer('client_id')->unsigned();
             $table->integer('psychologist_id')->unsigned();
             $table->integer('star');
             $table->text('comment');
+            $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('query_id')
+                ->on('queries')
+                ->references('id')
+                ->onDelete('cascade');
 
             $table->foreign('client_id')
                 ->on('clients')
