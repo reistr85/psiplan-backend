@@ -28,6 +28,7 @@ class PaymentQueryClientController extends Controller
         $this->createPaymentClientUniqueQueryPagarmeService = $createPaymentClientUniqueQueryPagarmeService;
         $this->createPagarmeTransactionService = $createPagarmeTransactionService;
         $this->updateQueryPaymentStatusService = $updateQueryPaymentStatusService;
+        $this->getAllTransactionsPagarmeClientService = $getAllTransactionsPagarmeClientService;
     }
 
     /**
@@ -39,7 +40,7 @@ class PaymentQueryClientController extends Controller
     {
         try{
             $user = auth()->user();
-            $transactions = $this->getAllTransactionsPagarmeClientService->execute($user->client->id, $data);
+            $transactions = $this->getAllTransactionsPagarmeClientService->execute($user->client->id);
 
 
             return response()->json(['status' => true, 'message' => 'Success', 'transactions' => $transactions], 200);
