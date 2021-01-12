@@ -7,13 +7,13 @@ namespace App\Services\API\v1\Client;
 use App\Models\Client;
 use App\Repositories\ClientRepository;
 
-class CreateClientBillingService extends ClientRepository
+class UpdateClientProfileService extends ClientRepository
 {
     public function execute(int $client_id, array $data)
     {
         $client = parent::find($client_id);
-        $data['cpf'] = onlyNumber($data['cpf']);
-        $data['cep'] = $data['zip_code'];
+        $data['phone'] = onlyNumber($data['phone']);
+        $data['birthday'] = dateEN($data['birthday']);
 
         $response = parent::edit($client, $data);
 

@@ -27,7 +27,6 @@ class CreateClientsTable extends Migration
             $table->string('neighborhood')->nullable();
             $table->string('street')->nullable();
             $table->string('number')->nullable();
-            $table->string('complement')->nullable();
             $table->string('is_active');
             $table->softDeletes();
             $table->timestamps();

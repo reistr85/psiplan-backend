@@ -128,6 +128,15 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         * Client
         * */
         Route::get('clients/{id}', 'ClientController@show');
-        Route::put('clients', 'ClientController@update');
+
+        /*
+        * ClientProfile
+        * */
+        Route::put('profile', 'ClientProfileController@update');
+
+        /*
+        * ClientBilling
+        * */
+        Route::put('billings', 'ClientBillingController@update');
     });
 });

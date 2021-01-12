@@ -4,29 +4,26 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdateClientBillingRequest;
-use App\Services\API\v1\Client\UpdateClientBillingService;
+use App\Http\Requests\API\v1\UpdateClientProfileRequest;
 use App\Services\API\v1\Client\UpdateClientProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ClientController extends Controller
+class ClientProfileController extends Controller
 {
 
-    private $updateClientBillingService;
-    private $updateClientInfoBasicService;
+    private $updateClientProfileService;
 
     public function __construct(
-        UpdateClientBillingService $updateClientBillingService,
-        UpdateClientProfileService $updateClientInfoBasicService)
+        UpdateClientProfileService $updateClientProfileService)
     {
-        $this->updateClientBillingService = $updateClientBillingService;
-        $this->updateClientInfoBasicService = $updateClientInfoBasicService;
+        $this->updateClientProfileService = $updateClientProfileService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
     public function index()
     {
@@ -52,27 +49,29 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        try{
-            $user = auth()->user();
-            $client = $user->client;
 
-            return response()->json(['status' => true, 'message' => "Success", 'client' => $client], 200);
-
-        }catch(\Exception $ex){
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
-        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
-     * @return void
+     * @param UpdateClientProfileRequest $request
+     * @return Response
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateClientProfileRequest $request)
     {
+        try{
+            $user = auth()->user();
+            $client_id = $user->client->id;
+            $data = $request->all();
 
+            $this->updateClientProfileService->execute($client_id, $data);
+
+            return response()->json(['status' => true, 'message' => "Os dados foram salvo com sucesso."], 200);
+
+        }catch(\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+        }
     }
 
     /**

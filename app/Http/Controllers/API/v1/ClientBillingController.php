@@ -5,22 +5,18 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdateClientBillingRequest;
 use App\Services\API\v1\Client\UpdateClientBillingService;
-use App\Services\API\v1\Client\UpdateClientProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ClientController extends Controller
+class ClientBillingController extends Controller
 {
 
     private $updateClientBillingService;
-    private $updateClientInfoBasicService;
 
     public function __construct(
-        UpdateClientBillingService $updateClientBillingService,
-        UpdateClientProfileService $updateClientInfoBasicService)
+        UpdateClientBillingService $updateClientBillingService)
     {
         $this->updateClientBillingService = $updateClientBillingService;
-        $this->updateClientInfoBasicService = $updateClientInfoBasicService;
     }
 
     /**
@@ -52,11 +48,25 @@ class ClientController extends Controller
      */
     public function show($id)
     {
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateClientBillingRequest $request
+     * @return Response
+     */
+    public function update(UpdateClientBillingRequest $request)
+    {
         try{
             $user = auth()->user();
-            $client = $user->client;
+            $client_id = $user->client->id;
+            $data = $request->all();
 
-            return response()->json(['status' => true, 'message' => "Success", 'client' => $client], 200);
+            $this->updateClientBillingService->execute($client_id, $data);
+
+            return response()->json(['status' => true, 'message' => "Os dados foram salvo com sucesso."], 200);
 
         }catch(\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
@@ -64,22 +74,10 @@ class ClientController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return void
-     */
-    public function update(Request $request, int $id)
-    {
-
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return void
+     * @param  int  $id
+     * @return Response
      */
     public function destroy($id)
     {
