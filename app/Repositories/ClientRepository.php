@@ -29,6 +29,17 @@ class ClientRepository extends BaseRepository
     }
 
     /**
+     * Find
+     *
+     * @param int $id
+     * @return Model
+     */
+    public function find(int $id): Model
+    {
+        return parent::findById($this->model, $id);
+    }
+
+    /**
      * Store
      *
      * @param array $data
@@ -37,5 +48,17 @@ class ClientRepository extends BaseRepository
     public function store(array $data): Model
     {
         return parent::save($this->model, $data);
+    }
+
+    /**
+     * Store
+     *
+     * @param Client $client
+     * @param array $data
+     * @return bool
+     */
+    public function edit(Model $model, array $data): bool
+    {
+        return parent::update($model, $data);
     }
 }

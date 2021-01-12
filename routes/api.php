@@ -123,5 +123,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         * Evaluation
         * */
         Route::post('evaluations', 'EvaluationController@store');
+
+        /*
+        * Client
+        * */
+        Route::get('clients/{id}', 'ClientController@show');
+        Route::put('clients', 'ClientController@update');
     });
 });

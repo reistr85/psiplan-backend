@@ -172,7 +172,7 @@ return [
         'second'    => 'segundo',
         'sex'       => 'sexo',
         'state'     => 'estado',
-        'street'    => 'rua',
+        'street'    => 'endereço',
         'subject'   => 'assunto',
         'text'      => 'texto',
         'time'      => 'hora',
@@ -206,6 +206,7 @@ return [
         'value_query' => 'valor da consulta',
         'comment' => 'avaliação',
         'star' => 'estrela',
+        'zip_code' => 'CEP',
     ],
 
 ];

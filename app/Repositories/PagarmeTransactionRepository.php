@@ -22,8 +22,9 @@ class PagarmeTransactionRepository extends BaseRepository
 
     public function getAllByClientId(int $client_id)
     {
-        return $this->model::select("pagarme_transactions.id", "queries.day_hour", "pagarme_transactions.status",
-            "pagarme_transactions.status", "pagarme_transactions.amount", "pagarme_transactions.transaction_id")
+        return $this->model::select("pagarme_transactions.id", "pagarme_transactions.status",
+            "pagarme_transactions.status as status_payment", "pagarme_transactions.amount",
+            "pagarme_transactions.transaction_id", "queries.day_hour", "queries.id as query_id")
             ->where('client_id', $client_id)
             ->join('queries', 'query_id', 'queries.id')
             ->join('psychologists', 'queries.psychologist_id', 'psychologists.id');
