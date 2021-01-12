@@ -58,7 +58,7 @@ class AuthController extends Controller
             if($user->type_user_id === 2) {
                 $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
                 $userData['id'] = encode($user->id);
-                $userData['type_user_id'] = encode($user->id);
+                $userData['type_user_id'] = encode($user->type_user_id);
                 $userData['name'] = $user->name;
                 $userData['email'] = $user->email;
                 $userData['plan_id'] = encode($psychologist->plan_id);
@@ -68,7 +68,7 @@ class AuthController extends Controller
             if($user->type_user_id === 3) {
                 $client = $this->getClientByUserIdService->execute($user->id);
                 $userData['id'] = encode($user->id);
-                $userData['type_user_id'] = encode($user->id);
+                $userData['type_user_id'] = encode($user->type_user_id);
                 $userData['name'] = $user->name;
                 $userData['email'] = $user->email;
                 $userData['client_id'] = encode($client->id);
@@ -98,7 +98,7 @@ class AuthController extends Controller
 
                 $data_user = [
                     'id' => encode($user->id),
-                    'type_user_id' => encode($user->id),
+                    'type_user_id' => encode($user->type_user_id),
                     'name' => $user->name,
                     'email' => $user->email,
                     'plan_id' => encode($psychologist->plan_id),
@@ -109,7 +109,7 @@ class AuthController extends Controller
 
                 $data_user = [
                     'id' => encode($user->id),
-                    'type_user_id' => encode($user->id),
+                    'type_user_id' => encode($user->type_user_id),
                     'name' => $user->name,
                     'email' => $user->email,
                     'client_id' => encode($client->id),
