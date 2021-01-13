@@ -8,6 +8,8 @@ use App\Models\Psychologist;
 use App\Models\PsychologistAvailabilityCalendar;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class PsychologistAvailabilityCalendarRepository extends BaseRepository
 {
@@ -95,5 +97,20 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
     public function destroyAll(Psychologist $psychologist): bool
     {
         return $psychologist->availabilityCalendars()->whereNull('available')->delete();
+    }
+
+    /**
+     * Destroy ALl
+     *
+     * @param int $psychologist_id
+     * @param string $day_selected
+     * @return Builder
+     */
+    public function getAllHoursDaySelectedByPsychologistId(int $psychologist_id, string $day_selected): Builder
+    {
+        $start_day = "{$day_selected} 00:00:00";
+        $final_day = "{$day_selected} 23:59:59";
+
+        return $this->model::where('psychologist_id', $psychologist_id)->whereBetween('day_hour', [$start_day, $final_day]);
     }
 }

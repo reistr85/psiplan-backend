@@ -52,25 +52,20 @@ class AuthController extends Controller
 
             $auth = $this->createAuthService->execute($credentials);
             $user = $this->getUserByEmailOrCPFService->execute('email', $credentials['email']);
-            $userData = [];
 
+            $userData['id'] = encode($user->id);
+            $userData['type_user_id'] = encode($user->type_user_id);
+            $userData['name'] = $user->name;
+            $userData['email'] = $user->email;
 
             if($user->type_user_id === 2) {
                 $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
-                $userData['id'] = encode($user->id);
-                $userData['type_user_id'] = encode($user->type_user_id);
-                $userData['name'] = $user->name;
-                $userData['email'] = $user->email;
                 $userData['plan_id'] = encode($psychologist->plan_id);
                 $userData['psychologist_id'] = encode($psychologist->id);
             }
 
             if($user->type_user_id === 3) {
                 $client = $this->getClientByUserIdService->execute($user->id);
-                $userData['id'] = encode($user->id);
-                $userData['type_user_id'] = encode($user->type_user_id);
-                $userData['name'] = $user->name;
-                $userData['email'] = $user->email;
                 $userData['client_id'] = encode($client->id);
             }
 

@@ -55,6 +55,11 @@ class PsychologistRepository extends BaseRepository
         return  $query;
     }
 
+    public function getLastAvailabilityCalendar()
+    {
+
+    }
+
     public function store($data)
     {
         return $this->model::create($data);

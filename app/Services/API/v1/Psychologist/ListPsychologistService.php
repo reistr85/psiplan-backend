@@ -37,7 +37,7 @@ class ListPsychologistService
     public function index($params)
     {
         try{
-            $query = $this->psychologistRepository->index($params);
+            $query = $this->psychologistRepository->index($params)->with('availabilityCalendars');
             return $query->paginate(10);
         }catch (\Exception $e){
 
