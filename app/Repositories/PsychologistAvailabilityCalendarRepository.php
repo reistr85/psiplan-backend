@@ -67,12 +67,17 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
      * @param string $date
      * @return Builder
      */
-    public function getPsychologistAvailabilityCalendarByDateByPsychologistId(int $psychologist_id, string $date): Builder
+    public function getPsychologistAvailabilityCalendarByDateByPsychologistId(int $psychologist_id, array $data): Builder
     {
-        $date_initial = "{$date} 00:00:00";
-        $date_finish = "{$date} 23:59:59";
+        $date_initial = "{$data['date']} 00:00:00";
+        $date_finish = "{$data['date']} 23:59:59";
 
-        return $this->model::where('psychologist_id', $psychologist_id)->whereBetween('day_hour', [$date_initial, $date_finish]);
+        $query = $this->model::where('psychologist_id', $psychologist_id)->whereBetween('day_hour', [$date_initial, $date_finish]);
+
+        if($data['type_service_id'])
+            $query->where('type_service_id', $data['type_service_id']);
+
+        return $query;
     }
 
     /**
