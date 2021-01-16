@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Models\Psychologist;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use PhpParser\Node\Expr\Cast\Object_;
 
 class PsychologistRepository extends BaseRepository
@@ -142,5 +143,10 @@ class PsychologistRepository extends BaseRepository
             ->where('psychologist_notifications.psychologist_id', $psychologist_id)
             ->where('psychologist_notifications.is_active', 1)
             ->whereNull('psychologist_notifications.deleted_at');
+    }
+
+    public function getAllTypeServicesByPsychologistIdService(int $psychologist_id)
+    {
+        return $this->model->find($psychologist_id)->typeServices;
     }
 }

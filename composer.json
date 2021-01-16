@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-calendar": "*",
+        "ext-json": "*",
         "comtele/comtele_sdk": "^1.1",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -18,9 +20,8 @@
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "lucascudo/laravel-pt-br-localization": "^1.1",
-        "tymon/jwt-auth": "1.0.0-rc.5.1",
-        "ext-calendar": "*",
-        "ext-json": "*"
+        "myclabs/php-enum": "^1.7",
+        "tymon/jwt-auth": "1.0.0-rc.5.1"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

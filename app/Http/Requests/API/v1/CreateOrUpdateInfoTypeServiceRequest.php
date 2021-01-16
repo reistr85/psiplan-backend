@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API\v1;
 
+use App\Enums\TypeServiceEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
@@ -26,7 +27,7 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
         $verify_address = false;
 
         //verifica se o tipo de atendimento presencial foi selecionado.
-        if(array_search(1, array_column($this->input('type_services'), 'type_service_id')) !== false)
+        if(array_search(TypeServiceEnum::TYPE_SERVICE_PRESENTIAL, array_column($this->input('type_services'), 'type_service_id')) !== false)
             $verify_address = true;
 
         if($verify_address) {
