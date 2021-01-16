@@ -62,9 +62,10 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
     private function getListDates(array $data): array
     {
         $day_time_available = [];
-        $today = date("Y-m-d");
+        $current_date_time = date('Y-m-d H:i:s');
         $qtd_day = 0;
         $day = [];
+        $initial_date = "";
 
         if($data['week'])
             $qtd_day = 7*$data['week_repeat_id'];
@@ -73,13 +74,19 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
             $year = date('Y');
             $month = $this->strPadLeft($data['months_selected'][count($data['months_selected'])-1]['id'], '2', '0');
             $m_day = $this->strPadLeft(cal_days_in_month(CAL_GREGORIAN, $month, $year), '2', '0');
-
             $last_date = "{$year}-{$month}-{$m_day}";
-            $qtd_day = getdate(strtotime($last_date))['yday']-getdate(strtotime("{$today}"))['yday'];
+
+            if($month > date('m')){
+                $initial_date = "{$year}-{$month}-01";
+            }else{
+                $initial_date = "{$year}-{$month}-".date('d');
+            }
+
+            $qtd_day = getdate(strtotime($last_date))['yday']-getdate(strtotime($initial_date))['yday'];
         }
 
         for($i=0; $i<$qtd_day; $i++){
-            array_push($day, getdate(strtotime("{$today} +{$i} day")));
+            array_push($day, getdate(strtotime("{$initial_date} +{$i} day")));
         }
 
         foreach($data['items'] as $key => $value){
@@ -88,10 +95,7 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
                     $year = $day[$j]['year'];
                     $mon = $this->strPadLeft($day[$j]['mon'], '2', '0');
                     $mday = $this->strPadLeft($day[$j]['mday'], '2', '0');
-
                     $date = "{$year}-{$mon}-{$mday} {$value['hour']}";
-                    $current_hour = date("H:i:s");
-                    $current_date_time = "{$today} {$current_hour}";
 
                     if(getdate(strtotime($date))[0] > getdate(strtotime($current_date_time))[0])
                         array_push($day_time_available, ['date' => $date]);
