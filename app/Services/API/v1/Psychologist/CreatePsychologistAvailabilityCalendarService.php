@@ -85,7 +85,8 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
             $qtd_day = getdate(strtotime($last_date))['yday']-getdate(strtotime($initial_date))['yday'];
         }
 
-        for($i=0; $i<$qtd_day; $i++){
+        for($i=0; $i<=$qtd_day; $i++){
+            $te = 1;
             array_push($day, getdate(strtotime("{$initial_date} +{$i} day")));
         }
 

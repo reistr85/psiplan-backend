@@ -1,0 +1,198 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 524288 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (c:/BuildAgent/work/5ff2f6c26000d570/src/hotspot/share/memory/allocation.cpp:46), pid=16600, tid=10704
+#
+# JRE version:  (11.0.3+12) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.3+12-b304.39, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: org.jetbrains.git4idea.http.GitAskPassApp Username for 'https://github.com': 
+
+Host: AMD Phenom(tm) II X4 B97 Processor, 4 cores, 15G,  Windows 10 , 64 bit Build 18362 (10.0.18362.1316)
+Time: Sat Jan 16 23:32:45 2021 Hora oficial do Brasil elapsed time: 0 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000002725cc7d800):  JavaThread "Unknown thread" [_thread_in_vm, id=10704, stack(0x000000aba1300000,0x000000aba1400000)]
+
+Stack: [0x000000aba1300000,0x000000aba1400000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x5da77a]
+V  [jvm.dll+0x70b9c9]
+V  [jvm.dll+0x70cee8]
+V  [jvm.dll+0x70d5b3]
+V  [jvm.dll+0x23ddc8]
+V  [jvm.dll+0xb0bf4]
+V  [jvm.dll+0x66b7cf]
+V  [jvm.dll+0x66b767]
+V  [jvm.dll+0x66b8ea]
+V  [jvm.dll+0x6ea122]
+V  [jvm.dll+0x6ec4bd]
+V  [jvm.dll+0x354c29]
+V  [jvm.dll+0x6d28ae]
+V  [jvm.dll+0x3bd363]
+V  [jvm.dll+0x3bf7a1]
+C  [java.exe+0x3763]
+C  [java.exe+0x17a0c]
+C  [KERNEL32.DLL+0x17c24]
+C  [ntdll.dll+0x6d4d1]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000002725cba7020, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000002725edbd000 GCTaskThread "GC Thread#0" [stack: 0x000000aba1400000,0x000000aba1500000] [id=17140]
+  0x000002725ee19000 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000aba1500000,0x000000aba1600000] [id=944]
+  0x000002725ee1a000 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000aba1600000,0x000000aba1700000] [id=5180]
+  0x000002727d359800 ConcurrentGCThread "G1 Refine#0" [stack: 0x000000aba1700000,0x000000aba1800000] [id=12560]
+  0x000002727d35a800 ConcurrentGCThread "G1 Young RemSet Sampling" [stack: 0x000000aba1800000,0x000000aba1900000] [id=17256]
+
+=>0x000002725cc7d800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=10704, stack(0x000000aba1300000,0x000000aba1400000)]
+
+Threads with active compile tasks:
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x0000000708000000, size: 3968 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+Narrow klass base: 0x0000000800000000, Narrow klass shift: 0
+Compressed class space size: 1073741824 Address: 0x0000000800000000
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff7ef690000 - 0x00007ff7ef6d7000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\java.exe
+0x00007ffdc00a0000 - 0x00007ffdc0290000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffdbfe60000 - 0x00007ffdbff12000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffdbd4a0000 - 0x00007ffdbd745000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffdbefa0000 - 0x00007ffdbf134000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffdbd020000 - 0x00007ffdbd041000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffdbe910000 - 0x00007ffdbe936000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffdbd300000 - 0x00007ffdbd498000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffdbd0b0000 - 0x00007ffdbd14e000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffdbe050000 - 0x00007ffdbe14a000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffdb66d0000 - 0x00007ffdb6954000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.1316_none_9e7a364fe461dbd7\COMCTL32.dll
+0x00007ffdbeaa0000 - 0x00007ffdbeb3e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffdbfb00000 - 0x00007ffdbfe37000 	C:\WINDOWS\System32\combase.dll
+0x00007ffdbe760000 - 0x00007ffdbe87f000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffdbd270000 - 0x00007ffdbd2f1000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffdbe730000 - 0x00007ffdbe75e000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffdb5700000 - 0x00007ffdb5717000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\vcruntime140.dll
+0x00007ffd97150000 - 0x00007ffd971ed000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\msvcp140.dll
+0x00007ffd77eb0000 - 0x00007ffd78967000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\server\jvm.dll
+0x00007ffdbeb40000 - 0x00007ffdbebe3000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffdbe150000 - 0x00007ffdbe1e7000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffdbfe40000 - 0x00007ffdbfe48000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ffdadbc0000 - 0x00007ffdadbc9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffdb7970000 - 0x00007ffdb7994000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffdb3710000 - 0x00007ffdb371a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffdbe880000 - 0x00007ffdbe8ef000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffdb7940000 - 0x00007ffdb796d000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x00007ffdbd150000 - 0x00007ffdbd19a000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x00007ffdbd000000 - 0x00007ffdbd011000 	C:\WINDOWS\System32\kernel.appcore.dll
+0x00007ffdab1a0000 - 0x00007ffdab1b1000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\verify.dll
+0x00007ffdbb910000 - 0x00007ffdbbb04000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffdb7c30000 - 0x00007ffdb7c5a000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffdaad50000 - 0x00007ffdaad79000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\java.dll
+0x00007ffdaa420000 - 0x00007ffdaa437000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\zip.dll
+0x00007ffdad730000 - 0x00007ffdad73b000 	C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\jimage.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.1316_none_9e7a364fe461dbd7;C:\Program Files\JetBrains\PhpStorm 2019.2.1\jbr\bin\server
+
+VM Arguments:
+java_command: org.jetbrains.git4idea.http.GitAskPassApp Username for 'https://github.com': 
+java_class_path (initial): C:/Program Files/JetBrains/PhpStorm 2019.2.1/plugins/git4idea/lib/git4idea-rt.jar;C:/Program Files/JetBrains/PhpStorm 2019.2.1/lib/xmlrpc-2.0.1.jar;C:/Program Files/JetBrains/PhpStorm 2019.2.1/lib/commons-codec-1.13.jar;C:/Program Files/JetBrains/PhpStorm 2019.2.1/lib/util.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 260046848                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4160749568                                {product} {ergonomic}
+   size_t MaxNewSize                               = 2495610880                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5830092                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122914074                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122914074                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=C:\Program Files\Git\mingw64\libexec\git-core;C:\Program Files\Git\mingw64\libexec\git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Renan Reis\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\PostgreSQL\pg96\bin;C:\Program Files\Git\cmd;C:\Gradle\bin;C:\Users\Renan Reis\Downloads\cmder\Cmder.exe;C:\Program Files\PuTTY;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Java\jdk1.8.0_251;C:\ProgramData\chocolatey\bin;C:\php;C:\tools\php72;C:\tools\php74;C:\Program Files (x86)\GNU\GnuPG\pub;C:\Program Files\nodejs;C:\Program Files (x86)\Yarn\bin;C:\Program Files\OpenSSH-Win64;C:\oracle\ODAC_11_2_Release_6_64_Bit;C:\oracle\ODAC_11_2_Release_6_64_Bit\bin;C:\oracle\ODAC_11_2_Release_6_64_Bit\network\admin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\Renan Reis\AppData\Local\Microsoft\WindowsApps;C:\Users\Renan Reis\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Renan Reis\AppData\Roaming\npm;C:\Users\Renan Reis\AppData\Local\Yarn\bin
+USERNAME=Renan Reis
+DISPLAY=:0.0
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 16 Model 4 Stepping 3, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 18362 (10.0.18362.1316)
+
+CPU:total 4 (initial active 4) (4 cores per cpu, 1 threads per core) family 16 model 4 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, popcnt, mmxext, 3dnowpref, lzcnt, sse4a, tsc, tscinvbit, tscinv
+
+Memory: 4k page, system-wide physical 15867M (2991M free)
+TotalPageFile size 15867M (AvailPageFile size 390M)
+current process WorkingSet (physical memory assigned to process): 20M, peak: 20M
+current process commit charge ("private bytes"): 311M, peak: 314M
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.3+12-b304.39) for windows-amd64 JRE (11.0.3+12-b304.39), built on Aug 14 2019 11:03:43 by "" with MS VC++ 14.0 (VS2015)
+
+END.
