@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetServiceHoursByDateByPsychologistIdService extends PsychologistAvailabilityCalendarRepository
 {
-    public function execute(int $psychologist_id, array $data): Collection
+    public function execute(int $psychologist_id, array $data)
     {
         return parent::getPsychologistAvailabilityCalendarByDateByPsychologistId($psychologist_id, $data)->get();
     }

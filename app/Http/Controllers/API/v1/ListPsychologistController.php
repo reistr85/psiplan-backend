@@ -86,9 +86,10 @@ class ListPsychologistController extends Controller
     public function getServiceHours(Request $request)
     {
         try{
-            $hours = $this->getServiceHoursByDateByPsychologistIdService->execute(
-                $request->input('psychologist_id'),
-                $request->input('date'));
+            $psychologist_id = $request->input('psychologist_id');
+            $data = $request->only('date', 'type_service_id');
+
+            $hours = $this->getServiceHoursByDateByPsychologistIdService->execute($psychologist_id, $data);
 
             return response()->json(['status' => true, 'message' => 'Successfully', 'hours' => $hours], 200);
         }catch (\Exception $e) {
