@@ -4,6 +4,7 @@
 namespace App\Services\API\v1\Psychologist;
 
 
+use App\Enums\TypeServiceEnum;
 use App\Repositories\PsychologistServiceAddressRepository;
 
 class CreateOrUpdatePsychologistServiceAddressService extends PsychologistServiceAddressRepository
@@ -13,7 +14,8 @@ class CreateOrUpdatePsychologistServiceAddressService extends PsychologistServic
         $address['psychologist_id'] = $psychologist_id;
         $psychologistServiceAddress = parent::getPsychologistServiceAddressByPsychologistId($psychologist_id);
 
-        if(array_search(1, array_column($type_services, 'type_service_id')) === false && array_search(2, array_column($type_services, 'type_service_id')) !== false){
+        if(array_search(TypeServiceEnum::TYPE_SERVICE_PRESENTIAL, array_column($type_services, 'type_service_id')) === false &&
+            array_search(TypeServiceEnum::TYPE_SERVICE_ONLINE, array_column($type_services, 'type_service_id')) !== false){
             if($psychologistServiceAddress)
                 parent::destroy($psychologistServiceAddress);
 

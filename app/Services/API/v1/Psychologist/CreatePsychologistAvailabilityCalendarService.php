@@ -67,8 +67,9 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         $day = [];
         $initial_date = "";
 
-        if($data['week'])
-            $qtd_day = 7*$data['week_repeat_id'];
+        if($data['week']) {
+            $qtd_day = (7 * $data['week_repeat_id']) -1;
+        }
 
         if($data['month']) {
             $year = date('Y');
@@ -86,7 +87,6 @@ class CreatePsychologistAvailabilityCalendarService extends PsychologistAvailabi
         }
 
         for($i=0; $i<=$qtd_day; $i++){
-            $te = 1;
             array_push($day, getdate(strtotime("{$initial_date} +{$i} day")));
         }
 
