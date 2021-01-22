@@ -53,9 +53,7 @@ class QueryController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
-
             $target_audiences = $this->getTargetAudiencesService->execute();
-            $psychologist_address_service = $this->getPsychologistServiceAddressService->execute($psychologist->id);
 
             return response()->json([
                 'status' => true,

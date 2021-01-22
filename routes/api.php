@@ -30,6 +30,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('cities-by-name', 'CityController@getCitiesByName');
 
     /*
+     * PagarmePlansController
+     * */
+    Route::resource('pagarme/plans', 'PagarmePlansController');
+
+    /*
      * SMS
      * */
 //    Route::post('sms', 'AuthController@sms');
