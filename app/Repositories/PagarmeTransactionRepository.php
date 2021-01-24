@@ -24,7 +24,8 @@ class PagarmeTransactionRepository extends BaseRepository
     {
         return $this->model::select("pagarme_transactions.id", "pagarme_transactions.status",
             "pagarme_transactions.status as status_payment", "pagarme_transactions.amount",
-            "pagarme_transactions.transaction_id", "queries.day_hour", "queries.id as query_id")
+            "pagarme_transactions.transaction_id", "pagarme_transactions.created_at", "queries.day_hour",
+            "queries.id as query_id")
             ->where('client_id', $client_id)
             ->join('queries', 'query_id', 'queries.id')
             ->join('psychologists', 'queries.psychologist_id', 'psychologists.id');

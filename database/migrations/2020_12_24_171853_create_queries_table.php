@@ -19,6 +19,7 @@ class CreateQueriesTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('psychologist_availability_calendar_id')->unsigned();
             $table->dateTime('day_hour');
+            $table->decimal('price', 10, 2);
             $table->integer('evaluation')->nullable();
             $table->string('status_query')->nullable();
             $table->string('transaction_id')->nullable();
