@@ -21,4 +21,9 @@ class Query extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function psychologistAvailabilityCalendar()
+    {
+        return $this->belongsTo(PsychologistAvailabilityCalendar::class);
+    }
 }

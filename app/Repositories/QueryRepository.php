@@ -28,7 +28,7 @@ class QueryRepository extends BaseRepository
         $query = parent::findById($this->model, $id);
 
         if($query)
-            return $query->with('psychologist', 'client')->first();
+            return $query->with('psychologist.serviceAddress', 'client', 'psychologistAvailabilityCalendar.typeService')->first();
 
         return null;
     }
