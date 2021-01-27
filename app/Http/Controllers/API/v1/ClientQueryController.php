@@ -11,6 +11,7 @@ use App\Services\API\v1\Query\GetQueriesByIdService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ClientQueryController extends Controller
 {
@@ -57,13 +58,16 @@ class ClientQueryController extends Controller
      */
     public function store(StoreClientQueryRequest $request)
     {
+        DB::beginTransaction();
         try{
             $data = $request->all();
 
-            $this->storeClientQueryService->execute($data);
+            $query = $this->storeClientQueryService->execute($data);
 
-            return response()->json(['status' => true, 'message' => 'Success', 'data' => $data], 200);
+            DB::commit();
+            return response()->json(['status' => true, 'message' => 'Success', 'query' => $query], 200);
         }catch(\Exception $ex){
+            DB::rollBack();
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
         }
     }

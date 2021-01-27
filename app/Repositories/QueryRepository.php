@@ -43,4 +43,9 @@ class QueryRepository extends BaseRepository
     {
         return $this->model::where('client_id', $id)->with(['psychologist'])->get();
     }
+
+    public function store($data)
+    {
+        return $this->model::create($data);
+    }
 }

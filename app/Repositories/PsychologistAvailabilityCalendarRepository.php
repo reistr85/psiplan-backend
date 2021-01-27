@@ -36,6 +36,11 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
         return parent::save($this->model, $data);
     }
 
+    public function edit(Model $model, array $data)
+    {
+        return parent::update($model, $data);
+    }
+
 
     /**
      * Get Psychologist Availability Calendar By Psychologist Id
