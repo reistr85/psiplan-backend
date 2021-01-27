@@ -76,4 +76,14 @@ class Psychologist extends Model
     {
         return $this->hasMany(PsychologistAvailabilityCalendar::class);
     }
+
+    public function psychologistAvailabilityCalendarByDayHourAndTypeServiceIdAndAvailabilityNull(
+        string $psychologist_id, string $day_hour, string $type_service_id)
+    {
+        return PsychologistAvailabilityCalendar::where('psychologist_id', $psychologist_id)
+            ->where('day_hour', $day_hour)
+            ->where('type_service_id', $type_service_id)
+            ->whereNull('available');
+
+    }
 }

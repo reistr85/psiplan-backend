@@ -149,4 +149,11 @@ class PsychologistRepository extends BaseRepository
     {
         return $this->model->find($psychologist_id)->typeServices;
     }
+
+    public function getPsychologistAvailabilityCalendarByDayHourAndTypeServiceIdAndAvailabilityNull(
+        string $psychologist_id, string $day_hour, string $type_service_id)
+    {
+        return $this->model->psychologistAvailabilityCalendarByDayHourAndTypeServiceIdAndAvailabilityNull(
+            $psychologist_id, $day_hour, $type_service_id);
+    }
 }
