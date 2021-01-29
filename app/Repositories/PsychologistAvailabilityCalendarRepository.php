@@ -59,28 +59,36 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
      * @param int $psychologist_id
      * @param int $type_service_id
      * @return Builder
+     * @throws Exception
      */
     public function getPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceId(int $psychologist_id, int $type_service_id): Builder
     {
-        return $this->model::where('psychologist_id', $psychologist_id)->where('type_service_id', $type_service_id);
+        $current_time = date('Y-m-d H:i:m');
+        $date_time = date('Y-m-d H:i:m', strtotime('+360 minute', strtotime($current_time)));
+
+        return $this->model::where('psychologist_id', $psychologist_id)
+            ->where('type_service_id', $type_service_id)
+            ->where('day_hour', '>=', $date_time)
+            ->whereNull('available');
     }
 
     /**
      * Get Psychologist Availability Calendar By Date By Psychologist Id
      *
      * @param int $psychologist_id
-     * @param string $date
+     * @param array $data
      * @return Builder
      */
     public function getPsychologistAvailabilityCalendarByDateByPsychologistId(int $psychologist_id, array $data): Builder
     {
+        //TODO aplicar regra das 6 horas na frente
         $date_initial = "{$data['date']} 00:00:00";
         $date_finish = "{$data['date']} 23:59:59";
 
         $query = $this->model::where('psychologist_id', $psychologist_id)->whereBetween('day_hour', [$date_initial, $date_finish]);
 
         if($data['type_service_id'])
-            $query->where('type_service_id', $data['type_service_id']);
+            $query->where('type_service_id', $data['type_service_id'])->whereNull('available');
 
         return $query;
     }

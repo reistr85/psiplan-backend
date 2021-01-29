@@ -73,7 +73,7 @@ class ClientQueryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource
      *
      * @param  int  $id
      * @return JsonResponse
