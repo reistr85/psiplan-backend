@@ -93,7 +93,7 @@ class ListPsychologistController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Successfully', 'hours' => $hours], 200);
         }catch (\Exception $e) {
-            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
     }
 }
