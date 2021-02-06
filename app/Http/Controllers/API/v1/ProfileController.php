@@ -74,6 +74,23 @@ class ProfileController extends Controller
     }
 
     /**
+     * Show Psychologist.
+     *
+     * @return JsonResponse
+     */
+    public function show()
+    {
+        try{
+            $user = auth()->user();
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+
+            return response()->json(['status' => true, 'message' => 'Success', 'profile' => $psychologist], 200);
+        }catch (\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    /**
      * Update Psychologist.
      *
      * @param UpdatePsychologistRequest $request
