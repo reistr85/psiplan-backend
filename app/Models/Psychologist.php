@@ -72,6 +72,11 @@ class Psychologist extends Model
         return $this->hasOne(PsychologistServiceAddress::class);
     }
 
+    public function address()
+    {
+        return $this->hasOne(PsychologistAddress::class);
+    }
+
     public function availabilityCalendars()
     {
         return $this->hasMany(PsychologistAvailabilityCalendar::class);

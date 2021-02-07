@@ -4,9 +4,11 @@
 namespace App\Repositories;
 
 use App\Models\Psychologist;
+use App\Models\PsychologistAddress;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node\Expr\Cast\Object_;
 
 class PsychologistRepository extends BaseRepository
@@ -110,7 +112,8 @@ class PsychologistRepository extends BaseRepository
                 'academicFormations',
                 'serviceAddress',
                 'typeServices',
-                'videoPlatforms'
+                'videoPlatforms',
+                'address'
             ])->first();
     }
 
@@ -155,5 +158,15 @@ class PsychologistRepository extends BaseRepository
     {
         return $this->model->psychologistAvailabilityCalendarByDayHourAndTypeServiceIdAndAvailabilityNull(
             $psychologist_id, $day_hour, $type_service_id);
+    }
+
+    public function createPsychologistAddress(PsychologistAddress $model, array $data)
+    {
+        return parent::save($model, $data);
+    }
+
+    public function updatePsychologistAddress(PsychologistAddress $model, array $data)
+    {
+        return parent::update($model, $data);
     }
 }
