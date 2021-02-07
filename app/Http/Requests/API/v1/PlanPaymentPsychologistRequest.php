@@ -22,28 +22,26 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
      */
     public function rules()
     {
-
-
-
         return [
             'customer.name' => 'required',
             'customer.email' => 'required|email',
-            'customer.documents.0.number' => function ($att, $value, $fail) {
+            'customer.document_number' => function ($att, $value, $fail) {
                 $cpf = onlyNumber($value);
                 if (!checkCPF($cpf))
                     return $fail("Digite um CPF válido");
             },
-            'customer.phone_numbers' => 'required',
-            'customer.birthday' => function($att, $value, $fail){
-                $d = \DateTime::createFromFormat('d/m/Y', $value);
-                if(!$d || $d->format('d/m/Y') != $value)
-                    return $fail("Digite uma data de nascimento válida.");
+            'customer.address.zipcode' => 'required|min:8|max:8',
+            'customer.address.state' => 'required|min:2|max:2',
+            'customer.address.city' => 'required',
+            'customer.address.neighborhood' => 'required',
+            'customer.address.street' => 'required',
+            'customer.address.street_number' => 'required',
+            'customer.phone.number' => function($att, $value, $fail){
+                $phone = onlyNumber($value);
+
+                if(strlen($phone) != 11)
+                    return $fail("Digite um telefone válido.");
             },
-            'billing.address.zipcode' => 'required',
-            'billing.address.state' => 'required|min:2|max:2',
-            'billing.address.city' => 'required',
-            'billing.address.neighborhood' => 'required',
-            'billing.address.street' => 'required',
             'card_number' => function($att, $value, $fail){
                 $card_number = preg_replace('#\s+#', '', $value);
 
@@ -59,6 +57,7 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
                     return $fail("Digite um vencimento válido.");
             },
             'card_holder_name' => 'required',
+            'plan_selected' => 'required'
         ];
     }
 }

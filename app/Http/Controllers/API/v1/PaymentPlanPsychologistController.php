@@ -46,12 +46,12 @@ class PaymentPlanPsychologistController extends Controller
         DB::beginTransaction();
         try {
             $psychologist = auth()->user()->psychologist;
-            $psychologist_address = $this->create_or_update_psychologist_address_service->execute($request->input('billing.address'));
+            $psychologist_address = $this->create_or_update_psychologist_address_service->execute($request->input('customer.address'));
 
-            //$r = $this->create_payment_plan_psychologist_pagarme_service->execute(['plan_name' => $request->input('plan_selected.name')]);
+            $r = $this->create_payment_plan_psychologist_pagarme_service->execute($request->all());
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'success', 'data' => '$r'], 200);
+            return response()->json(['status' => true, 'message' => 'success', 'data' => $r], 200);
         }catch (\Exception $ex){
             DB::rollBack();
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
