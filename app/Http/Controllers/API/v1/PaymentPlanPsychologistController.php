@@ -63,6 +63,7 @@ class PaymentPlanPsychologistController extends Controller
             if($transaction->current_transaction->status == "paid") {
                 $this->reverse_payment_plan_psychologist_service->execute($transaction_id);
                 $this->reverse_subscription_psychologist_service->execute($subscription_id);
+                return response()->json(['status' => false, 'message' => 'Ocorreu um erro ao contratar o plano. Tente novamente!'], 500);
             }
 
             DB::commit();
