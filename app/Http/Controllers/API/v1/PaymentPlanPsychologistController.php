@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\PlanPaymentPsychologistRequest;
 use App\Services\API\v1\PaymentPlanPsychologist\CreatePaymentPlanPsychologistPagarmeService;
+use App\Services\API\v1\PaymentPlanPsychologist\ReversePaymentPlanPsychologistService;
+use App\Services\API\v1\PaymentPlanPsychologist\ReverseSubscriptionPsychologistService;
 use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistAddressService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,13 +18,19 @@ class PaymentPlanPsychologistController extends Controller
 
     private $create_payment_plan_psychologist_pagarme_service;
     private $create_or_update_psychologist_address_service;
+    private $reverse_payment_plan_psychologist_service;
+    private $reverse_subscription_psychologist_service;
 
     public function __construct(
         CreatePaymentPlanPsychologistPagarmeService $create_payment_plan_psychologist_pagarme_service,
-        CreateOrUpdatePsychologistAddressService $create_or_update_psychologist_address_service)
+        CreateOrUpdatePsychologistAddressService $create_or_update_psychologist_address_service,
+        ReversePaymentPlanPsychologistService $reverse_payment_plan_psychologist_service,
+        ReverseSubscriptionPsychologistService $reverse_subscription_psychologist_service)
     {
         $this->create_payment_plan_psychologist_pagarme_service = $create_payment_plan_psychologist_pagarme_service;
         $this->create_or_update_psychologist_address_service = $create_or_update_psychologist_address_service;
+        $this->reverse_payment_plan_psychologist_service = $reverse_payment_plan_psychologist_service;
+        $this->reverse_subscription_psychologist_service = $reverse_subscription_psychologist_service;
     }
 
     /**
@@ -43,18 +51,28 @@ class PaymentPlanPsychologistController extends Controller
      */
     public function store(PlanPaymentPsychologistRequest $request)
     {
+        $subscription_id = null;
+        $transaction_id = null;
+
         DB::beginTransaction();
         try {
-            $psychologist = auth()->user()->psychologist;
-            $psychologist_address = $this->create_or_update_psychologist_address_service->execute($request->input('customer.address'));
+            $this->create_or_update_psychologist_address_service->execute($request->input('customer.address'));
+            $transaction = $this->create_payment_plan_psychologist_pagarme_service->execute(
+                $request->all(), $subscription_id, $transaction_id);
 
-            $r = $this->create_payment_plan_psychologist_pagarme_service->execute($request->all());
+            if($transaction->current_transaction->status == "paid") {
+                $this->reverse_payment_plan_psychologist_service->execute($transaction_id);
+                $this->reverse_subscription_psychologist_service->execute($subscription_id);
+            }
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'success', 'data' => $r], 200);
+            return response()->json(['status' => true, 'message' => 'success', 'transaction' => $transaction], 201);
         }catch (\Exception $ex){
             DB::rollBack();
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+
+            $this->reverse_payment_plan_psychologist_service->execute($transaction_id);
+            $this->reverse_subscription_psychologist_service->execute($subscription_id);
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 

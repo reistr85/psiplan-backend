@@ -8,6 +8,7 @@ use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
 use App\Services\API\v1\PaymentQueryClient\CreatePaymentClientUniqueQueryPagarmeService;
 use App\Services\API\v1\PaymentQueryClient\GetAllTransactionsPagarmeClientService;
 use App\Services\API\v1\Query\UpdateQueryPaymentStatusService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -53,7 +54,7 @@ class PaymentQueryClientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param QueryPaymentClientRequest $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(QueryPaymentClientRequest $request)
     {

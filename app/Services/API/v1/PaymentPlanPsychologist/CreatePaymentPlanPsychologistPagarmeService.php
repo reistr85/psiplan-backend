@@ -21,7 +21,7 @@ class CreatePaymentPlanPsychologistPagarmeService
         $this->psychologist_repository = $psychologist_repository;
     }
 
-    public function execute(array $data)
+    public function execute(array $data, &$subscription_id, &$transaction_id)
     {
         $psychologist = auth()->user()->psychologist;
         $plan = $this->plan_repository->getByName($data['plan_selected']['name'])->first();
@@ -49,32 +49,27 @@ class CreatePaymentPlanPsychologistPagarmeService
         array_push($data['split_rules'], $receiver_psiplan);
         array_push($data['split_rules'], $receiver_psychologist);
 
+
         $data['api_key'] = env('API_KEY_PAGARME');
         $data['amount'] = '8500';
-        $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);
-        $data['customer']['phone_numbers'] = ["+55".onlyNumber($data['customer']['phone_numbers'][0])];
-        $data['customer']['birthday'] = dateEN($data['customer']['birthday']);
 
-        return $data;
+        $data['customer']['phone']['number'] = substr($data['customer']['phone']['number'], 2, 9);
+        $data['customer']['phone']['ddd'] = substr($data['customer']['phone']['number'], 0, 2);
 
-//
-//        $data['api_key'] = env('API_KEY_PAGARME');
-//        $data['amount'] = '8500';
-//        $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);
-//        $data['customer']['phone_numbers'] = ["+55".onlyNumber($data['customer']['phone_numbers'][0])];
-//        $data['customer']['birthday'] = dateEN($data['customer']['birthday']);
-//
-//        $response = $client_guzlle->post("{$url_base}/transactions", [
-//            'headers' => [
-//                'Accept'     => 'application/json',
-//            ],
-//            'json' => $data,
-//        ]);
-//
-//        if($response->getStatusCode() != 200)
-//            throw new \Exception("Ocorre um erro no pagamento!", $response->getStatusCode());
-//
-//        return json_decode($response->getBody()->getContents());
-        return true;
+        $response = $client_guzlle->post("{$url_base}/subscriptions", [
+            'headers' => [
+                'Accept'     => 'application/json',
+            ],
+            'json' => $data,
+        ]);
+
+        if($response->getStatusCode() != 200)
+            throw new \Exception("Ocorre um erro no pagamento!", $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents());
+        $transaction_id = $response->current_transaction->id;
+        $subscription_id = $response->id;
+
+        return $response;
     }
 }
