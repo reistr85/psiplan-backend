@@ -81,13 +81,20 @@ class PaymentPlanPsychologistController extends Controller
             }
 
             $psychologist_plan = $this->create_psychologist_plan_service->execute($request->input('plan_selected.name'));
-            $this->create_pagarme_subscription_service->execute([
+            $pagarme_subscription = $this->create_pagarme_subscription_service->execute([
                 'user_id' => $user->id,
                 'plan_id' => $psychologist_plan->plan_id,
                 'pagarme_subscription_id' => $subscription_id,
-                'pagarme_status' => $transaction->status,
+                'status' => $transaction->status,
             ]);
-            $this->create_pagarme_subscription_transaction_service->execute();
+
+            $pagarme_subscription_transaction = $this->create_pagarme_subscription_transaction_service->execute([
+                'user_id' => $user->id,
+                'pagarme_subscription_id' => $pagarme_subscription->id,
+                'pagarme_transaction_id' => $transaction->current_transaction->id,
+                'status' => $transaction->current_transaction->status,
+                'amount' => $transaction->current_transaction->amount,
+            ]);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'success', 'transaction' => $transaction], 201);

@@ -9,5 +9,5 @@ class PagarmeSubscriptionTransaction extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'pagarme_subscription_id', 'status', 'amount', 'is_active'];
+    protected $fillable = ['user_id', 'pagarme_subscription_id', 'pagarme_transaction_id', 'status', 'amount', 'is_active'];
 }
