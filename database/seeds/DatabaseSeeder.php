@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TypeServicesTableSeeder::class);
         $this->call(PsychologistTypeServicesTableSeeder::class);
         $this->call(ClientsTableSeeder::class);
+        $this->call(PsychologistPlanTableSeeder::class);
     }
 }

@@ -192,6 +192,7 @@ return [
         App\Providers\API\v1\PagarmeSubscriptionServiceProvider::class,
         App\Providers\API\v1\PagarmeSubscriptionTransactionServiceProvider::class,
         App\Providers\API\v1\EvaluationServiceProvider::class,
+        App\Providers\API\v1\PsychologistPlanServiceProvider::class,
     ],
 
     /*

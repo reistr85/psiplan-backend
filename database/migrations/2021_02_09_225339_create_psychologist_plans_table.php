@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagarmeSubscriptionTransactionsTable extends Migration
+class CreatePsychologistPlansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,22 @@ class CreatePagarmeSubscriptionTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pagarme_subscription_transactions', function (Blueprint $table) {
+        Schema::create('psychologist_plans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('pagarme_subscription_id')->unsigned();
-            $table->string('pagarme_transaction_id');
-            $table->string('status');
-            $table->integer('amount');
+            $table->integer('psychologist_id')->unsigned();
+            $table->integer('plan_id')->unsigned();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('psychologist_id')
                 ->references('id')
-                ->on('users')
+                ->on('psychologists')
                 ->onDelete('cascade');
 
-            $table->foreign('pagarme_subscription_id', 'subscription_foreign')
+            $table->foreign('plan_id')
                 ->references('id')
-                ->on('pagarme_subscriptions')
+                ->on('plans')
                 ->onDelete('cascade');
         });
     }
@@ -43,6 +40,6 @@ class CreatePagarmeSubscriptionTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pagarme_subscription_transactions');
+        Schema::dropIfExists('psychologist_plans');
     }
 }

@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 
 class ReversePaymentPlanPsychologistService
 {
-    public function execute(int $transaction_id)
+    public function execute(string $transaction_id)
     {
         $client_guzlle = new Client();
         $url_base = env('URL_BASE_PAGARME');

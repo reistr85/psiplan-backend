@@ -5,11 +5,7 @@ namespace App\Repositories;
 
 use App\Models\Psychologist;
 use App\Models\PsychologistAddress;
-use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use PhpParser\Node\Expr\Cast\Object_;
 
 class PsychologistRepository extends BaseRepository
 {

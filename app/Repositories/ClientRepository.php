@@ -53,11 +53,11 @@ class ClientRepository extends BaseRepository
     /**
      * Store
      *
-     * @param Client $client
+     * @param Client $model
      * @param array $data
      * @return bool
      */
-    public function edit(Model $model, array $data): bool
+    public function edit(Client $model, array $data): bool
     {
         return parent::update($model, $data);
     }
