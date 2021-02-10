@@ -23,7 +23,6 @@ class CreatePaymentPlanPsychologistPagarmeService
 
     public function execute(array $data, &$subscription_id, &$transaction_id)
     {
-        $psychologist = auth()->user()->psychologist;
         $plan = $this->plan_repository->getByName($data['plan_selected']['name'])->first();
 
         if(!$plan)
@@ -51,10 +50,12 @@ class CreatePaymentPlanPsychologistPagarmeService
 
 
         $data['api_key'] = env('API_KEY_PAGARME');
-        $data['amount'] = '8500';
+        $data['amount'] = onlyNumber($data['amount']);
+        $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
+        $data['customer']['document_number'] = onlyNumber($data['customer']['document_number']);
 
-        $data['customer']['phone']['number'] = substr($data['customer']['phone']['number'], 2, 9);
-        $data['customer']['phone']['ddd'] = substr($data['customer']['phone']['number'], 0, 2);
+        $data['customer']['phone']['ddd'] = substr($data['customer']['phone']['number'], 1, 2);
+        $data['customer']['phone']['number'] = onlyNumber(substr($data['customer']['phone']['number'], 4, 9));
 
         $response = $client_guzlle->post("{$url_base}/subscriptions", [
             'headers' => [

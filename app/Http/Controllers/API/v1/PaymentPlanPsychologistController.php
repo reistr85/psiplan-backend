@@ -11,6 +11,8 @@ use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistAddressService;
 use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionService;
 use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionTransactionService;
 use App\Services\API\v1\Psychologist\CreatePsychologistPlanService;
+use App\Services\API\v1\Psychologist\DefinePlanPsychologistService;
+use App\Services\API\v1\User\FormatDataGetUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,8 @@ class PaymentPlanPsychologistController extends Controller
     private $create_psychologist_plan_service;
     private $create_pagarme_subscription_service;
     private $create_pagarme_subscription_transaction_service;
+    private $define_plan_psychologist_service;
+    private $format_data_get_user_service;
 
     public function __construct(
         CreatePaymentPlanPsychologistPagarmeService $create_payment_plan_psychologist_pagarme_service,
@@ -34,7 +38,9 @@ class PaymentPlanPsychologistController extends Controller
         ReverseSubscriptionPsychologistService $reverse_subscription_psychologist_service,
         CreatePsychologistPlanService $create_psychologist_plan_service,
         CreatePagarmeSubscriptionService $create_pagarme_subscription_service,
-        CreatePagarmeSubscriptionTransactionService $create_pagarme_subscription_transaction_service)
+        CreatePagarmeSubscriptionTransactionService $create_pagarme_subscription_transaction_service,
+        DefinePlanPsychologistService $define_plan_psychologist_service,
+        FormatDataGetUserService $format_data_get_user_service)
     {
         $this->create_payment_plan_psychologist_pagarme_service = $create_payment_plan_psychologist_pagarme_service;
         $this->create_or_update_psychologist_address_service = $create_or_update_psychologist_address_service;
@@ -43,6 +49,8 @@ class PaymentPlanPsychologistController extends Controller
         $this->create_psychologist_plan_service = $create_psychologist_plan_service;
         $this->create_pagarme_subscription_service = $create_pagarme_subscription_service;
         $this->create_pagarme_subscription_transaction_service = $create_pagarme_subscription_transaction_service;
+        $this->define_plan_psychologist_service = $define_plan_psychologist_service;
+        $this->format_data_get_user_service = $format_data_get_user_service;
     }
 
     /**
@@ -88,16 +96,23 @@ class PaymentPlanPsychologistController extends Controller
                 'status' => $transaction->status,
             ]);
 
+            $amount = $transaction->current_transaction->amount;
+
             $pagarme_subscription_transaction = $this->create_pagarme_subscription_transaction_service->execute([
                 'user_id' => $user->id,
                 'pagarme_subscription_id' => $pagarme_subscription->id,
                 'pagarme_transaction_id' => $transaction->current_transaction->id,
                 'status' => $transaction->current_transaction->status,
-                'amount' => $transaction->current_transaction->amount,
+                'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
             ]);
 
+            $tt = substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount)));
+
+            $this->define_plan_psychologist_service->execute($psychologist_plan->plan_id);
+            $userData = $this->format_data_get_user_service->execute();
+
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'success', 'transaction' => $transaction], 201);
+            return response()->json(['status' => true, 'message' => 'Plano contratado com sucesso', 'user' => $userData, 'te' => $pagarme_subscription_transaction], 201);
         }catch (\Exception $ex){
             DB::rollBack();
 

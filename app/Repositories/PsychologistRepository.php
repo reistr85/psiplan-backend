@@ -165,4 +165,9 @@ class PsychologistRepository extends BaseRepository
     {
         return parent::update($model, $data);
     }
+
+    public function edit(Psychologist $model, array $data)
+    {
+        return parent::update($model, $data);
+    }
 }

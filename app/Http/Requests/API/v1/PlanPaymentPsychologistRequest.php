@@ -51,10 +51,10 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
             'card_cvv' => 'required|min:3|max:3',
             'card_expiration_date' => function($att, $value, $fail){
                 $month = substr($value, 0, 2);
-                $year = substr(@date("Y"), 0, 2).substr($value, 2, 2);
+                $year = substr(@date("Y"), 0, 2).substr($value, 3, 2);
 
                 if($month < @date("m") || !is_numeric($month) || $year < @date("Y") || !is_numeric($year))
-                    return $fail("Digite um vencimento válido.");
+                    return $fail("Digite um vencimento válido");
             },
             'card_holder_name' => 'required',
             'plan_selected' => 'required'
