@@ -72,6 +72,11 @@ class Psychologist extends Model
         return $this->hasOne(PsychologistServiceAddress::class);
     }
 
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
     public function address()
     {
         return $this->hasOne(PsychologistAddress::class);

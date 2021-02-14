@@ -120,6 +120,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * TypeServicesController
      * */
     Route::post('psychologist/payment/plan', 'PaymentPlanPsychologistController@store');
+    Route::put('psychologist/payment/plan', 'PaymentPlanPsychologistController@update');
 
 
     Route::group(['prefix' => 'client', 'middleware' => ['checkRouteClient']], function() {

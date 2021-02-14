@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\PlanPaymentPsychologistRequest;
 use App\Services\API\v1\PaymentPlanPsychologist\CreatePaymentPlanPsychologistPagarmeService;
+use App\Services\API\v1\PaymentPlanPsychologist\GetPagarmeSubscriptionByIdService;
 use App\Services\API\v1\PaymentPlanPsychologist\ReversePaymentPlanPsychologistService;
 use App\Services\API\v1\PaymentPlanPsychologist\ReverseSubscriptionPsychologistService;
+use App\Services\API\v1\PaymentPlanPsychologist\UpdatePagarmePlanPsychologistService;
 use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistAddressService;
 use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionService;
 use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionTransactionService;
@@ -15,6 +17,7 @@ use App\Services\API\v1\Psychologist\DefinePlanPsychologistService;
 use App\Services\API\v1\User\FormatDataGetUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use MongoDB\Driver\Exception\Exception;
 
@@ -30,6 +33,8 @@ class PaymentPlanPsychologistController extends Controller
     private $create_pagarme_subscription_transaction_service;
     private $define_plan_psychologist_service;
     private $format_data_get_user_service;
+    private $update_pagarme_plan_psychologist_service;
+    private $get_pagarme_subscription_by_id_service;
 
     public function __construct(
         CreatePaymentPlanPsychologistPagarmeService $create_payment_plan_psychologist_pagarme_service,
@@ -40,7 +45,9 @@ class PaymentPlanPsychologistController extends Controller
         CreatePagarmeSubscriptionService $create_pagarme_subscription_service,
         CreatePagarmeSubscriptionTransactionService $create_pagarme_subscription_transaction_service,
         DefinePlanPsychologistService $define_plan_psychologist_service,
-        FormatDataGetUserService $format_data_get_user_service)
+        FormatDataGetUserService $format_data_get_user_service,
+        UpdatePagarmePlanPsychologistService $update_pagarme_plan_psychologist_service,
+        GetPagarmeSubscriptionByIdService $get_pagarme_subscription_by_id_service)
     {
         $this->create_payment_plan_psychologist_pagarme_service = $create_payment_plan_psychologist_pagarme_service;
         $this->create_or_update_psychologist_address_service = $create_or_update_psychologist_address_service;
@@ -51,12 +58,14 @@ class PaymentPlanPsychologistController extends Controller
         $this->create_pagarme_subscription_transaction_service = $create_pagarme_subscription_transaction_service;
         $this->define_plan_psychologist_service = $define_plan_psychologist_service;
         $this->format_data_get_user_service = $format_data_get_user_service;
+        $this->update_pagarme_plan_psychologist_service = $update_pagarme_plan_psychologist_service;
+        $this->get_pagarme_subscription_by_id_service = $get_pagarme_subscription_by_id_service;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -98,7 +107,7 @@ class PaymentPlanPsychologistController extends Controller
 
             $amount = $transaction->current_transaction->amount;
 
-            $pagarme_subscription_transaction = $this->create_pagarme_subscription_transaction_service->execute([
+            $this->create_pagarme_subscription_transaction_service->execute([
                 'user_id' => $user->id,
                 'pagarme_subscription_id' => $pagarme_subscription->id,
                 'pagarme_transaction_id' => $transaction->current_transaction->id,
@@ -106,13 +115,11 @@ class PaymentPlanPsychologistController extends Controller
                 'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
             ]);
 
-            $tt = substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount)));
-
             $this->define_plan_psychologist_service->execute($psychologist_plan->plan_id);
             $userData = $this->format_data_get_user_service->execute();
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Plano contratado com sucesso', 'user' => $userData, 'te' => $pagarme_subscription_transaction], 201);
+            return response()->json(['status' => true, 'message' => 'Plano contratado com sucesso', 'user' => $userData], 201);
         }catch (\Exception $ex){
             DB::rollBack();
 
@@ -126,7 +133,7 @@ class PaymentPlanPsychologistController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -137,19 +144,28 @@ class PaymentPlanPsychologistController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $pagarme_subscription = $this->get_pagarme_subscription_by_id_service->execute();
+            $r = $this->update_pagarme_plan_psychologist_service->execute(
+                $pagarme_subscription, $request->input('plan_name'));
+
+            $userData = $this->format_data_get_user_service->execute();
+
+            return response()->json(['status' => true, 'message' => 'success', 'user' => $userData], 200);
+        }catch (\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
