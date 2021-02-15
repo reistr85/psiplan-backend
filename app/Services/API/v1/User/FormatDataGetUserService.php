@@ -17,7 +17,8 @@ class FormatDataGetUserService
 
         if($user->type_user_id === 2) {
             $psychologist = $user->psychologist;
-            $userData['plan_id'] = encode($psychologist->plan_id);
+            $userData['plan_id'] = encode($psychologist->plan->id);
+            $userData['plan_name'] = $psychologist->plan->name;
             $userData['psychologist_id'] = encode($psychologist->id);
         }
 

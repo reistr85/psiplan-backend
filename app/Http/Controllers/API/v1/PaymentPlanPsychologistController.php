@@ -14,11 +14,13 @@ use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionService;
 use App\Services\API\v1\Psychologist\CreatePagarmeSubscriptionTransactionService;
 use App\Services\API\v1\Psychologist\CreatePsychologistPlanService;
 use App\Services\API\v1\Psychologist\DefinePlanPsychologistService;
+use App\Services\API\v1\Psychologist\GetPsychologistPlanByNameService;
 use App\Services\API\v1\User\FormatDataGetUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use MongoDB\Driver\Exception\Exception;
 
 class PaymentPlanPsychologistController extends Controller
@@ -35,6 +37,7 @@ class PaymentPlanPsychologistController extends Controller
     private $format_data_get_user_service;
     private $update_pagarme_plan_psychologist_service;
     private $get_pagarme_subscription_by_id_service;
+    private $get_psychologist_plan_by_name_service;
 
     public function __construct(
         CreatePaymentPlanPsychologistPagarmeService $create_payment_plan_psychologist_pagarme_service,
@@ -47,7 +50,8 @@ class PaymentPlanPsychologistController extends Controller
         DefinePlanPsychologistService $define_plan_psychologist_service,
         FormatDataGetUserService $format_data_get_user_service,
         UpdatePagarmePlanPsychologistService $update_pagarme_plan_psychologist_service,
-        GetPagarmeSubscriptionByIdService $get_pagarme_subscription_by_id_service)
+        GetPagarmeSubscriptionByIdService $get_pagarme_subscription_by_id_service,
+        GetPsychologistPlanByNameService $get_psychologist_plan_by_name_service)
     {
         $this->create_payment_plan_psychologist_pagarme_service = $create_payment_plan_psychologist_pagarme_service;
         $this->create_or_update_psychologist_address_service = $create_or_update_psychologist_address_service;
@@ -60,6 +64,7 @@ class PaymentPlanPsychologistController extends Controller
         $this->format_data_get_user_service = $format_data_get_user_service;
         $this->update_pagarme_plan_psychologist_service = $update_pagarme_plan_psychologist_service;
         $this->get_pagarme_subscription_by_id_service = $get_pagarme_subscription_by_id_service;
+        $this->get_psychologist_plan_by_name_service = $get_psychologist_plan_by_name_service;
     }
 
     /**
@@ -150,13 +155,17 @@ class PaymentPlanPsychologistController extends Controller
     {
         try{
             $pagarme_subscription = $this->get_pagarme_subscription_by_id_service->execute();
-            $r = $this->update_pagarme_plan_psychologist_service->execute(
+            $this->update_pagarme_plan_psychologist_service->execute(
                 $pagarme_subscription, $request->input('plan_name'));
+            $psychologist_plan = $this->get_psychologist_plan_by_name_service->execute($request->input('plan_name'));
 
             $userData = $this->format_data_get_user_service->execute();
+            $userData['plan_id'] = encode($psychologist_plan->id);
+            $userData['plan_name'] = $psychologist_plan->name;
 
             return response()->json(['status' => true, 'message' => 'success', 'user' => $userData], 200);
         }catch (\Exception $ex){
+            Log::error($ex);
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
         }
     }
