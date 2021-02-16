@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\TypeServiceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\CreateAuthRequest;
 use App\Services\API\v1\Auth\CreateAuthService;
@@ -71,13 +72,11 @@ class AuthController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = null;
+            $psychologist = $user->psychologist;
             $client = null;
             $data_user = [];
 
-            if($user->type_user_id === 2){
-                $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
-
+            if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_PSYCHOLOGIST){
                 $data_user = [
                     'id' => encode($user->id),
                     'type_user_id' => encode($user->type_user_id),
@@ -86,7 +85,7 @@ class AuthController extends Controller
                     'plan_id' => encode($psychologist->plan_id),
                     'psychologist_id' => encode($psychologist->id),
                 ];
-            }else if($user->type_user_id === 3){
+            }else if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_CLIENT){
                 $client = $this->getClientByUserIdService->execute($user->id);
 
                 $data_user = [
@@ -98,9 +97,7 @@ class AuthController extends Controller
                 ];
             }
 
-            $token = '';//auth()->refresh();
-
-            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $data_user, 'access_token' => $token], 200);
+            return response()->json(['status' => true, 'message' => 'Successfully', 'user' => $data_user], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }

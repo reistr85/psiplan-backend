@@ -82,7 +82,7 @@ class ProfileController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psychologist;
 
             return response()->json(['status' => true, 'message' => 'Success', 'profile' => $psychologist], 200);
         }catch (\Exception $e){

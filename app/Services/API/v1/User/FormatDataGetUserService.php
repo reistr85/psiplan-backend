@@ -3,6 +3,7 @@
 
 namespace App\Services\API\v1\User;
 
+use App\Enums\TypeServiceEnum;
 
 class FormatDataGetUserService
 {
@@ -15,14 +16,14 @@ class FormatDataGetUserService
         $userData['name'] = $user->name;
         $userData['email'] = $user->email;
 
-        if($user->type_user_id === 2) {
+        if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_PSYCHOLOGIST) {
             $psychologist = $user->psychologist;
             $userData['plan_id'] = encode($psychologist->plan->id);
             $userData['plan_name'] = $psychologist->plan->name;
             $userData['psychologist_id'] = encode($psychologist->id);
         }
 
-        if($user->type_user_id === 3) {
+        if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_CLIENT) {
             $client = $user->client;
             $userData['client_id'] = encode($client->id);
         }
