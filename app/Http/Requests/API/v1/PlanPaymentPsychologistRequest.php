@@ -35,7 +35,6 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
             'customer.address.city' => 'required',
             'customer.address.neighborhood' => 'required',
             'customer.address.street' => 'required',
-            'customer.address.street_number' => 'required',
             'customer.phone.number' => function($att, $value, $fail){
                 $phone = onlyNumber($value);
 

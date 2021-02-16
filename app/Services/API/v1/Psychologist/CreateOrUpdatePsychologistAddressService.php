@@ -28,7 +28,7 @@ class CreateOrUpdatePsychologistAddressService
         $psychologist_address['city'] = $data['city'];
         $psychologist_address['neighborhood'] = $data['neighborhood'];
         $psychologist_address['street'] = $data['street'];
-        $psychologist_address['number'] = $data['street_number'];
+        $psychologist_address['number'] = array_key_exists("street_number", $data) ? $data['street_number'] : '000';
         $psychologist_address['complement'] = "";
 
         if(!$psychologist->address) {

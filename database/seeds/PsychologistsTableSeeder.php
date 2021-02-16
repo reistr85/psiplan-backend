@@ -44,6 +44,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -76,6 +77,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -108,6 +110,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -140,6 +143,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -172,6 +176,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -204,6 +209,7 @@ class PsychologistsTableSeeder extends Seeder
                 'type_account' => 'CONTA POUPANÇA',
                 'number_account' => '71447-7',
                 'cpf_holder_account' => '39793947004',
+                'complete_profile' => 'completed',
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp

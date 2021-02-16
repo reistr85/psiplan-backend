@@ -21,8 +21,8 @@ class CreatePsychologistAddressesTable extends Migration
             $table->string('city');
             $table->string('neighborhood');
             $table->string('street');
-            $table->string('number');
-            $table->string('complement');
+            $table->string('number')->nullable();
+            $table->string('complement')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

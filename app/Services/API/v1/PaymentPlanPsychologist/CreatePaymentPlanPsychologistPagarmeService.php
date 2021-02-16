@@ -52,8 +52,8 @@ class CreatePaymentPlanPsychologistPagarmeService
         $data['api_key'] = env('API_KEY_PAGARME');
         $data['amount'] = onlyNumber($data['amount']);
         $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
+        $data['customer']['address']['street_number'] = "000";
         $data['customer']['document_number'] = onlyNumber($data['customer']['document_number']);
-
         $data['customer']['phone']['ddd'] = substr($data['customer']['phone']['number'], 1, 2);
         $data['customer']['phone']['number'] = onlyNumber(substr($data['customer']['phone']['number'], 4, 9));
 

@@ -18,9 +18,12 @@ class FormatDataGetUserService
 
         if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_PSYCHOLOGIST) {
             $psychologist = $user->psychologist;
-            $userData['plan_id'] = encode($psychologist->plan->id);
-            $userData['plan_name'] = $psychologist->plan->name;
             $userData['psychologist_id'] = encode($psychologist->id);
+
+            if($psychologist->plan_id){
+                $userData['plan_id'] = encode($psychologist->plan->id);
+                $userData['plan_name'] = $psychologist->plan->name;
+            }
         }
 
         if($user->type_user_id === TypeServiceEnum::TYPE_USER_ID_CLIENT) {
