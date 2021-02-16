@@ -7,6 +7,7 @@ use App\Http\Requests\API\v1\QueryPaymentClientRequest;
 use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
 use App\Services\API\v1\PaymentQueryClient\CreatePaymentClientUniqueQueryPagarmeService;
 use App\Services\API\v1\PaymentQueryClient\GetAllTransactionsPagarmeClientService;
+use App\Services\API\v1\Query\GetQueriesByIdService;
 use App\Services\API\v1\Query\UpdateQueryPaymentStatusService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,23 +20,26 @@ class PaymentQueryClientController extends Controller
     private $createPagarmeTransactionService;
     private $updateQueryPaymentStatusService;
     private $getAllTransactionsPagarmeClientService;
+    private $get_query_by_id_service;
 
     public function __construct(
         CreatePaymentClientUniqueQueryPagarmeService $createPaymentClientUniqueQueryPagarmeService,
         CreatePagarmeTransactionService $createPagarmeTransactionService,
         UpdateQueryPaymentStatusService $updateQueryPaymentStatusService,
-        GetAllTransactionsPagarmeClientService $getAllTransactionsPagarmeClientService)
+        GetAllTransactionsPagarmeClientService $getAllTransactionsPagarmeClientService,
+        GetQueriesByIdService $get_query_by_id_service)
     {
         $this->createPaymentClientUniqueQueryPagarmeService = $createPaymentClientUniqueQueryPagarmeService;
         $this->createPagarmeTransactionService = $createPagarmeTransactionService;
         $this->updateQueryPaymentStatusService = $updateQueryPaymentStatusService;
         $this->getAllTransactionsPagarmeClientService = $getAllTransactionsPagarmeClientService;
+        $this->get_query_by_id_service = $get_query_by_id_service;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -60,10 +64,11 @@ class PaymentQueryClientController extends Controller
     {
         try{
             $user = auth()->user();
+            $query = $this->get_query_by_id_service->execute($request->input('query_id'));
             $data = $request->all();
+            $data['amount'] = $query->price;
 
             $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
-            $query_id = $request->input('query_id');
             $amount = $response->amount;
 
             $pagarme_transaction = $this->createPagarmeTransactionService->execute(
@@ -71,12 +76,12 @@ class PaymentQueryClientController extends Controller
                 [
                     'user_id' => $user->id,
                     'transaction_id' => $response->id,
-                    'query_id' => $query_id,
+                    'query_id' => $query->id,
                     'status' => $response->status,
                     'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
                 ]);
 
-            $this->updateQueryPaymentStatusService->execute($query_id, [
+            $this->updateQueryPaymentStatusService->execute($query->id, [
                 'transaction_id' => $response->id,
                 'status_payment' => $response->status,
             ]);

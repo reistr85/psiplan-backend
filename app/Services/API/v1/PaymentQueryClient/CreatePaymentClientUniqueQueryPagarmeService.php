@@ -37,7 +37,7 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
         $item = [
             'id' => '1',
             'title' => 'Consulta PSIPLAN BRASIL',
-            'unit_price' => '8500',
+            'unit_price' => onlyNumber($data['amount']),
             'quantity' => '1',
             'tangible' => false,
         ];
@@ -61,7 +61,7 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
         array_push($data['split_rules'], $receiver_psychologist);
 
         $data['api_key'] = env('API_KEY_PAGARME');
-        $data['amount'] = '8500';
+        $data['amount'] = onlyNumber($data['amount']);
         $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
         $data['billing']['address']['country'] = "br";
         $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);

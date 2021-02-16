@@ -10,7 +10,6 @@ use App\Services\API\v1\Client\GetClientByUserIdService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class ClientQueryController extends Controller
