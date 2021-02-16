@@ -62,6 +62,8 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
 
         $data['api_key'] = env('API_KEY_PAGARME');
         $data['amount'] = '8500';
+        $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
+        $data['billing']['address']['country'] = "br";
         $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);
         $data['customer']['phone_numbers'] = ["+55".onlyNumber($data['customer']['phone_numbers'][0])];
         $data['customer']['birthday'] = dateEN($data['customer']['birthday']);

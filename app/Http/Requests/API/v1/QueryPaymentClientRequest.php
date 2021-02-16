@@ -22,9 +22,6 @@ class QueryPaymentClientRequest extends APIFormRequest
      */
     public function rules()
     {
-
-
-
         return [
             'customer.name' => 'required',
             'customer.email' => 'required|email',
@@ -56,7 +53,7 @@ class QueryPaymentClientRequest extends APIFormRequest
                 $year = substr(@date("Y"), 0, 2).substr($value, 3, 2);
 
                 if($month < @date("m") || !is_numeric($month) || $year < @date("Y") || !is_numeric($year))
-                    return $fail("Digite um vencimento válido.");
+                    return $fail("Digite um vencimento válido");
             },
             'card_holder_name' => 'required',
         ];

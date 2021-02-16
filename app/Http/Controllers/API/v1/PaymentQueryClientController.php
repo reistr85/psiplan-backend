@@ -63,7 +63,8 @@ class PaymentQueryClientController extends Controller
             $data = $request->all();
 
             $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
-            $query_id = $response->items[0]->id;
+            $query_id = $request->input('query_id');
+            $amount = $response->amount;
 
             $pagarme_transaction = $this->createPagarmeTransactionService->execute(
                 $user->id,
@@ -72,7 +73,7 @@ class PaymentQueryClientController extends Controller
                     'transaction_id' => $response->id,
                     'query_id' => $query_id,
                     'status' => $response->status,
-                    'amount' => $response->amount,
+                    'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
                 ]);
 
             $this->updateQueryPaymentStatusService->execute($query_id, [
