@@ -55,8 +55,8 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * ProfileController
      * */
     Route::get('account/profile', 'ProfileController@index');
-    Route::post('account/profile', 'ProfileController@show');
-    Route::post('account/profile/{action?}', 'ProfileController@update');
+//    Route::post('account/profile', 'ProfileController@show');
+    Route::put('account/profile/{action?}', 'ProfileController@update');
     //Route::post('account/delete-image-gallery', 'ProfileController@deleteImageGallery');
 
 

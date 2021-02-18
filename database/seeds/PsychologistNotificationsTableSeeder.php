@@ -39,22 +39,6 @@ class PsychologistNotificationsTableSeeder extends Seeder
             ['psychologist_id' => 3, 'notification_id' => 6, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 3, 'notification_id' => 7, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 3, 'notification_id' => 8, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 5, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 6, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 7, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 4, 'notification_id' => 8, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 5, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 6, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 7, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 5, 'notification_id' => 8, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         PsychologistNotification::insert($data);
     }

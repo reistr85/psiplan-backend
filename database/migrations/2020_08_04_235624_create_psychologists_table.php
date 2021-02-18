@@ -55,6 +55,7 @@ class CreatePsychologistsTable extends Migration
             $table->string('cpf_holder_account')->nullable();
             $table->string('cnpj_holder_account')->nullable();
             $table->string('recipient_id')->nullable();
+            $table->integer('percentage_profile')->default(0)->nullable();
             $table->string('complete_profile')->default('incomplete')->nullable();
             $table->integer('is_active');
             $table->softDeletes();

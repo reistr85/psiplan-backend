@@ -13,7 +13,7 @@ class GetPsychologistByUserIdService extends PsychologistRepository
         $psy = parent::find($id);
         $psychologist = parent::getPsychologistByUserId($psy->user_id);
 
-        if(!$psychologist->complete_profile)
+        if($psychologist->complete_profile == 'incomplete')
             throw new \Exception("Psicólogo não encontrado", 500);
 
         $path_avatar = env('AWS_BASE_URL')."/images/users/{$psy->user_id}/avatar/";

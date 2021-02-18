@@ -10,6 +10,7 @@ use App\Services\API\v1\Psychologist\GetAllSpecialtyService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistDocumentService;
 use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistPercentageProfileService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class ProfileController extends Controller
     private $getAcademicFormationsByPsychologistIdService;
     private $updatePsychologistService;
     private $getPsychologistDocumentService;
+    private $update_psychologist_percentage_profile_service;
 
     public function __construct(
         GetAllSpecialtyService $getAllSpecialtiesService,
@@ -31,7 +33,8 @@ class ProfileController extends Controller
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
         GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
         UpdatePsychologistService $updatePsychologistService,
-        GetPsychologistDocumentService $getPsychologistDocumentService)
+        GetPsychologistDocumentService $getPsychologistDocumentService,
+        UpdatePsychologistPercentageProfileService $update_psychologist_percentage_profile_service)
     {
         $this->getAllSpecialtiesService = $getAllSpecialtiesService;
         $this->getSpecialtiesByPsychologistIdService = $getSpecialtiesByPsychologistIdService;
@@ -39,6 +42,7 @@ class ProfileController extends Controller
         $this->getAcademicFormationsByPsychologistIdService = $getAcademicFormationsByPsychologistIdService;
         $this->updatePsychologistService = $updatePsychologistService;
         $this->getPsychologistDocumentService = $getPsychologistDocumentService;
+        $this->update_psychologist_percentage_profile_service = $update_psychologist_percentage_profile_service;
     }
 
     /**
@@ -105,8 +109,10 @@ class ProfileController extends Controller
             $data = $request->all();
 
             $image = $this->updatePsychologistService->execute($psychologist->id, $data, $action);
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, 10, 'add');
 
-            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image], 200);
+            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image,
+                'percentage' => $percentage], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
         }

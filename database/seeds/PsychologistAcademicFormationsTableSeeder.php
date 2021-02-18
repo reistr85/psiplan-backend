@@ -43,33 +43,6 @@ class PsychologistAcademicFormationsTableSeeder extends Seeder
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
-            [
-                'psychologist_id' => 4,
-                'type' => 'Pós-graduação',
-                'description' => Lorem::text(20),
-                'institution' => Lorem::text(10),
-                'is_active' => 1,
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp
-            ],
-            [
-                'psychologist_id' => 5,
-                'type' => 'Doutorado',
-                'description' => Lorem::text(20),
-                'institution' => Lorem::text(10),
-                'is_active' => 1,
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp
-            ],
-            [
-                'psychologist_id' => 6,
-                'type' => 'Mestrado',
-                'description' => Lorem::text(20),
-                'institution' => Lorem::text(10),
-                'is_active' => 1,
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp
-            ],
         ];
         PsychologistAcademicFormation::insert($data);
     }
