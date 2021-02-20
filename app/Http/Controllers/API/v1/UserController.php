@@ -7,6 +7,7 @@ use App\Http\Requests\API\v1\StoreUserRequest;
 use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
 use App\Services\API\v1\Client\CreateClientService;
 use App\Services\API\v1\Psychologist\CreatePsychologist;
+use App\Services\API\v1\Psychologist\CreatePsychologistPreferencesService;
 use App\Services\API\v1\User\StoreUserService;
 use App\Services\API\v1\User\UpdateUserService;
 use Illuminate\Http\JsonResponse;
@@ -21,24 +22,27 @@ class UserController extends Controller
     private $updateUserService;
     private $createPsychologist;
     private $createClientService;
+    private $create_psychologist_preferences_service;
 
     public function __construct(
         StoreUserService $storeUserService,
         CreatePsychologist $createPsychologist,
         UpdateUserService $updateUserService,
-        CreateClientService $createClientService)
+        CreateClientService $createClientService,
+        CreatePsychologistPreferencesService $create_psychologist_preferences_service)
     {
         $this->storeUserService = $storeUserService;
         $this->createPsychologist = $createPsychologist;
         $this->updateUserService = $updateUserService;
         $this->createClientService = $createClientService;
+        $this->create_psychologist_preferences_service = $create_psychologist_preferences_service;
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param StoreUserRequest $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(StoreUserRequest $request)
     {
@@ -70,7 +74,8 @@ class UserController extends Controller
                     'country' => 'Brasil',
                 ];
 
-                $this->createPsychologist->execute($data_psychologist);
+                $psychologist = $this->createPsychologist->execute($data_psychologist);
+                $this->create_psychologist_preferences_service->execute($psychologist->id);
             }
 
             if($user->type_user_id == 3) {
