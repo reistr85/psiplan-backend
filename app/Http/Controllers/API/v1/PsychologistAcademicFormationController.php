@@ -41,7 +41,7 @@ class PsychologistAcademicFormationController extends Controller
 
             $psychologist_academic_formation = $this->createPsychologistAcademicFormationService->execute($data);
             $percentage_value = TypeServiceEnum::PERCENTAGE_FORMATION_VALUE;
-            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id,'add', $type, $percentage_value);
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, $type, $percentage_value);
 
             return response()->json([
                 'status' => true,

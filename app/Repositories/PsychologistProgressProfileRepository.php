@@ -33,4 +33,9 @@ class PsychologistProgressProfileRepository extends BaseRepository
     {
         return parent::save($this->model, $data);
     }
+
+    public function destroy(PsychologistProgressProfile $model)
+    {
+        return parent::delete($model);
+    }
 }

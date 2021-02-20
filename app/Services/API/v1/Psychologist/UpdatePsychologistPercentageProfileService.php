@@ -21,17 +21,21 @@ class UpdatePsychologistPercentageProfileService
         $this->psychologist_progress_profile_repository = $psychologist_progress_profile_repository;
     }
 
-    public function execute(int $psychologist_id, string $action, string $type, int $value)
+    public function execute(int $psychologist_id, string $type, int $value)
     {
+        $action = 'add';
         $psychologist = $this->psychologist_repository->find($psychologist_id);
 
-        if($type == 'avatar' && ($psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_TRI ||
-            $psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_SEM))
-            $value = 10;
+//        if($type == 'avatar' && ($psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_TRI ||
+//            $psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_SEM))
+//            $value = 10;
 
         $percentage = $psychologist->percentage_profile;
         $psychologist_progress_profile = $this->psychologist_progress_profile_repository
             ->getByPsychologistIdAndType($psychologist->id, $type)->first();
+
+        if($psychologist_progress_profile && $value <= 0)
+            $action = 'rem';
 
         if($psychologist_progress_profile && $action == 'add')
             return $percentage;
@@ -46,10 +50,11 @@ class UpdatePsychologistPercentageProfileService
                 'value' => $value,
                 'is_active' => 1
             ]);
-            $percentage = $psychologist->percentage_profile + $value;
-        }elseif($action == 'rem' && $psychologist->percentage_profile >= 10){
-            $percentage = $psychologist->percentage_profile - $value;
+        }elseif($action == 'rem' && ($psychologist->percentage_profile >= 10 || $psychologist->percentage_profile >= 5)){
+            $this->psychologist_progress_profile_repository->destroy($psychologist_progress_profile);
         }
+
+        $percentage = $psychologist->percentage_profile + $value;
 
         if($percentage) {
             $data = ['percentage_profile' => $percentage];

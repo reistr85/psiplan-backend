@@ -115,8 +115,12 @@ class ProfileController extends Controller
             if($type == 'description')
                 $value_percentage = TypeServiceEnum::PERCENTAGE_DESCRIPTION_VALUE;
 
-            if($type == 'url_youtube')
+            if($type == 'url_youtube') {
                 $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
+
+                if(is_null($data['url_youtube']))
+                    $value_percentage = -$value_percentage;
+            }
 
             if($type == 'gallery_tow' || $type == 'gallery_three' || $type == 'gallery_four' || $type == 'gallery_five') {
                 $value_percentage = TypeServiceEnum::PERCENTAGE_GALLERY_VALUE;
@@ -126,7 +130,7 @@ class ProfileController extends Controller
             if($type == 'approach')
                 $value_percentage = TypeServiceEnum::PERCENTAGE_APPROACH_VALUE;
 
-            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id,'add', $type, $value_percentage);
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, $type, $value_percentage);
 
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image,
                 'percentage' => $percentage], 200);

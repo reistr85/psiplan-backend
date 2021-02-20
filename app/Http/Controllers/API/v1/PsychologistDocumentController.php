@@ -55,7 +55,7 @@ class PsychologistDocumentController extends Controller
                 $value_percentage = TypeServiceEnum::PERCENTAGE_DOC_EPSI_VALUE;
             }
 
-            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id,'add', $type, $value_percentage);
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, $type, $value_percentage);
 
             return response()->json(['status' => true, 'message' => 'Os arquivos foram enviados com sucesso.', 'percentage' => $percentage], 200);
         }catch (\Exception $e){

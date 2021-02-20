@@ -45,7 +45,7 @@ class PsychologistSpecialtyController extends Controller
             $specialties = $request->input('specialties');
             $this->createPsychologistSpecialtyService->execute($psychologist->id, $specialties);
             $percentage_value = TypeServiceEnum::PERCENTAGE_SPECIALTY_VALUE;
-            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id,'add', $type, $percentage_value);
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, $type, $percentage_value);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Especialidades cadastradas com sucesso.', 'percentage' => $percentage], 200);

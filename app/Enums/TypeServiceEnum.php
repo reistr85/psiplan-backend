@@ -25,7 +25,7 @@ class TypeServiceEnum extends Enum
     public const PLAN_ID_HASH_PREMIUM_TRI = 'nR';
     public const PLAN_ID_PREMIUM_SEM = 6;
     public const PLAN_ID_HASH_PREMIUM_SEM = 'oj';
-    public const PERCENTAGE_AVATAR_VALUE = 20;
+    public const PERCENTAGE_AVATAR_VALUE = 10;
     public const PERCENTAGE_YOUTUBE_VALUE = 5;
     public const PERCENTAGE_GALLERY_VALUE = 5;
     public const PERCENTAGE_DESCRIPTION_VALUE = 10;
