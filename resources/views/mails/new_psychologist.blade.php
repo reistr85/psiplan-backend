@@ -1,0 +1,11 @@
+@component('mail::message')
+    <h1>Olá Psicólogo(a) {{ $user['name'] }}!</h1>
+    <p>Seja bem vindo(a)!   Preparado(a) para fazer parte da plataforma de gestão Psiplan Brasil?   Para que você se familiarize com a nossa plataforma, vamos lhe oferecer 7 dias de experiência, sem custos, para ajudar na gestão dos seus atendimentos, sejam eles presenciais ou online.   A partir de agora, além de economizar tempo, você não vai perder mais nenhum paciente!  Com o seu perfil profissional exclusivo em nossa plataforma, as pessoas que navegarem em nosso site na busca de profissionais poderão visualizar seu perfil e se tornarem futuros pacientes. </p>
+    <p>O sucesso de um perfil em nossa plataforma vai de uma boa descrição sobre você, inserção de vídeos e fotos, e alguns benefícios que você poderá proporcionar aos seu futuro cliente, na configuração de seu painel.</p>
+    <br />
+    <p>Vamos começar? </p>
+    <p>Aperte o botão abaixo, preencha o seu perfil e deixe o resto com a gente! </p>
+    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br'])
+        Clique aqui
+    @endcomponent
+@endcomponent

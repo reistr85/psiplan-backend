@@ -54,6 +54,7 @@ class AuthController extends Controller
     {
         try{
             $credentials = $request->only(['email', 'password']);
+
             $auth = $this->createAuthService->execute($credentials);
             $userData = $this->format_data_get_user_service->execute();
 

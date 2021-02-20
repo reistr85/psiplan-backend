@@ -5,15 +5,16 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreUserRequest;
 use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
+use App\Mail\NewClient;
+use App\Mail\NewPsychologist;
 use App\Services\API\v1\Client\CreateClientService;
 use App\Services\API\v1\Psychologist\CreatePsychologist;
 use App\Services\API\v1\Psychologist\CreatePsychologistPreferencesService;
 use App\Services\API\v1\User\StoreUserService;
 use App\Services\API\v1\User\UpdateUserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -76,6 +77,8 @@ class UserController extends Controller
 
                 $psychologist = $this->createPsychologist->execute($data_psychologist);
                 $this->create_psychologist_preferences_service->execute($psychologist->id);
+
+                Mail::send(new NewPsychologist($data_psychologist));
             }
 
             if($user->type_user_id == 3) {
@@ -88,6 +91,7 @@ class UserController extends Controller
                 ];
 
                 $this->createClientService->execute($data_client);
+                Mail::send(new NewClient($data_client));
             }
 
             DB::commit();

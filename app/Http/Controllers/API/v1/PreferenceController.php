@@ -42,7 +42,7 @@ class PreferenceController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Successfully',
+                'message' => 'Successfullys',
                 'notifications' => $notifications,
                 'psychologist_notifications' => $psychologist_notifications,
             ], 200);
