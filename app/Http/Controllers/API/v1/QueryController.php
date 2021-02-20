@@ -52,7 +52,7 @@ class QueryController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psichologist;
             $target_audiences = $this->getTargetAudiencesService->execute();
 
             return response()->json([
@@ -71,7 +71,7 @@ class QueryController extends Controller
         DB::beginTransaction();
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psichologist;
             $data = $request->all();
             $dataUpdatePsychologist = ['consultation_value' => $data['consultation_value'], 'accessibility' => $data['accessibility']];
             $this->createPsychologistTypeServiceService->execute($psychologist->id, $data['type_services']);
@@ -95,7 +95,7 @@ class QueryController extends Controller
         DB::beginTransaction();
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psichologist;
             $data = $request->all();
 
             $this->updatePsychologistService->execute($psychologist->id, $data);

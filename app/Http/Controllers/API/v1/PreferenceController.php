@@ -36,7 +36,7 @@ class PreferenceController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psichologist;
             $notifications = $this->getAllNotificationsService->execute();
             $psychologist_notifications = $this->getPsychologistNotificationsByPsychologistIdService->execute($psychologist->id);
 
@@ -63,7 +63,7 @@ class PreferenceController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psichologist;
             $notification_id = $id;
             $is_active = $request->input('is_active');
 
