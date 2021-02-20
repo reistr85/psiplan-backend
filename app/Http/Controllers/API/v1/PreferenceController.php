@@ -36,7 +36,7 @@ class PreferenceController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $notifications = $this->getAllNotificationsService->execute();
             $psychologist_notifications = $this->getPsychologistNotificationsByPsychologistIdService->execute($psychologist->id);
 
@@ -59,11 +59,11 @@ class PreferenceController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id)
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $notification_id = $id;
             $is_active = $request->input('is_active');
 

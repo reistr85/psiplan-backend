@@ -45,7 +45,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $appointments_available = $this->getPsychologistAvailabilityCalendarByPsychologistIdService->execute($psychologist->id);
 
             return response()->json(['status' => true, 'message' => 'Successfully', 'appointments_available' => $appointments_available], 200);
@@ -58,7 +58,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $data = $request->all();
 
             $this->createPsychologistAvailabilityCalendarService->execute($psychologist->id, $data);
@@ -73,7 +73,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
 
             $this->destroyPsychologistAvailabilityCalendarService->execute($psychologist->id, $id);
 
@@ -87,7 +87,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
 
             $this->destroyAllPsychologistAvailabilityCalendarService->execute($psychologist);
 
@@ -101,7 +101,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $day_selected = $request->input('day_selected');
 
             $this->destroyAllHoursDaySelectedPsychologistAvailabilityCalendarService->execute($psychologist->id, $day_selected);
@@ -116,7 +116,7 @@ class PsychologistAvailabilityCalendarController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $user->psichologist;
+            $psychologist = $user->psychologist;
             $data = $request->only('date', 'type_service_id');
 
             $hours = $this->getServiceHoursByDateByPsychologistIdService->execute($psychologist->id, $data);
