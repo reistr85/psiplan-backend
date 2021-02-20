@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\TypeServiceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
-use App\Services\API\v1\Psychologist\DeleteImageGalleryService;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetAllSpecialtyService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
@@ -14,7 +14,6 @@ use App\Services\API\v1\Psychologist\UpdatePsychologistPercentageProfileService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -55,7 +54,7 @@ class ProfileController extends Controller
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $this->getPsychologistByUserIdService->execute($user->id, 'profile');
 
             $specialties = $this->getAllSpecialtiesService->execute();
             $psychologist_specialties = $this->getSpecialtiesByPsychologistIdService->execute($psychologist->id);
@@ -98,18 +97,34 @@ class ProfileController extends Controller
      * Update Psychologist.
      *
      * @param UpdatePsychologistRequest $request
-     * @param $action
      * @return JsonResponse
      */
-    public function update(UpdatePsychologistRequest $request, $action = null)
+    public function update(UpdatePsychologistRequest $request)
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psychologist;
             $data = $request->all();
+            $type = $request->input('action');
+            $value_percentage = 0;
+            $image = $this->updatePsychologistService->execute($psychologist->id, $data);
 
-            $image = $this->updatePsychologistService->execute($psychologist->id, $data, $action);
-            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id, 10, 'add');
+            if($type == 'avatar')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_AVATAR_VALUE;
+
+            if($type == 'url_youtube')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
+
+            if($type == 'url_youtube')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
+
+            if($type == 'gallery_tow' || $type == 'gallery_three' || $type == 'gallery_four' || $type == 'gallery_five')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_DESCRIPTION_VALUE;
+
+            if($type == 'approach')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_APPROACH_VALUE;
+
+            $percentage = $this->update_psychologist_percentage_profile_service->execute($psychologist->id,'add', $type, $value_percentage);
 
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image,
                 'percentage' => $percentage], 200);

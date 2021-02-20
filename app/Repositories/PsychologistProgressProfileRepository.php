@@ -4,41 +4,33 @@
 namespace App\Repositories;
 
 
-use App\Models\PsychologistAcademicFormation;
-use Facade\Ignition\QueryRecorder\Query;
+use App\Models\PsychologistProgressProfile;
+use Illuminate\Database\Eloquent\Model;
 
-class PsychologistAcademicFormationRepository
+class PsychologistProgressProfileRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(PsychologistAcademicFormation $model)
+    public function __construct(PsychologistProgressProfile $model)
     {
         $this->model = $model;
     }
 
+    public function getByPsychologistIdAndType(int $psychologist_id, string $type)
+    {
+        return $this->model
+            ->where('psychologist_id', $psychologist_id)
+            ->where('type', $type);
+    }
+
     /**
-     * Get All Academic Formations by Psychologist Id.
+     * Store
      *
-     * @param int $psychologist_id
-     * @return Query
+     * @param array $data
+     * @return Model
      */
-    public function getAllByPsychologistId($psychologist_id)
+    public function store(array $data): Model
     {
-        return $this->model->where('psychologist_id', $psychologist_id);
-    }
-
-    public function getByIdAndPsychologistId($psychologist_id, $id)
-    {
-        return  $this->model::where('id', $id)->where('psychologist_id', $psychologist_id)->first();
-    }
-
-    public function store($data)
-    {
-        return  $this->model::create($data);
-    }
-
-    public function destroy(PsychologistAcademicFormation $psychologist_academic_formation)
-    {
-        return  $psychologist_academic_formation->delete();
+        return parent::save($this->model, $data);
     }
 }

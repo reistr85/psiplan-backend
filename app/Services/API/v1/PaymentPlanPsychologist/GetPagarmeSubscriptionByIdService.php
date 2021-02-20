@@ -20,7 +20,7 @@ class GetPagarmeSubscriptionByIdService
     public function execute()
     {
         $user = auth()->user();
-        $pagarme_subscription = $this->pagarme_subscription_repository->findByUserId($user->id);
+        $pagarme_subscription = $this->pagarme_subscription_repository->findByUserId($user->id)->first();
 
         if(!$pagarme_subscription)
             throw new \Exception("A assinatura não foi localizada", 500);

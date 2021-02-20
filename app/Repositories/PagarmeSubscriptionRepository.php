@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\PagarmeSubscription;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 class PagarmeSubscriptionRepository extends BaseRepository
 {
@@ -21,11 +22,11 @@ class PagarmeSubscriptionRepository extends BaseRepository
      * Find
      *
      * @param int $id
-     * @return Model
+     * @return Builder
      */
-    public function findByUserId(int $id): Model
+    public function findByUserId(int $id)
     {
-        return $this->model::where('user_id', $id)->first();
+        return $this->model::where('user_id', $id);
     }
 
     /**

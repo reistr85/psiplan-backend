@@ -27,24 +27,24 @@ class UpdatePsychologistService extends PsychologistRepository
     {
         $psychologist = parent::find($psychologist_id);
 
-        if(array_key_exists("image", $data)){
-            if($action === 'avatar'){
+        if(array_key_exists('upload_image', $data)){
+            if($data['action'] === 'avatar'){
                 $this->uploadService = new UploadImagesService(300, 300);
                 $this->path = "images/users/{$psychologist->id}/avatar";
                 $this->path_file_delete = "{$this->path}/{$psychologist->avatar}";
             }else{
                 $this->uploadService = new UploadImagesService(1024, 768, true);
                 $this->path = "images/users/{$psychologist->id}/gallery";
-                $this->path_file_delete = "{$this->path}/{$psychologist[$action]}";
+                $this->path_file_delete = "{$this->path}/{$psychologist[$data['action']]}";
                 Storage::disk('s3')->delete("{$this->path}/thumbnail_{$psychologist[$action]}");
             }
 
             Storage::disk('s3')->delete("{$this->path_file_delete}");
             $name_image = $this->uploadService->execute($this->path, $data['image']);
-            $data[$action] = $name_image;
+            $data[$data['action']] = $name_image;
         }
 
-        if($action === 'delete_gallery')
+        if($data['action'] === 'delete_gallery')
             $data = [$data['type'] => null];
 
         $psi = parent::update($psychologist, $data);
@@ -52,6 +52,6 @@ class UpdatePsychologistService extends PsychologistRepository
         if(!$psi)
             throw new Exception("Erro ao alterar a(s) informação(s).", 500);
 
-        return array_key_exists("image", $data) ? $data[$action] : '';
+        return $data['action'] === 'avatar' ? $data['avatar'] : '';
     }
 }

@@ -8,12 +8,12 @@ use App\Repositories\PsychologistRepository;
 
 class GetPsychologistByUserIdService extends PsychologistRepository
 {
-    public function execute(int $id)
+    public function execute(int $id, $type = 'get-psychologist-details')
     {
         $psy = parent::find($id);
         $psychologist = parent::getPsychologistByUserId($psy->user_id);
 
-        if($psychologist->complete_profile == 'incomplete')
+        if($psychologist->complete_profile == 'incomplete' && $type == 'get-psychologist-details')
             throw new \Exception("Psicólogo não encontrado", 500);
 
         $path_avatar = env('AWS_BASE_URL')."/images/users/{$psy->user_id}/avatar/";
