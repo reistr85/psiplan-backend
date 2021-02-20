@@ -215,7 +215,7 @@ return [
         'zip_code' => 'CEP',
         'card_cvv' => 'CVV',
         'card_holder_name' => 'nome impresso no cartão',
-        'customer.address.zip_code' => 'CEP',
+        'customer.address.zipcode' => 'CEP',
         'customer.address.state' => 'UF',
         'customer.address.city' => 'cidade',
         'customer.address.neighborhood' => 'bairro',
