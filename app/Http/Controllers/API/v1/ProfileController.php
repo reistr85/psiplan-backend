@@ -112,14 +112,16 @@ class ProfileController extends Controller
             if($type == 'avatar')
                 $value_percentage = TypeServiceEnum::PERCENTAGE_AVATAR_VALUE;
 
-            if($type == 'url_youtube')
-                $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
-
-            if($type == 'url_youtube')
-                $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
-
-            if($type == 'gallery_tow' || $type == 'gallery_three' || $type == 'gallery_four' || $type == 'gallery_five')
+            if($type == 'description')
                 $value_percentage = TypeServiceEnum::PERCENTAGE_DESCRIPTION_VALUE;
+
+            if($type == 'url_youtube')
+                $value_percentage = TypeServiceEnum::PERCENTAGE_YOUTUBE_VALUE;
+
+            if($type == 'gallery_tow' || $type == 'gallery_three' || $type == 'gallery_four' || $type == 'gallery_five') {
+                $value_percentage = TypeServiceEnum::PERCENTAGE_GALLERY_VALUE;
+                $type = 'gallery';
+            }
 
             if($type == 'approach')
                 $value_percentage = TypeServiceEnum::PERCENTAGE_APPROACH_VALUE;

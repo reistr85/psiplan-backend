@@ -26,6 +26,7 @@ class UpdatePsychologistService extends PsychologistRepository
     public function execute(int $psychologist_id, array $data, string $action = null): string
     {
         $psychologist = parent::find($psychologist_id);
+        $name_image = "";
 
         if(array_key_exists('upload_image', $data)){
             if($data['action'] === 'avatar'){
@@ -52,6 +53,6 @@ class UpdatePsychologistService extends PsychologistRepository
         if(!$psi)
             throw new Exception("Erro ao alterar a(s) informação(s).", 500);
 
-        return $data['action'] === 'avatar' ? $data['avatar'] : '';
+        return array_key_exists('upload_image', $data) ? $name_image : '';
     }
 }
