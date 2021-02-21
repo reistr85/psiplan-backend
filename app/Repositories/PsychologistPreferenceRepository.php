@@ -4,14 +4,14 @@
 namespace App\Repositories;
 
 
-use App\Models\PsychologistNotification;
+use App\Models\PsychologistPreference;
 use Illuminate\Database\Eloquent\Model;
 
 class PsychologistPreferenceRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(PsychologistNotification $model)
+    public function __construct(PsychologistPreference $model)
     {
         $this->model = $model;
     }

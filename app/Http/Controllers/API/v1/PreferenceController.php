@@ -3,28 +3,30 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\Notification\GetAllNotificationsService;
+use App\Services\API\v1\Preference\GetAllPreferencesService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistNotificationsByPsychologistIdService;
-use App\Services\API\v1\Psychologist\UpdatePsychologistNotificationService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistPreferenceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PreferenceController extends Controller
 {
     private $getPsychologistByUserIdService;
-    private $getAllNotificationsService;
+    private $get_all_preferences_service;
     private $getPsychologistNotificationsByPsychologistIdService;
-    private $updatePsychologistNotificationService;
+    private $update_psychologist_preference_service;
 
-    public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService, GetAllNotificationsService $getAllNotificationsService,
-                                GetPsychologistNotificationsByPsychologistIdService $getPsychologistNotificationsByPsychologistIdService,
-                                UpdatePsychologistNotificationService $updatePsychologistNotificationService)
+    public function __construct(
+        GetPsychologistByUserIdService $getPsychologistByUserIdService,
+        GetAllPreferencesService $get_all_preferences_service,
+        GetPsychologistNotificationsByPsychologistIdService $getPsychologistNotificationsByPsychologistIdService,
+        UpdatePsychologistPreferenceService $update_psychologist_preference_service)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
-        $this->getAllNotificationsService = $getAllNotificationsService;
+        $this->get_all_preferences_service = $get_all_preferences_service;
         $this->getPsychologistNotificationsByPsychologistIdService = $getPsychologistNotificationsByPsychologistIdService;
-        $this->updatePsychologistNotificationService = $updatePsychologistNotificationService;
+        $this->update_psychologist_preference_service = $update_psychologist_preference_service;
     }
 
     /**
@@ -37,17 +39,18 @@ class PreferenceController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $user->psychologist;
-            $notifications = $this->getAllNotificationsService->execute();
-            $psychologist_notifications = $this->getPsychologistNotificationsByPsychologistIdService->execute($psychologist->id);
+            $preferences = $this->get_all_preferences_service->execute();
+            $psychologist_preferences = $this->getPsychologistNotificationsByPsychologistIdService->execute($psychologist->id);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Successfullys',
-                'notifications' => $notifications,
-                'psychologist_notifications' => $psychologist_notifications,
+                'message' => 'Successfully',
+                'preferences' => $preferences,
+                'psychologist_preferences' => $psychologist_preferences,
             ], 200);
 
         }catch(\Exception $e){
+            dd($e);
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }
     }
@@ -64,14 +67,14 @@ class PreferenceController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $user->psychologist;
-            $notification_id = $id;
+            $preference_id = $id;
             $is_active = $request->input('is_active');
 
-            $this->updatePsychologistNotificationService->execute($psychologist->id, $notification_id, $is_active);
+            $this->update_psychologist_preference_service->execute($psychologist->id, $preference_id, $is_active);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Notificação atualizada com sucesso.',
+                'message' => 'Atualizado com sucesso.',
             ], 200);
 
         }catch(\Exception $e){

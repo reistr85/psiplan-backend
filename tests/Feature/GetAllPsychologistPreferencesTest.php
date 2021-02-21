@@ -23,8 +23,8 @@ class GetAllPsychologistPreferencesTest extends TestCase
         $response->assertStatus(200);
 
         $json = json_decode($response->getContent());
-        $count_all_preferences = count($json->notifications);
-        $count_psychologist = count($json->psychologist_notifications);
+        $count_all_preferences = count($json->preferences);
+        $count_psychologist = count($json->psychologist_preferences);
 
         $this->assertEquals($count_psychologist, $count_all_preferences);
     }

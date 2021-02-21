@@ -4,13 +4,13 @@
 namespace App\Repositories;
 
 
-use App\Models\Notification;
+use App\Models\Preference;
 
-class NotificationRepository extends BaseRepository
+class PreferenceRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(Notification $model)
+    public function __construct(Preference $model)
     {
         $this->model = $model;
     }

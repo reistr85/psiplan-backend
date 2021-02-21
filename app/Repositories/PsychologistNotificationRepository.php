@@ -4,27 +4,27 @@
 namespace App\Repositories;
 
 
-use App\Models\PsychologistNotification;
+use App\Models\PsychologistPreference;
 use Illuminate\Database\Eloquent\Builder;
 
 class PsychologistNotificationRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(PsychologistNotification $model)
+    public function __construct(PsychologistPreference $model)
     {
         $this->model = $model;
     }
 
     /**
-     * Update PsychologistNotification
+     * Update PsychologistPreference
      *
      * @param int $psychologist_id
-     * @param int $notification_id
+     * @param int $preference_id
      * @return Builder
      * */
-    public function getPsychologistNotificationByPsychologistIdAndNotificationId(int $psychologist_id, int $notification_id): Builder
+    public function getPsychologistPreferenceByPsychologistIdAndPreferenceId(int $psychologist_id, int $preference_id): Builder
     {
-        return $this->model::where('psychologist_id', $psychologist_id)->where('notification_id', $notification_id);
+        return $this->model::where('psychologist_id', $psychologist_id)->where('preference_id', $preference_id);
     }
 }

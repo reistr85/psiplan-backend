@@ -136,12 +136,12 @@ class PsychologistRepository extends BaseRepository
      */
     public function getNotifications(int $psychologist_id): Builder
     {
-        return $this->model->select('psychologist_notifications.*')
-            ->join('psychologist_notifications', 'psychologist_notifications.psychologist_id', 'psychologists.id')
-            ->join('notifications', 'psychologist_notifications.notification_id', 'notifications.id')
-            ->where('psychologist_notifications.psychologist_id', $psychologist_id)
-            ->where('psychologist_notifications.is_active', 1)
-            ->whereNull('psychologist_notifications.deleted_at');
+        return $this->model->select('psychologist_preferences.*')
+            ->join('psychologist_preferences', 'psychologist_preferences.psychologist_id', 'psychologists.id')
+            ->join('preferences', 'psychologist_preferences.preference_id', 'preferences.id')
+            ->where('psychologist_preferences.psychologist_id', $psychologist_id)
+            ->where('psychologist_preferences.is_active', 1)
+            ->whereNull('psychologist_preferences.deleted_at');
     }
 
     public function getAllTypeServicesByPsychologistIdService(int $psychologist_id)

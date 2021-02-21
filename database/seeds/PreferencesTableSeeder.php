@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Notification;
+use App\Models\Preference;
 use Illuminate\Database\Seeder;
 
-class NotificationsTableSeeder extends Seeder
+class PreferencesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -24,6 +24,6 @@ class NotificationsTableSeeder extends Seeder
             ['description' => 'Deseja receber as mesmas notificações por e-mail?', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['description' => 'Deseja receber as mesmas notificações por SMS?', 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
-        Notification::insert($data);
+        Preference::insert($data);
     }
 }

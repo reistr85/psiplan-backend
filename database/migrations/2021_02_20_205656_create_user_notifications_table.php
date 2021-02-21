@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePsychologistNotificationsTable extends Migration
+class CreateUserNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,21 @@ class CreatePsychologistNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('psychologist_notifications', function (Blueprint $table) {
+        Schema::create('user_notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('psychologist_id')->unsigned();
-            $table->integer('notification_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('type_user');
+            $table->integer('notification_id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('status')->default('not_read');
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('psychologist_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('psychologists')
-                ->onDelete('cascade');
-
-            $table->foreign('notification_id')
-                ->references('id')
-                ->on('notifications')
+                ->on('users')
                 ->onDelete('cascade');
         });
     }
@@ -40,6 +39,6 @@ class CreatePsychologistNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('psychologist_notifications');
+        Schema::dropIfExists('user_notifications');
     }
 }
