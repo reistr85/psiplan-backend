@@ -72,7 +72,6 @@ class CreatePsychologistsTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('plan_id')
-                ->nullable()
                 ->references('id')
                 ->on('plans')
                 ->onDelete('cascade');

@@ -127,6 +127,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('psychologist/payment/plan', 'PaymentPlanPsychologistController@store');
     Route::put('psychologist/payment/plan', 'PaymentPlanPsychologistController@update');
 
+    /*
+     * PsychologistAvailabilityCalendarController
+     * */
+    Route::get('notifications', 'PsychologistNotificationController@index');
+
 
     Route::group(['prefix' => 'client', 'middleware' => ['checkRouteClient']], function() {
 

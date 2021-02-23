@@ -21,4 +21,9 @@ class UserNotificationRepository extends BaseRepository
     {
         return parent::findAll($this->model);
     }
+
+    public function getAllNotReadByUserId(int $user_id)
+    {
+        return $this->model->where('user_id', $user_id)->where('status', 'not_read');
+    }
 }

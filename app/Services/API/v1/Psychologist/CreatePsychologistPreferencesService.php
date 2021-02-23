@@ -20,7 +20,7 @@ class CreatePsychologistPreferencesService
         for ($i=1; $i<=8; $i++){
             $data = [
                 'psychologist_id' => $psychologist_id,
-                'notification_id' => $i,
+                'preference_id' => $i,
                 'is_active' => 0,
             ];
 

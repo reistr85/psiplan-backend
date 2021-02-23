@@ -9,5 +9,5 @@ class PsychologistPreference extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['psychologist_id', 'notification_id', 'is_active'];
+    protected $fillable = ['psychologist_id', 'preference_id', 'is_active'];
 }
