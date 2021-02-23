@@ -45,8 +45,10 @@ class UpdatePsychologistService extends PsychologistRepository
             $data[$data['action']] = $name_image;
         }
 
-        if($data['action'] === 'delete_gallery')
-            $data = [$data['type'] => null];
+        if(array_key_exists('action', $data)) {
+            if ($data['action'] === 'delete_gallery')
+                $data = [$data['type'] => null];
+        }
 
         $psi = parent::update($psychologist, $data);
 
