@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
+use App\Services\API\v1\City\GetCitiesByNameService;
+use App\Services\API\v1\City\GetCityByIdService;
 use App\Services\API\v1\Language\GetAllLanguagesService;
 use App\Services\API\v1\City\GetAllCitiesService;
 use App\Services\API\v1\City\GetCitiesByStateService;
@@ -19,23 +21,29 @@ class AccountController extends Controller
     private $updatePsychologistService;
     private $getAllLanguagesService;
     private $createPsychologistLanguageService;
+    private $get_city_by_id_service;
 
-    public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService, GetCitiesByStateService $getCitiesByStateService,
-                                UpdatePsychologistService $updatePsychologistService, GetAllLanguagesService $getAllLanguagesService,
-                                CreatePsychologistLanguageService $createPsychologistLanguageService)
+    public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService,
+        GetCitiesByStateService $getCitiesByStateService,
+        UpdatePsychologistService $updatePsychologistService,
+        GetAllLanguagesService $getAllLanguagesService,
+        CreatePsychologistLanguageService $createPsychologistLanguageService,
+        GetCityByIdService $get_city_by_id_service)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getCitiesByStateService = $getCitiesByStateService;
         $this->updatePsychologistService = $updatePsychologistService;
         $this->getAllLanguagesService = $getAllLanguagesService;
         $this->createPsychologistLanguageService = $createPsychologistLanguageService;
+        $this->get_city_by_id_service = $get_city_by_id_service;
     }
 
     public function index()
     {
         try{
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psychologist;
+            $psychologist_languages = $psychologist->languages;
             $cities = $this->getCitiesByStateService->execute($psychologist->state);
             $languages = $this->getAllLanguagesService->execute();
 
@@ -43,6 +51,7 @@ class AccountController extends Controller
                 'status' => true,
                 'message' => 'Successfully',
                 'psychologist' => $psychologist,
+                'psychologist_languages' => $psychologist_languages,
                 'cities' => $cities,
                 'languages' => $languages,
             ], 200);
@@ -56,13 +65,17 @@ class AccountController extends Controller
         try{
             $data = [];
             $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id);
+            $psychologist = $user->psychologist;
+
 
             if($request->input('action') === 'infopersonal') {
                 $data = $request->input('infoPersonal');
+                $city = $this->get_city_by_id_service->execute($data['city_id']);
+
                 $data['birth'] = dateEN($data['birth']);
                 $data['cpf'] = onlyNumber($data['cpf']);
                 $data['phone'] = onlyNumber($data['phone']);
+                $data['state'] = $city->state;
             }
 
             if($request->input('action') === 'infoadditional') {
@@ -81,7 +94,7 @@ class AccountController extends Controller
             $this->updatePsychologistService->execute($psychologist->id, $data);
 
 
-            return response()->json(['status' => true, 'message' => 'Dados cadastrados com sucesso.'], 200);
+            return response()->json(['status' => true, 'message' => 'Dados cadastrados com sucesso.', 'request' => $data], 200);
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }

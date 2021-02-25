@@ -21,6 +21,11 @@ class CityRepository extends BaseRepository
         return parent::findAll($this->model);
     }
 
+    public function find(int $id)
+    {
+        return parent::findById($this->model, $id);
+    }
+
     public function getByState($state)
     {
         return $this->model::where('state', $state)->get();
@@ -30,4 +35,6 @@ class CityRepository extends BaseRepository
     {
         return $this->model::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc');
     }
+
+
 }

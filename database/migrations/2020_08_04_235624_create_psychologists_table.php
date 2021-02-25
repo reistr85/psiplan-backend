@@ -16,8 +16,9 @@ class CreatePsychologistsTable extends Migration
         Schema::create('psychologists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('city_id')->unsigned();
             $table->integer('plan_id')->nullable()->unsigned();
+            $table->integer('city_id')->unsigned();
+            $table->string('state', 2)->nullable();
             $table->string('name');
             $table->string('email');
             $table->text('description')->nullable();

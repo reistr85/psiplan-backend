@@ -40,11 +40,7 @@ class UpdatePsychologistRequest extends APIFormRequest
             return [
                 'infoPersonal.name' => 'required',
                 'infoPersonal.email' => 'required|email',
-                'infoPersonal.birth' => function($att, $value, $fail){
-                    $d = \DateTime::createFromFormat('d/m/Y', $value);
-                    if(!$d || $d->format('d/m/Y') != $value)
-                        return $fail("Digite uma data de nascimento válida.");
-                },
+                'infoPersonal.birth' => 'required',
                 'infoPersonal.cpf' => function ($att, $value, $fail) {
                     $cpf = onlyNumber($value);
                     if (!checkCPF($cpf))
