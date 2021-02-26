@@ -8,6 +8,7 @@ use App\Http\Requests\API\v1\UpdateInfoExtrasPsychologistRequest;
 use App\Services\API\v1\Psychologist\CreateOrUpdatePsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTargetAudienceService;
 use App\Services\API\v1\Psychologist\CreatePsychologistTypeServiceService;
+use App\Services\API\v1\Psychologist\CreatePsychologistVideosPlatformService;
 use App\Services\API\v1\Psychologist\GetInfoQueriesService;
 use App\Services\API\v1\Psychologist\GetPsychologistServiceAddressService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
@@ -27,6 +28,7 @@ class QueryController extends Controller
     private $updatePsychologistService;
     private $getPsychologistServiceAddressService;
     private $createOrUpdatePsychologistServiceAddressService;
+    private $createPsychologistVideosPlatformService;
 
     public function __construct(
         GetPsychologistByUserIdService $getPsychologistByUserIdService,
@@ -36,7 +38,8 @@ class QueryController extends Controller
         CreatePsychologistTargetAudienceService $createPsychologistTargetAudienceService,
         UpdatePsychologistService $updatePsychologistService,
         GetPsychologistServiceAddressService $getPsychologistServiceAddressService,
-        CreateOrUpdatePsychologistServiceAddressService $createOrUpdatePsychologistServiceAddressService)
+        CreateOrUpdatePsychologistServiceAddressService $createOrUpdatePsychologistServiceAddressService,
+        CreatePsychologistVideosPlatformService $createPsychologistVideosPlatformService)
     {
         $this->getInfoQueriesService = $getInfoQueriesService;
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
@@ -46,6 +49,7 @@ class QueryController extends Controller
         $this->updatePsychologistService = $updatePsychologistService;
         $this->getPsychologistServiceAddressService = $getPsychologistServiceAddressService;
         $this->createOrUpdatePsychologistServiceAddressService = $createOrUpdatePsychologistServiceAddressService;
+        $this->createPsychologistVideosPlatformService = $createPsychologistVideosPlatformService;
     }
 
     public function index(Request $request)
@@ -102,6 +106,7 @@ class QueryController extends Controller
             $data = $request->all();
 
             $this->updatePsychologistService->execute($psychologist->id, $data);
+            $this->createPsychologistVideosPlatformService->execute($psychologist, $data);
 
             DB::commit();
             return response()->json([
@@ -109,6 +114,7 @@ class QueryController extends Controller
                 'message' => 'As informações foram salvas com sucesso.',
             ], 200);
         }catch(\Exception $e){
+            dd($e);
             DB::rollBack();
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
         }

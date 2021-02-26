@@ -26,10 +26,6 @@ class UpdatePsychologistPercentageProfileService
         $action = 'add';
         $psychologist = $this->psychologist_repository->find($psychologist_id);
 
-//        if($type == 'avatar' && ($psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_TRI ||
-//            $psychologist->plan_id == TypeServiceEnum::PLAN_ID_PREMIUM_SEM))
-//            $value = 10;
-
         $percentage = $psychologist->percentage_profile;
         $psychologist_progress_profile = $this->psychologist_progress_profile_repository
             ->getByPsychologistIdAndType($psychologist->id, $type)->first();
@@ -59,8 +55,8 @@ class UpdatePsychologistPercentageProfileService
         if($percentage) {
             $data = ['percentage_profile' => $percentage];
 
-            if($percentage == 100)
-                $data['complete_profile'] = 'complete';
+            if($percentage == 90)
+                $data['complete_profile'] = 'completed';
 
             $this->psychologist_repository->update($psychologist, $data);
         }
