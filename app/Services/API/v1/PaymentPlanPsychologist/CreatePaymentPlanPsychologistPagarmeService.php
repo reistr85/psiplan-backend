@@ -21,7 +21,7 @@ class CreatePaymentPlanPsychologistPagarmeService
         $this->psychologist_repository = $psychologist_repository;
     }
 
-    public function execute(array $data, &$subscription_id, &$transaction_id)
+    public function execute(array $data, $recipient_id, &$subscription_id, &$transaction_id)
     {
         $plan = $this->plan_repository->getByName($data['plan_selected']['name'])->first();
 
@@ -33,14 +33,14 @@ class CreatePaymentPlanPsychologistPagarmeService
 
         $receiver_psiplan = [
             'recipient_id' => env('RECIPIENT_ID'),
-            'percentage' => 10,
+            'percentage' => env('RECIPIENT_PERCENTAGE_PSIPLAN'),
             'liable' => true,
             'charge_processing_fee' => true,
         ];
 
         $receiver_psychologist = [
-            'recipient_id' => 're_ck4g908ky02p5v26f0zgbj0jn',
-            'percentage' => 90,
+            'recipient_id' => $recipient_id,
+            'percentage' => env('RECIPIENT_PERCENTAGE_PSYCHOLOGIST'),
             'liable' => true,
             'charge_processing_fee' => true,
         ];

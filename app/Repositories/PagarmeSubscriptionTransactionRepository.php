@@ -62,6 +62,6 @@ class PagarmeSubscriptionTransactionRepository extends BaseRepository
 
     public function getAllSubscriptionTransactionsByUserId(int $user_id)
     {
-        return $this->model->where('user_id', $user_id)->with('plan', 'subscription');
+        return $this->model->where('user_id', $user_id)->with('subscription.psychologistPlan.plan');
     }
 }

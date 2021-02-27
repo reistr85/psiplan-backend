@@ -10,4 +10,9 @@ class PagarmeSubscription extends Model
     use SoftDeletes;
 
     protected $fillable = ['user_id', 'psychologist_plan_id', 'subscription_id', 'status', 'is_active'];
+
+    public function psychologistPlan()
+    {
+        return $this->belongsTo(PsychologistPlan::class);
+    }
 }

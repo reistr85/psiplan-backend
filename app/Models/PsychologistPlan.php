@@ -10,4 +10,9 @@ class PsychologistPlan extends Model
     use SoftDeletes;
 
     protected $fillable = ['psychologist_id', 'plan_id', 'is_active'];
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
 }

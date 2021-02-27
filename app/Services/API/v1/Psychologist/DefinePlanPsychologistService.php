@@ -17,13 +17,18 @@ class DefinePlanPsychologistService
         $this->psychologist_repository = $psychologist_repository;
     }
 
-    public function execute(int $plan_id)
+    public function execute(int $plan_id, $recipient_id)
     {
         $psychologist = auth()->user()->psychologist;
 
         if(!$psychologist)
             throw new \Exception("Psicólogo não foi localizado", 500);
 
-        return $this->psychologist_repository->edit($psychologist, ['plan_id' => $plan_id]);
+        return $this->psychologist_repository->edit(
+            $psychologist,
+            [
+                'plan_id' => $plan_id,
+                'recipient_id' => $recipient_id
+            ]);
     }
 }

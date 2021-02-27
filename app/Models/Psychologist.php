@@ -14,8 +14,7 @@ class Psychologist extends Model
         'consultation_duration', 'social_consultation_value', 'first_free_consultation', 'consultation_package', 'voluntary_service',
         'profile_consultation_value', 'libras', 'accessibility', 'description', 'approach', 'avatar',
         'gallery_one', 'gallery_tow', 'gallery_three', 'gallery_four', 'gallery_five', 'url_youtube', 'platform_zoom',
-        'platform_skype', 'platform_hangouts', 'platform_whatsapp', 'crp', 'pis', 'bank', 'agency', 'type_account',
-        'number_account', 'cpf_holder_account', 'cnpj_holder_account', 'percentage_profile', 'complete_profile', 'is_active'];
+        'platform_skype', 'platform_hangouts', 'platform_whatsapp', 'crp', 'pis', 'recipient_id', 'percentage_profile', 'complete_profile', 'is_active'];
 
     protected static function boot()
     {

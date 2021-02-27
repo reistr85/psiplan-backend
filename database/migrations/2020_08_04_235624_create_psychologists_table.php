@@ -49,12 +49,6 @@ class CreatePsychologistsTable extends Migration
             $table->integer('platform_whatsapp')->nullable();
             $table->string('crp')->nullable();
             $table->string('pis')->nullable();
-            $table->string('bank')->nullable();
-            $table->string('agency')->nullable();
-            $table->string('type_account')->nullable();
-            $table->string('number_account')->nullable();
-            $table->string('cpf_holder_account')->nullable();
-            $table->string('cnpj_holder_account')->nullable();
             $table->string('recipient_id')->nullable();
             $table->integer('percentage_profile')->default(0)->nullable();
             $table->string('complete_profile')->default('incomplete')->nullable();

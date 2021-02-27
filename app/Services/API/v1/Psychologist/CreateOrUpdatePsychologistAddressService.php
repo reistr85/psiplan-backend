@@ -18,10 +18,8 @@ class CreateOrUpdatePsychologistAddressService
         $this->psychologist_address = $psychologist_address;
     }
 
-    public function execute(array $data)
+    public function execute($psychologist, array $data)
     {
-        $psychologist = auth()->user()->psychologist;
-
         $psychologist_address['psychologist_id'] = $psychologist->id;
         $psychologist_address['zip_code'] = $data['zipcode'];
         $psychologist_address['state'] = $data['state'];

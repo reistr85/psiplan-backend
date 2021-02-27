@@ -20,9 +20,8 @@ class CreatePsychologistPlanService
         $this->plan_repository = $plan_repository;
     }
 
-    public function execute(string $plan_name)
+    public function execute($psychologist, string $plan_name)
     {
-        $psychologist = auth()->user()->psychologist;
         $plan = $this->plan_repository->getByName($plan_name)->first();
         $psychologist_plans = $this->psychologist_plan_repository->allByPsychologistId($psychologist->id);
 

@@ -42,7 +42,7 @@ class UpdatePagarmePlanPsychologistService
         $data['api_key'] = env('API_KEY_PAGARME');
         $data['plan_id'] = $plan->pagarme_plan_id;
 
-        $response = $client_guzlle->put("{$url_base}/subscriptions/{$pagarme_subscription->pagarme_subscription_id}", [
+        $response = $client_guzlle->put("{$url_base}/subscriptions/{$pagarme_subscription->subscription_id}", [
             'headers' => [
                 'Accept'     => 'application/json',
             ],
