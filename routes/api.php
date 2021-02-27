@@ -132,6 +132,13 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * */
     Route::get('notifications', 'PsychologistNotificationController@index');
 
+    Route::group(['prefix' => 'management'], function() {
+
+        Route::get('queries', 'ManagementQueryController@index');
+        Route::put('queries/{id}', 'ManagementQueryController@update');
+
+    });
+
 
     Route::group(['prefix' => 'client', 'middleware' => ['checkRouteClient']], function() {
 

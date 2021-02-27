@@ -41,8 +41,23 @@ class QueryRepository extends BaseRepository
         return $this->model::where('client_id', $id)->with(['psychologist'])->get();
     }
 
+    /**
+     * getAllQueriesFindByPsychologistId
+     *
+     * @param int $id
+     * @return Collection
+     */
+    public function getAllQueriesFindByPsychologistId(int $id)
+    {
+        return $this->model::where('psychologist_id', $id)->with(['client', 'psychologistAvailabilityCalendar.typeService']);
+    }
+
     public function store($data)
     {
         return $this->model::create($data);
+    }
+
+    public function edit(Model $model, array $data){
+        return parent::update($model, $data);
     }
 }
