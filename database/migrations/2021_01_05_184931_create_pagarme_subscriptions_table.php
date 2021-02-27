@@ -16,8 +16,8 @@ class CreatePagarmeSubscriptionsTable extends Migration
         Schema::create('pagarme_subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('plan_id')->unsigned();
-            $table->string('pagarme_subscription_id');
+            $table->integer('psychologist_plan_id')->unsigned();
+            $table->string('subscription_id');
             $table->string('status');
             $table->integer('is_active');
             $table->softDeletes();
@@ -28,9 +28,9 @@ class CreatePagarmeSubscriptionsTable extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->foreign('plan_id')
+            $table->foreign('psychologist_plan_id', 'subs_psy_plan_for')
                 ->references('id')
-                ->on('plans')
+                ->on('psychologist_plans')
                 ->onDelete('cascade');
         });
     }

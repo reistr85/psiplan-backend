@@ -59,4 +59,9 @@ class PagarmeSubscriptionTransactionRepository extends BaseRepository
     {
         return parent::update($model, $data);
     }
+
+    public function getAllSubscriptionTransactionsByUserId(int $user_id)
+    {
+        return $this->model->where('user_id', $user_id)->with('plan', 'subscription');
+    }
 }

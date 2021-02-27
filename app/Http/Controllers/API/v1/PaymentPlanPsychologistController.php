@@ -105,8 +105,8 @@ class PaymentPlanPsychologistController extends Controller
             $psychologist_plan = $this->create_psychologist_plan_service->execute($request->input('plan_selected.name'));
             $pagarme_subscription = $this->create_pagarme_subscription_service->execute([
                 'user_id' => $user->id,
-                'plan_id' => $psychologist_plan->plan_id,
-                'pagarme_subscription_id' => $subscription_id,
+                'psychologist_plan_id' => $psychologist_plan->id,
+                'subscription_id' => $subscription_id,
                 'status' => $transaction->status,
             ]);
 
@@ -115,7 +115,7 @@ class PaymentPlanPsychologistController extends Controller
             $this->create_pagarme_subscription_transaction_service->execute([
                 'user_id' => $user->id,
                 'pagarme_subscription_id' => $pagarme_subscription->id,
-                'pagarme_transaction_id' => $transaction->current_transaction->id,
+                'transaction_id' => $transaction->current_transaction->id,
                 'status' => $transaction->current_transaction->status,
                 'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
             ]);

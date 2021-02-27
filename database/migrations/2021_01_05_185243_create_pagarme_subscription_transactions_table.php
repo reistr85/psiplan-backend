@@ -17,9 +17,9 @@ class CreatePagarmeSubscriptionTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('pagarme_subscription_id')->unsigned();
-            $table->string('pagarme_transaction_id');
-            $table->string('status');
+            $table->string('transaction_id');
             $table->decimal('amount', '10', '2');
+            $table->string('status');
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

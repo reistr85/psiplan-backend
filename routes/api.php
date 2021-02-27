@@ -137,6 +137,8 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         Route::get('queries', 'ManagementQueryController@index');
         Route::put('queries/{id}', 'ManagementQueryController@update');
 
+        Route::get('payments', 'ManagementPaymentController@index');
+
     });
 
 
