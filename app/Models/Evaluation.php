@@ -9,5 +9,10 @@ class Evaluation extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['query_id', 'client_id', 'psychologist_id', 'star', 'comment', 'is_active'];
+    protected $fillable = ['query_id', 'star', 'comment', 'is_active'];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

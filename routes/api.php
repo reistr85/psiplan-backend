@@ -140,6 +140,8 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         Route::get('payments', 'ManagementPaymentController@index');
 
         Route::get('receipts', 'ManagementReceiptController@index');
+
+        Route::get('evaluations', 'ManagementEvaluationController@index');
     });
 
 

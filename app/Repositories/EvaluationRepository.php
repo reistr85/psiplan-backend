@@ -15,6 +15,13 @@ class EvaluationRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAllByPsychologistId(int $psychologist_id)
+    {
+        return $this->model->join('queries', 'queries.id', 'evaluations.query_id')
+            ->where('queries.psychologist_id', $psychologist_id)
+            ->with('client');
+    }
+
     public function store($data)
     {
         return parent::save($this->model, $data);

@@ -20,10 +20,10 @@ class CreateQueriesTable extends Migration
             $table->integer('psychologist_availability_calendar_id')->unsigned();
             $table->dateTime('day_hour');
             $table->decimal('price', 10, 2);
-            $table->integer('evaluation')->nullable();
-            $table->string('status_query')->nullable();
             $table->string('transaction_id')->nullable();
-            $table->string('status_payment')->nullable();
+            $table->string('status_evaluation')->default('not_evaluated')->nullable();
+            $table->string('status_query')->default('scheduled')->nullable();
+            $table->string('status_payment')->default('unpaid')->nullable();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

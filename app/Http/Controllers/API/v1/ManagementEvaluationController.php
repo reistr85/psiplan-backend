@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\Management\GetQueriesServices;
-use App\Services\API\v1\Management\UpdateQueryService;
+use App\Services\API\v1\Evaluation\GetAllEvaluationByPsychologistIdService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ManagementQueryController extends Controller
+class ManagementEvaluationController extends Controller
 {
-    private $get_queries_service;
-    private $update_query_service;
+
+    private $get_all_evaluations_by_psychologist_id_service;
 
     public function __construct(
-        GetQueriesServices $get_queries_service,
-        UpdateQueryService $update_query_service)
+        GetAllEvaluationByPsychologistIdService $get_all_evaluations_by_psychologist_id_service)
     {
-        $this->get_queries_service = $get_queries_service;
-        $this->update_query_service = $update_query_service;
+        $this->get_all_evaluations_by_psychologist_id_service = $get_all_evaluations_by_psychologist_id_service;
     }
 
     /**
@@ -31,9 +28,9 @@ class ManagementQueryController extends Controller
         try{
             $user = auth()->user();
             $psychologist = $user->psychologist;
-            $queries = $this->get_queries_service->execute($psychologist->id);
+            $evaluations = $this->get_all_evaluations_by_psychologist_id_service->execute($psychologist->id);
 
-            return response()->json(['status' => true, 'message' => 'success', 'queries' => $queries], 200);
+            return response()->json(['status' => true, 'message' => 'success', 'evaluations' => $evaluations], 200);
         }catch (\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
         }
@@ -66,18 +63,11 @@ class ManagementQueryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        try{
-            $data = $request->all();
-            $this->update_query_service->execute($id, $data);
-
-            return response()->json(['status' => true, 'message' => 'success'], 200);
-        }catch (\Exception $ex){
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
-        }
+        //
     }
 
     /**

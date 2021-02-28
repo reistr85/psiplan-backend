@@ -33,7 +33,6 @@ class CreateEvaluationPsychologistService extends EvaluationRepository
         if($query->client_id != $data_evaluation['client_id'])
             throw new \Exception("O cliente da consulta não corresponde ao cliente que está avaliando.", 500);
 
-        $data_evaluation['psychologist_id'] = $query->psychologist_id;
         $evaluation = parent::store($data_evaluation);
 
         if(!$evaluation)
