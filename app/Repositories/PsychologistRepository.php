@@ -75,6 +75,7 @@ class PsychologistRepository extends BaseRepository
             'psychologists.consultation_value',
             'psychologists.consultation_duration',
             'psychologists.first_free_consultation',
+            'psychologists.profile_consultation_value',
             'psychologists.consultation_package',
             'psychologists.libras',
             'psychologists.accessibility',

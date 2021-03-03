@@ -10,16 +10,19 @@ class GetPsychologistByUserIdService extends PsychologistRepository
 {
     public function execute(int $id, $type = 'get-psychologist-details')
     {
+        $psy_logged = auth()->user();
+        $psy_id_logged = null;
         $psy = parent::find($id);
         $psychologist = parent::getPsychologistByUserId($psy->user_id);
 
-        if($psychologist->complete_profile == 'incomplete' && $type == 'get-psychologist-details')
+        if($psy_logged)
+            $psy_id_logged = $psy_logged->id;
+
+        if($psychologist->complete_profile == 'incomplete' && $type == 'get-psychologist-details' && $psy_id_logged != $id)
             throw new \Exception("Psicólogo não encontrado", 500);
 
         $path_avatar = env('AWS_BASE_URL')."/images/users/{$psy->user_id}/avatar/";
         $path_gallery = env('AWS_BASE_URL')."/images/users/{$psy->user_id}/gallery/";
-
-
         $psychologist->avatar = $psychologist->avatar ? $path_avatar.$psychologist->avatar : env('AWS_BASE_URL')."/images/Avatar.png";
         $psychologist->gallery_one = $psychologist->gallery_one ? $path_gallery.$psychologist->gallery_one : null;
         $psychologist->gallery_tow = $psychologist->gallery_tow ? $path_gallery.$psychologist->gallery_tow : null;

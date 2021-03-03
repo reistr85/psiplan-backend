@@ -18,6 +18,7 @@ class CreateQueriesTable extends Migration
             $table->integer('psychologist_id')->unsigned();
             $table->integer('client_id')->unsigned();
             $table->integer('psychologist_availability_calendar_id')->unsigned();
+            $table->integer('coupon_id')->nullable()->unsigned();
             $table->dateTime('day_hour');
             $table->decimal('price', 10, 2);
             $table->string('transaction_id')->nullable();
@@ -38,6 +39,12 @@ class CreateQueriesTable extends Migration
                 ->foreign('client_id')
                 ->references('id')
                 ->on('clients')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('coupon_id')
+                ->references('id')
+                ->on('coupons')
                 ->onDelete('cascade');
 
             $table

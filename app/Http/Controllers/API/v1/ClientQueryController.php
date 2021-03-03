@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Services\API\v1\Client\StoreClientQueryService;
+use App\Services\API\v1\Client\StoreCouponClientService;
 use App\Services\API\v1\Query\GetAllQueriesByClientIdService;
 use App\Services\API\v1\Client\GetClientByUserIdService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
@@ -18,17 +19,20 @@ class ClientQueryController extends Controller
     private $getAllQueriesByClientIdService;
     private $getQueriesByIdService;
     private $storeClientQueryService;
+    private $store_coupon_client_service;
 
     public function __construct(
         GetClientByUserIdService $getClientByUserIdService,
         GetAllQueriesByClientIdService $getAllQueriesByClientIdService,
         GetQueriesByIdService $getQueriesByIdService,
-        StoreClientQueryService $storeClientQueryService)
+        StoreClientQueryService $storeClientQueryService,
+        StoreCouponClientService $store_coupon_client_service)
     {
         $this->getClientByUserIdService = $getClientByUserIdService;
         $this->getAllQueriesByClientIdService = $getAllQueriesByClientIdService;
         $this->getQueriesByIdService = $getQueriesByIdService;
         $this->storeClientQueryService = $storeClientQueryService;
+        $this->store_coupon_client_service = $store_coupon_client_service;
     }
 
     /**
@@ -61,7 +65,8 @@ class ClientQueryController extends Controller
         try{
             $data = $request->all();
 
-            $query = $this->storeClientQueryService->execute($data);
+            $coupons = $this->store_coupon_client_service->execute($data);
+            $query = $this->storeClientQueryService->execute($data, $coupons);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Success', 'query' => $query], 200);

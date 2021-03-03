@@ -33,7 +33,7 @@ class StoreClientQueryService
      * @return array
      * @throws Exception
      */
-    public function execute(array $data)
+    public function execute(array $data, array $coupons)
     {
         $psychologist = $this->psychologist_repositories->find($data['psychologist_id']);
         $current_date = date('Y-m-d');
@@ -62,6 +62,7 @@ class StoreClientQueryService
             'psychologist_availability_calendar_id' => $psychologist_availability_calendar->id,
             'day_hour' => "{$data['day_hour']}:00",
             'price' => $psychologist->consultation_value,
+            'coupon_id' => $coupons[0]['id'],
         ];
 
         $query = $this->query_repositories->store($dataQuery);

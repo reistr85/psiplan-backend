@@ -9,7 +9,7 @@ class Query extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['psychologist_id', 'client_id', 'psychologist_availability_calendar_id', 'day_hour', 'price',
+    protected $fillable = ['psychologist_id', 'client_id', 'psychologist_availability_calendar_id', 'coupon_id', 'day_hour', 'price',
         'evaluation', 'status_query', 'transaction_id',  'status_payment', 'status_evaluation', 'is_active'];
 
     public function psychologist()
