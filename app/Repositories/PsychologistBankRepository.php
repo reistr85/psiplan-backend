@@ -20,6 +20,11 @@ class PsychologistBankRepository extends BaseRepository
         return parent::findById($this->model, $id);
     }
 
+    public function findByPsychologistId($id)
+    {
+        return $this->model->where('psychologist_id', $id);
+    }
+
     /**
      * Store
      *

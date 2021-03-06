@@ -16,8 +16,14 @@ class UpdatePsychologistBankService
         $this->psychologist_bank_repository = $psychologist_bank_repository;
     }
 
-    public function execute($psychologist_bank, $bank_id)
+    public function execute($data)
     {
-        return $this->psychologist_bank_repository->edit($psychologist_bank, ['bank_id' => $bank_id]);
+        $psychologist =  auth()->user()->psychologist;
+        $psychologist_bank = $this->psychologist_bank_repository->findByPsychologistId($psychologist->id)->first();
+
+        if(!$psychologist_bank)
+            throw new \Exception("Banco não localizado", 500);
+
+        return $this->psychologist_bank_repository->edit($psychologist_bank, $data);
     }
 }

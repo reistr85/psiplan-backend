@@ -95,4 +95,9 @@ class Psychologist extends Model
             ->whereNull('available');
 
     }
+
+    public function bank()
+    {
+        return $this->hasOne(PsychologistBank::class);
+    }
 }

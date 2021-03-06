@@ -69,15 +69,18 @@ class UpdatePsychologistRequest extends APIFormRequest
 
         if($this->input('action') === 'infobank') {
             return [
-                'infoBank.bank' => 'required',
                 'infoBank.agency' => 'required',
-                'infoBank.type_account' => 'required',
-                'infoBank.number_account' => 'required',
+                'infoBank.agency_dv' => 'required',
+                'infoBank.bank_code' => 'required',
+                'infoBank.bank_type_account' => 'required',
                 'infoBank.cpf_holder_account' => function ($att, $value, $fail) {
                     $cpf = onlyNumber($value);
                     if (!checkCPF($cpf))
                         return $fail("Digite um CPF válido");
-                }
+                },
+                'infoBank.name_holder_account' => 'required',
+                'infoBank.number_account' => 'required',
+                'infoBank.number_account_dv' => 'required',
             ];
         }
 

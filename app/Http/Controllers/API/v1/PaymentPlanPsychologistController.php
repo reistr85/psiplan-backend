@@ -151,8 +151,9 @@ class PaymentPlanPsychologistController extends Controller
                 'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
             ]);
 
+            $dataBank['bank_id'] = $bank_id;
             $this->define_plan_psychologist_service->execute($psychologist_plan->plan_id, $recipient_id);
-            $this->update_psychologist_bank_service->execute($psychologist_bank, $bank_id);
+            $this->update_psychologist_bank_service->execute($dataBank);
             $userData = $this->format_data_get_user_service->execute();
 
             DB::commit();

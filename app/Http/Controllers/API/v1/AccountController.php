@@ -11,6 +11,7 @@ use App\Services\API\v1\City\GetAllCitiesService;
 use App\Services\API\v1\City\GetCitiesByStateService;
 use App\Services\API\v1\Psychologist\CreatePsychologistLanguageService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
+use App\Services\API\v1\Psychologist\UpdatePsychologistBankService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistService;
 use Illuminate\Http\Request;
 
@@ -22,13 +23,15 @@ class AccountController extends Controller
     private $getAllLanguagesService;
     private $createPsychologistLanguageService;
     private $get_city_by_id_service;
+    private $update_psychologist_bank_service;
 
     public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService,
         GetCitiesByStateService $getCitiesByStateService,
         UpdatePsychologistService $updatePsychologistService,
         GetAllLanguagesService $getAllLanguagesService,
         CreatePsychologistLanguageService $createPsychologistLanguageService,
-        GetCityByIdService $get_city_by_id_service)
+        GetCityByIdService $get_city_by_id_service,
+                                UpdatePsychologistBankService $update_psychologist_bank_service)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getCitiesByStateService = $getCitiesByStateService;
@@ -36,6 +39,7 @@ class AccountController extends Controller
         $this->getAllLanguagesService = $getAllLanguagesService;
         $this->createPsychologistLanguageService = $createPsychologistLanguageService;
         $this->get_city_by_id_service = $get_city_by_id_service;
+        $this->update_psychologist_bank_service = $update_psychologist_bank_service;
     }
 
     public function index()
@@ -51,6 +55,7 @@ class AccountController extends Controller
                 'status' => true,
                 'message' => 'Successfully',
                 'psychologist' => $psychologist,
+                'psychologist_bank' => $psychologist->bank,
                 'psychologist_languages' => $psychologist_languages,
                 'cities' => $cities,
                 'languages' => $languages,
@@ -89,6 +94,7 @@ class AccountController extends Controller
             if($request->input('action') === 'infobank') {
                 $data = $request->input('infoBank');
                 $data['cpf_holder_account'] = onlyNumber($data['cpf_holder_account']);
+                $this->update_psychologist_bank_service->execute($data);
             }
 
             $this->updatePsychologistService->execute($psychologist->id, $data);
