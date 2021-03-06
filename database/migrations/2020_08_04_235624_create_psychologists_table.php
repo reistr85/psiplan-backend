@@ -32,6 +32,7 @@ class CreatePsychologistsTable extends Migration
             $table->decimal('social_consultation_value', 10, 2)->nullable();
             $table->integer('first_free_consultation')->nullable();
             $table->integer('consultation_package')->nullable();
+            $table->decimal('consultation_package_value', 10, 2)->nullable();
             $table->integer('voluntary_service')->nullable();
             $table->integer('profile_consultation_value')->nullable();
             $table->integer('libras')->nullable();

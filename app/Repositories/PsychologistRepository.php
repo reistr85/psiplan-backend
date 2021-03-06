@@ -173,4 +173,24 @@ class PsychologistRepository extends BaseRepository
     {
         return parent::update($model, $data);
     }
+
+    public function verifyExistentPsychologistByCRP($id, $data)
+    {
+        if(array_key_exists('crp', $data)) {
+            if ($this->model->where('crp', $data['crp'])->where('id', '!=', $id)->whereNull('deleted_at')->first())
+                return true;
+        }
+
+        return false;
+    }
+
+    public function verifyExistentPsychologistByPIS($id, $data)
+    {
+        if(array_key_exists('pis', $data)) {
+            if ($this->model->where('pis', $data['pis'])->where('id', '!=', $id)->whereNull('deleted_at')->first())
+                return true;
+        }
+
+        return false;
+    }
 }

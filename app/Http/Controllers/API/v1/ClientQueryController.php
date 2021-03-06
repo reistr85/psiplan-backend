@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Services\API\v1\Client\StoreClientQueryService;
 use App\Services\API\v1\Client\StoreCouponClientService;
+use App\Services\API\v1\Client\UpdateStatusPaymentAndSituationCouponClientService;
 use App\Services\API\v1\Query\GetAllQueriesByClientIdService;
 use App\Services\API\v1\Client\GetClientByUserIdService;
 use App\Services\API\v1\Query\GetQueriesByIdService;

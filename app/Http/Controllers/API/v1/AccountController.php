@@ -96,7 +96,7 @@ class AccountController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Dados cadastrados com sucesso.', 'request' => $data], 200);
         }catch(\Exception $e){
-            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
     }
 }

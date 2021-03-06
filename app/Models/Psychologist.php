@@ -11,8 +11,8 @@ class Psychologist extends Model
     use SoftDeletes;
 
     protected $fillable = ['user_id', 'city_id', 'plan_id', 'state', 'name', 'email', 'birth', 'cpf', 'phone', 'country', 'consultation_value',
-        'consultation_duration', 'social_consultation_value', 'first_free_consultation', 'consultation_package', 'voluntary_service',
-        'profile_consultation_value', 'libras', 'accessibility', 'description', 'approach', 'avatar',
+        'consultation_duration', 'social_consultation_value', 'first_free_consultation', 'consultation_package', 'consultation_package_value',
+        'voluntary_service',  'profile_consultation_value', 'libras', 'accessibility', 'description', 'approach', 'avatar',
         'gallery_one', 'gallery_tow', 'gallery_three', 'gallery_four', 'gallery_five', 'url_youtube', 'platform_zoom',
         'platform_skype', 'platform_hangouts', 'platform_whatsapp', 'crp', 'pis', 'recipient_id', 'percentage_profile', 'complete_profile', 'is_active'];
 

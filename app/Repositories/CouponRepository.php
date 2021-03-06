@@ -21,8 +21,18 @@ class CouponRepository extends BaseRepository
         return parent::findAll($this->model);
     }
 
+    public function find($id)
+    {
+        return parent::findById($this->model, $id);
+    }
+
     public function store(array $data)
     {
         return parent::save($this->model, $data);
+    }
+
+    public function edit($model, $data)
+    {
+        return parent::update($model, $data);
     }
 }

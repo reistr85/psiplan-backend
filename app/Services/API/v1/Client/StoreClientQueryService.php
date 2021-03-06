@@ -30,6 +30,7 @@ class StoreClientQueryService
      * Display the specified resource.
      *
      * @param array $data
+     * @param array $coupons
      * @return array
      * @throws Exception
      */
@@ -56,13 +57,21 @@ class StoreClientQueryService
         if($data['date'] <= $current_date && ($diff < 6))
             throw new Exception("A hora da consulta precisa ser pelo menos com 6 horas de antecedência.", 500);
 
+        $price = $psychologist->consultation_value;
+        $coupon_id = null;
+
+        if(count($coupons)) {
+            $price = $psychologist->consultation_package_value;
+            $coupon_id = $coupons[0]['id'];
+        }
+
         $dataQuery = [
             'psychologist_id' => $data['psychologist_id'],
             'client_id' => auth()->user()->client->id,
             'psychologist_availability_calendar_id' => $psychologist_availability_calendar->id,
             'day_hour' => "{$data['day_hour']}:00",
-            'price' => $psychologist->consultation_value,
-            'coupon_id' => $coupons[0]['id'],
+            'price' => $price,
+            'coupon_id' => $coupon_id,
         ];
 
         $query = $this->query_repositories->store($dataQuery);

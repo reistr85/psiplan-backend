@@ -26,7 +26,7 @@ class StoreCouponClientService
     public function execute(array $data)
     {
         if(!$data['query_box'])
-            return null;
+            return [];
 
         $coupons = [];
         $psychologist = $this->psychologist_repository->find($data['psychologist_id']);

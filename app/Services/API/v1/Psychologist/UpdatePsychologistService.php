@@ -50,6 +50,12 @@ class UpdatePsychologistService extends PsychologistRepository
                 $data = [$data['type'] => null];
         }
 
+        if(parent::verifyExistentPsychologistByCRP($psychologist->id, $data))
+            throw new Exception("O CRP informado já está sendo utilizado", 500);
+
+        if(parent::verifyExistentPsychologistByPIS($psychologist->id, $data))
+            throw new Exception("O PIS informado já está sendo utilizado", 500);
+
         $psi = parent::update($psychologist, $data);
 
         if(!$psi)
