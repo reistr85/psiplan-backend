@@ -7,7 +7,7 @@ namespace App\Services\API\v1\User;
 use App\Repositories\UserNotificationRepository;
 use App\User;
 
-class GetAllUsersNotificationsService
+class UpdateStatusUserNotificationService
 {
     private $user_notification_repository;
 
@@ -17,11 +17,13 @@ class GetAllUsersNotificationsService
         $this->user_notification_repository = $user_notification_repository;
     }
 
-    public function execute(User $user)
+    public function execute(int $id, array $data)
     {
-        if(!$user)
-            throw new \Exception("Usuário não localizado", 500);
+        $user_notification = $this->user_notification_repository->find($id);
 
-        return $this->user_notification_repository->getAllByUserId($user->id)->with('user')->orderBy('id', 'desc')->get();
+        if(!$user_notification)
+            throw new \Exception("Notificação não localizada", 500);
+
+        return $this->user_notification_repository->edit($user_notification, $data);
     }
 }

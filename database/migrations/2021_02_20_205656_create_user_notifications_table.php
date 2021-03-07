@@ -21,6 +21,7 @@ class CreateUserNotificationsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('url');
+            $table->string('url_children');
             $table->string('status')->default('not_read');
             $table->integer('is_active');
             $table->softDeletes();

@@ -4,18 +4,22 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\User\GetAllUsersNotificationsService;
+use App\Services\API\v1\User\UpdateStatusUserNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PsychologistNotificationController extends Controller
+class UserNotificationController extends Controller
 {
 
-    private $get_all_users_notifications;
+    private $get_all_users_notifications_service;
+    private $update_status_user_notification_service;
 
     public function __construct(
-        GetAllUsersNotificationsService $get_all_users_notifications)
+        GetAllUsersNotificationsService $get_all_users_notifications_service,
+        UpdateStatusUserNotificationService $update_status_user_notification_service)
     {
-        $this->get_all_users_notifications = $get_all_users_notifications;
+        $this->get_all_users_notifications_service = $get_all_users_notifications_service;
+        $this->update_status_user_notification_service = $update_status_user_notification_service;
     }
 
     /**
@@ -27,11 +31,11 @@ class PsychologistNotificationController extends Controller
     {
         try{
             $user = auth()->user();
-            $user_notifications = $this->get_all_users_notifications->execute($user);
+            $user_notifications = $this->get_all_users_notifications_service->execute($user);
 
             return response()->json(['status' => true, 'message' => 'success', 'user_notifications' => $user_notifications], 200);
         }catch (\Exception $ex){
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 
@@ -62,11 +66,18 @@ class PsychologistNotificationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $data = $request->all();
+            $this->update_status_user_notification_service->execute($id, $data);
+
+            return response()->json(['status' => true, 'message' => 'success'], 200);
+        }catch (\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
+        }
     }
 
     /**
