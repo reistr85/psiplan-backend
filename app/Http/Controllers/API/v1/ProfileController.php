@@ -53,8 +53,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         try{
-            $user = auth()->user();
-            $psychologist = $this->getPsychologistByUserIdService->execute($user->id, 'profile');
+            $psychologist = $this->getPsychologistByUserIdService->execute();
 
             $specialties = $this->getAllSpecialtiesService->execute();
             $psychologist_specialties = $this->getSpecialtiesByPsychologistIdService->execute($psychologist->id);
@@ -64,7 +63,6 @@ class ProfileController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully',
-                'user' => $user,
                 'psychologist' => $psychologist,
                 'specialties' => $specialties,
                 'psychologist_specialities' => $psychologist_specialties,
@@ -72,7 +70,7 @@ class ProfileController extends Controller
                 'psychologist_document' => $psychologist_document,
             ], 200);
         }catch (\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -89,7 +87,7 @@ class ProfileController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Success', 'profile' => $psychologist], 200);
         }catch (\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -135,7 +133,7 @@ class ProfileController extends Controller
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image,
                 'percentage' => $percentage], 200);
         }catch (\Exception $e){
-            return response()->json(['error' => true, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }
     }
 }
