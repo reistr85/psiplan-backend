@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\CouponSourceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Services\API\v1\Client\StoreClientQueryService;
 use App\Services\API\v1\Client\StoreCouponClientService;
+use App\Services\API\v1\Client\UpdateAllCouponsByCouponsService;
+use App\Services\API\v1\Client\UpdateAllCouponsByQueryIdService;
 use App\Services\API\v1\Client\UpdateStatusPaymentAndSituationCouponClientService;
 use App\Services\API\v1\Query\GetAllQueriesByClientIdService;
 use App\Services\API\v1\Client\GetClientByUserIdService;
@@ -21,19 +24,22 @@ class ClientQueryController extends Controller
     private $getQueriesByIdService;
     private $storeClientQueryService;
     private $store_coupon_client_service;
+    private $update_all_coupons_by_coupons_service;
 
     public function __construct(
         GetClientByUserIdService $getClientByUserIdService,
         GetAllQueriesByClientIdService $getAllQueriesByClientIdService,
         GetQueriesByIdService $getQueriesByIdService,
         StoreClientQueryService $storeClientQueryService,
-        StoreCouponClientService $store_coupon_client_service)
+        StoreCouponClientService $store_coupon_client_service,
+        UpdateAllCouponsByCouponsService $update_all_coupons_by_coupons_service)
     {
         $this->getClientByUserIdService = $getClientByUserIdService;
         $this->getAllQueriesByClientIdService = $getAllQueriesByClientIdService;
         $this->getQueriesByIdService = $getQueriesByIdService;
         $this->storeClientQueryService = $storeClientQueryService;
         $this->store_coupon_client_service = $store_coupon_client_service;
+        $this->update_all_coupons_by_coupons_service = $update_all_coupons_by_coupons_service;
     }
 
     /**
@@ -65,15 +71,19 @@ class ClientQueryController extends Controller
         DB::beginTransaction();
         try{
             $data = $request->all();
+            $coupons = [];
 
-            $coupons = $this->store_coupon_client_service->execute($data);
+            if($data['query_box'])
+                $coupons = $this->store_coupon_client_service->execute($data, CouponSourceEnum::QUERY_PACKAGE);
+
             $query = $this->storeClientQueryService->execute($data, $coupons);
+            $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Success', 'query' => $query], 200);
         }catch(\Exception $ex){
             DB::rollBack();
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 

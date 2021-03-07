@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistAvailabilityCalendarByPsychologistIdByTypeServiceIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\GetPsychologistProfileDetailsService;
 use App\Services\API\v1\Psychologist\GetServiceHoursByDateByPsychologistIdService;
+use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
 use App\Services\API\v1\Psychologist\ListPsychologistService;
 use Illuminate\Http\Request;
 

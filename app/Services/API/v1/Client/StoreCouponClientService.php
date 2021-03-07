@@ -23,11 +23,8 @@ class StoreCouponClientService
         $this->psychologist_repository = $psychologist_repository;
     }
 
-    public function execute(array $data)
+    public function execute(array $data, $source)
     {
-        if(!$data['query_box'])
-            return [];
-
         $coupons = [];
         $psychologist = $this->psychologist_repository->find($data['psychologist_id']);
         $client = auth()->user()->client;
@@ -39,9 +36,11 @@ class StoreCouponClientService
             $data_coupon = [
                 'psychologist_id' => $psychologist->id,
                 'client_id' => $client->id,
+                'query_id' => null,
                 'coupon' => "{$psychologist->id}{$cp}{$psychologist->id}",
                 'situation' => CouponSituationEnum::SITUATION_NOT_USED,
                 'status_payment' => CouponStatusPaymentEnum::STATUS_PAYMENT_UNPAID,
+                'source' => $source,
             ];
 
             array_push($coupons, $this->coupon_repository->store($data_coupon));

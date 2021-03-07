@@ -17,9 +17,11 @@ class CreateCouponsTable extends Migration
             $table->increments('id');
             $table->integer('psychologist_id')->unsigned();
             $table->integer('client_id')->unsigned();
+            $table->integer('query_id')->unsigned();
             $table->string('coupon')->nullable();
             $table->string('situation')->default('not_used');
             $table->string('status_payment')->default('unpaid');
+            $table->string('source');
             $table->integer('is_active')->default(1);
             $table->softDeletes();
             $table->timestamps();
@@ -34,6 +36,12 @@ class CreateCouponsTable extends Migration
                 ->foreign('client_id')
                 ->references('id')
                 ->on('clients')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('query_id')
+                ->references('id')
+                ->on('queries')
                 ->onDelete('cascade');
         });
     }

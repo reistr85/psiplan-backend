@@ -22,6 +22,11 @@ class PsychologistRepository extends BaseRepository
         return parent::findById($this->model, $id);
     }
 
+    public function getPsychologist($id)
+    {
+        return $this->model->where('id', $id);
+    }
+
     public function index($params)
     {
         $query = $this->model::select($this->getResumeColumns())->distinct('psychologists.id')

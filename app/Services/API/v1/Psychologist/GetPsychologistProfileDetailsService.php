@@ -22,7 +22,9 @@ class GetPsychologistProfileDetailsService extends PsychologistRepository
     public function execute($id)
     {
         $user = auth()->user();
-        $psychologist = parent::find($id);
+        $psychologist = parent::getPsychologist($id)
+            ->with('specialties', 'academicFormations', 'targetAudiences', 'languages', 'serviceAddress', 'videoPlatforms')
+            ->first();
 
         if(!$user) {
             if ($psychologist->complete_profile == 'incomplete')

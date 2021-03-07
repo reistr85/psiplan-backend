@@ -35,4 +35,9 @@ class CouponRepository extends BaseRepository
     {
         return parent::update($model, $data);
     }
+
+    public function getAllCouponsByQueryId(int $query_id)
+    {
+        return $this->model->where('query_id', $query_id);
+    }
 }

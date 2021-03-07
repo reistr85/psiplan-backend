@@ -9,8 +9,9 @@ use App\Enums\CouponStatusPaymentEnum;
 use App\Repositories\CouponRepository;
 use App\Repositories\PsychologistRepository;
 use DateTime;
+use mysql_xdevapi\Exception;
 
-class UpdateStatusPaymentAndSituationCouponClientService
+class UpdateAllCouponsByQueryIdService
 {
     private $coupon_repository;
 
@@ -20,13 +21,12 @@ class UpdateStatusPaymentAndSituationCouponClientService
         $this->coupon_repository = $coupon_repository;
     }
 
-    public function execute(array $data, int $coupon_id)
+    public function execute(int $query_id, $data)
     {
-        $coupon = $this->coupon_repository->find($coupon_id);
+        $coupons = $this->coupon_repository->getAllCouponsByQueryId($query_id)->get();
 
-        if($coupon->situation == CouponSituationEnum::SITUATION_USED)
-            throw new \Exception("Este cupom já foi utilizado", 500);
-
-        return $this->coupon_repository->edit($coupon, $data);
+        foreach($coupons as $value){
+            $this->coupon_repository->edit($value, $data);
+        }
     }
 }

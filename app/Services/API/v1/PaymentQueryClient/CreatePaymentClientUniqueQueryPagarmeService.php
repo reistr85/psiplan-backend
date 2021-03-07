@@ -3,14 +3,28 @@
 
 namespace App\Services\API\v1\PaymentQueryClient;
 
+use App\Models\Query;
 use App\Repositories\QueryRepository;
+use App\Services\API\v1\Pagarme\GetReceiptByRecipientIdService;
 use GuzzleHttp\Client;
 
 class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
 {
+    private $get_recipient_by_recipient_id_service;
+
+    public function __construct(
+        Query $model,
+        GetReceiptByRecipientIdService $get_recipient_by_recipient_id_service)
+    {
+        parent::__construct($model);
+
+        $this->get_recipient_by_recipient_id_service = $get_recipient_by_recipient_id_service;
+    }
+
     public function execute(int $client_id, array $data)
     {
         $query = parent::find($data['query_id']);
+        $psychologist = $query->psychologist;
 
         if($query->client_id != $client_id)
             throw new \Exception("Não foi possível fazer o pagamento da consulta selecionada.", 500);
@@ -42,18 +56,21 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
             'tangible' => false,
         ];
 
+        $recipient_psiplan = $this->get_recipient_by_recipient_id_service->execute(env('RECIPIENT_ID'));
+        $recipient_psychologist = $this->get_recipient_by_recipient_id_service->execute($psychologist->recipient_id);
+
         $receiver_psiplan = [
             'recipient_id' => env('RECIPIENT_ID'),
-            'percentage' => 10,
+            'percentage' => $recipient_psiplan->anticipatable_volume_percentage,
             'liable' => true,
             'charge_processing_fee' => true,
         ];
 
         $receiver_psychologist = [
-            'recipient_id' => 're_ck4g908ky02p5v26f0zgbj0jn',
-            'percentage' => 90,
-            'liable' => true,
-            'charge_processing_fee' => true,
+            'recipient_id' => $psychologist->recipient_id,
+            'percentage' => $recipient_psychologist->anticipatable_volume_percentage,
+            'liable' => false,
+            'charge_processing_fee' => false,
         ];
 
         array_push($data['items'], $item);
@@ -64,6 +81,7 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
         $data['amount'] = onlyNumber($data['amount']);
         $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
         $data['billing']['address']['country'] = "br";
+        $data['billing']['address']['street_number'] = $data['billing']['address']['street_number'] ?? 'S/N';
         $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);
         $data['customer']['phone_numbers'] = ["+55".onlyNumber($data['customer']['phone_numbers'][0])];
         $data['customer']['birthday'] = dateEN($data['customer']['birthday']);
