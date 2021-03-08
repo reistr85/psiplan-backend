@@ -40,4 +40,9 @@ class CouponRepository extends BaseRepository
     {
         return $this->model->where('query_id', $query_id);
     }
+
+    public function getCouponByCoupon(int $coupon)
+    {
+        return $this->model->where('coupon', $coupon);
+    }
 }

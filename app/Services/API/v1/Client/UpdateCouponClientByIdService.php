@@ -10,7 +10,7 @@ use App\Repositories\CouponRepository;
 use App\Repositories\PsychologistRepository;
 use DateTime;
 
-class UpdateStatusPaymentAndSituationCouponClientService
+class UpdateCouponClientByIdService
 {
     private $coupon_repository;
 

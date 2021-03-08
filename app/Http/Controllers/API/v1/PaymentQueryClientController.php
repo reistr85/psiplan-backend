@@ -7,12 +7,13 @@ use App\Enums\CouponStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\QueryPaymentClientRequest;
 use App\Services\API\v1\Client\UpdateAllCouponsByQueryIdService;
-use App\Services\API\v1\Client\UpdateStatusPaymentAndSituationCouponClientService;
+use App\Services\API\v1\Client\UpdateCouponClientByIdService;
 use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
 use App\Services\API\v1\PaymentQueryClient\CreatePaymentClientUniqueQueryPagarmeService;
+use App\Services\API\v1\PaymentQueryClient\CreatePaymentQueryClientCouponService;
 use App\Services\API\v1\PaymentQueryClient\GetAllTransactionsPagarmeClientService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
-use App\Services\API\v1\Query\UpdateQueryPaymentStatusService;
+use App\Services\API\v1\Query\UpdateQueryByIdService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,28 +24,31 @@ class PaymentQueryClientController extends Controller
 
     private $createPaymentClientUniqueQueryPagarmeService;
     private $createPagarmeTransactionService;
-    private $updateQueryPaymentStatusService;
+    private $update_query_by_id_service;
     private $getAllTransactionsPagarmeClientService;
     private $get_query_by_id_service;
-    private $update_status_payment_and_situation_coupon_client_service;
+    private $update_coupon_client_by_id_service;
     private $update_all_coupons_by_query_id_service;
+    private $create_payment_query_client_coupon_service;
 
     public function __construct(
         CreatePaymentClientUniqueQueryPagarmeService $createPaymentClientUniqueQueryPagarmeService,
         CreatePagarmeTransactionService $createPagarmeTransactionService,
-        UpdateQueryPaymentStatusService $updateQueryPaymentStatusService,
+        UpdateQueryByIdService $update_query_by_id_service,
         GetAllTransactionsPagarmeClientService $getAllTransactionsPagarmeClientService,
         GetQueriesByIdService $get_query_by_id_service,
-        UpdateStatusPaymentAndSituationCouponClientService $update_status_payment_and_situation_coupon_client_service,
-        UpdateAllCouponsByQueryIdService $update_all_coupons_by_query_id_service)
+        UpdateCouponClientByIdService $update_coupon_client_by_id_service,
+        UpdateAllCouponsByQueryIdService $update_all_coupons_by_query_id_service,
+        CreatePaymentQueryClientCouponService $create_payment_query_client_coupon_service)
     {
         $this->createPaymentClientUniqueQueryPagarmeService = $createPaymentClientUniqueQueryPagarmeService;
         $this->createPagarmeTransactionService = $createPagarmeTransactionService;
-        $this->updateQueryPaymentStatusService = $updateQueryPaymentStatusService;
+        $this->update_query_by_id_service = $update_query_by_id_service;
         $this->getAllTransactionsPagarmeClientService = $getAllTransactionsPagarmeClientService;
         $this->get_query_by_id_service = $get_query_by_id_service;
-        $this->update_status_payment_and_situation_coupon_client_service = $update_status_payment_and_situation_coupon_client_service;
+        $this->update_coupon_client_by_id_service = $update_coupon_client_by_id_service;
         $this->update_all_coupons_by_query_id_service = $update_all_coupons_by_query_id_service;
+        $this->create_payment_query_client_coupon_service = $create_payment_query_client_coupon_service;
     }
 
     /**
@@ -73,10 +77,19 @@ class PaymentQueryClientController extends Controller
      */
     public function store(QueryPaymentClientRequest $request)
     {
+        DB::beginTransaction();
         try{
             $user = auth()->user();
             $query = $this->get_query_by_id_service->execute($request->input('query_id'));
             $data = $request->all();
+
+            if($data['coupon']){
+                $this->create_payment_query_client_coupon_service->execute($query->id, $data['coupon']);
+
+                DB::commit();
+                return response()->json(['status' => true, 'message' => 'Realizado com Sucesso'], 200);
+            }
+
             $data['amount'] = $query->price;
             $data['metadata']['query_id'] = $query->id;
             $data['metadata']['client_id'] = $query->client_id;
@@ -85,7 +98,6 @@ class PaymentQueryClientController extends Controller
             $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
             $amount = $response->amount;
 
-            DB::beginTransaction();
             $pagarme_transaction = $this->createPagarmeTransactionService->execute(
                 $user->id,
                 [
@@ -96,7 +108,7 @@ class PaymentQueryClientController extends Controller
                     'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
                 ]);
 
-            $this->updateQueryPaymentStatusService->execute($query->id, [
+            $this->update_query_by_id_service->execute($query->id, [
                 'transaction_id' => $response->id,
                 'status_payment' => $response->status,
             ]);
@@ -108,7 +120,7 @@ class PaymentQueryClientController extends Controller
 
             if($response->status == CouponStatusPaymentEnum::STATUS_PAYMENT_PAID && $query->coupon_id) {
                 $this->update_all_coupons_by_query_id_service->execute($query->id, ['status_payment' => CouponStatusPaymentEnum::STATUS_PAYMENT_PAID]);
-                $this->update_status_payment_and_situation_coupon_client_service
+                $this->update_coupon_client_by_id_service
                     ->execute($dataCoupon, $query->coupon_id);
             }
 
