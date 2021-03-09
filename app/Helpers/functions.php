@@ -113,6 +113,13 @@ if(!function_exists('dateEN')){
     }
 }
 
+if(!function_exists('maskPhone')){
+    function maskPhone($phone)
+    {
+        return "(".substr($phone, 0, 2).")".substr($phone, 2, 5)."-".substr($phone, 7, 4);
+    }
+}
+
 if(!function_exists('checkPIS')){
     function checkPIS($pis)
     {

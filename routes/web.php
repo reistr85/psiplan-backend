@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Facades\Mail;
@@ -15,3 +15,22 @@ Route::get('new-psychologist', function(){
 
     return new \App\Mail\NewClient($user);
 });
+
+    Route::get('new-query-client', function(){
+
+        $data = new stdClass();
+        $data =  [
+            'email' => 'reis_trindade@hotmail.com',
+            'name' => 'Renan Reis',
+            'psychologist_name' => 'Igor de Oliveira JR.',
+            'psychologist_contact' => '(84)98848-1941',
+            'type_service' => 'Online',
+            'video_platform' => 'Skype',
+            'date_query' => '12 de Março (Sexta-feira)',
+            'value_query' => 'Online',
+        ];
+
+        //Mail::send(new \App\Mail\NewQueryClient($data));
+
+        return new \App\Mail\NewQueryClient($data);
+    });

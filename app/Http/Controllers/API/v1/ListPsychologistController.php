@@ -10,6 +10,7 @@ use App\Services\API\v1\Psychologist\GetPsychologistProfileDetailsService;
 use App\Services\API\v1\Psychologist\GetServiceHoursByDateByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetSpecialtiesByPsychologistIdService;
 use App\Services\API\v1\Psychologist\ListPsychologistService;
+use App\Services\API\v1\SendEmail\SendEmailNewQueryClientService;
 use Illuminate\Http\Request;
 
 class ListPsychologistController extends Controller
@@ -36,6 +37,8 @@ class ListPsychologistController extends Controller
 
     public function index(Request $request)
     {
+        $t = app(SendEmailNewQueryClientService::class);
+        $t->execute(39);
         try{
             $params = $request->only(['text', 'city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id',
                 'language_id']);

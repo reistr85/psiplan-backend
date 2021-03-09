@@ -9,8 +9,8 @@ class Query extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['psychologist_id', 'client_id', 'psychologist_availability_calendar_id', 'coupon_id', 'day_hour', 'price',
-        'evaluation', 'status_query', 'transaction_id',  'status_payment', 'status_evaluation', 'is_active'];
+    protected $fillable = ['psychologist_id', 'client_id', 'psychologist_availability_calendar_id', 'coupon_id', 'video_platform_id',
+        'day_hour', 'price', 'evaluation', 'status_query', 'transaction_id',  'status_payment', 'status_evaluation', 'is_active'];
 
     public function psychologist()
     {
@@ -20,6 +20,11 @@ class Query extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function videoPlatform()
+    {
+        return $this->belongsTo(VideoPlatform::class);
     }
 
     public function psychologistAvailabilityCalendar()

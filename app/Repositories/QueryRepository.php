@@ -26,7 +26,8 @@ class QueryRepository extends BaseRepository
     public function find(int $id): ?Model
     {
         return $this->model->where('id', $id)
-            ->with('psychologist.serviceAddress', 'client', 'psychologistAvailabilityCalendar.typeService')
+            ->with('psychologist', 'psychologist.serviceAddress', 'client',
+                'psychologistAvailabilityCalendar.typeService', 'psychologistAvailabilityCalendar', 'videoPlatform')
             ->first();
     }
 
