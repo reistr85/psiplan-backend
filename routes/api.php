@@ -179,5 +179,10 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         * ClientBilling
         * */
         Route::put('billings', 'ClientBillingController@update');
+
+        /*
+        * ClientCoupons
+        * */
+        Route::resource('coupons', 'CouponController');
     });
 });

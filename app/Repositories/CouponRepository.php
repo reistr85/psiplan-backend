@@ -45,4 +45,9 @@ class CouponRepository extends BaseRepository
     {
         return $this->model->where('coupon', $coupon);
     }
+
+    public function getAllCouponsByClientId(int $client_id)
+    {
+        return $this->model->where('client_id', $client_id);
+    }
 }

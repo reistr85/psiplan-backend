@@ -10,4 +10,9 @@ class Coupon extends Model
     use SoftDeletes;
 
     protected $fillable = ['psychologist_id', 'client_id', 'query_id', 'coupon', 'situation', 'status_payment', 'source', 'is_active'];
+
+    public function psychologist()
+    {
+        return $this->belongsTo(Psychologist::class);
+    }
 }
