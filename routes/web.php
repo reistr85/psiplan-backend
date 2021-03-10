@@ -48,3 +48,7 @@ Route::get('forgot-password-client', function(){
 
     return new \App\Mail\ForgotPasswordClient($data);
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
