@@ -8,6 +8,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * AuthController
      * */
     Route::post('login', 'AuthController@login');
+    Route::post('forgot-password', 'AuthController@forgotPassword');
 
     /*
      * UserController

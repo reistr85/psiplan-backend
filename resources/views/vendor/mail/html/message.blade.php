@@ -21,7 +21,7 @@
 {{-- Footer --}}
 @slot('footer')
 @component('mail::footer')
-© {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
+    Por favor não responda esse e-mail, ele é gerado automaticamente.<br>© {{ date('Y') }} {{ config('app.name') }}. - A tecnologia a favor da sua saúde. <br>@lang('All rights reserved.')
 @endcomponent
 @endslot
 @endcomponent

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use stdClass;
 
-class NewQueryClient extends Mailable
+class NewQueryPsychologist extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class NewQueryClient extends Mailable
         $this->subject('Nova consulta agendada - PSIPLAN Brasil');
         $this->to($this->data['email'], $this->data['name']);
 
-        return $this->markdown('mails.new_query_client', [
+        return $this->markdown('mails.new_query_psychologist', [
             'data' => $this->data
         ]);
     }

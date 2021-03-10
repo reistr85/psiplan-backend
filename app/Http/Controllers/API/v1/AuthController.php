@@ -14,6 +14,7 @@ use App\Services\API\v1\User\FormatDataGetUserService;
 use App\Services\API\v1\User\GetUserByEmailOrCPFService;
 use Comtele\Services\TextMessageService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -129,6 +130,15 @@ class AuthController extends Controller
         return $this->respondWithToken(auth()->refresh());
     }
 
+    public function forgotPassword(Request $request)
+    {
+        try{
+            return response()->json(['status' => true, 'message' => 'Successfully'], 200);
+        }catch (\Exception $e){
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function sms()
     {
 
@@ -140,7 +150,5 @@ class AuthController extends Controller
             "Hello PHP",      // Content: Conteudo da mensagem a ser enviada.
             ["84988481941"]  // Receivers: Numero de telefone que vai ser enviado o SMS.
         );
-
-        $teste = 1;
     }
 }

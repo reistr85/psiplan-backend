@@ -4,11 +4,12 @@
 namespace App\Services\API\v1\SendEmail;
 
 use App\Mail\NewQueryClient;
+use App\Mail\NewQueryPsychologist;
 use App\Repositories\QueryRepository;
 use Illuminate\Support\Facades\Mail;
 use stdClass;
 
-class SendEmailNewQueryClientService
+class SendEmailNewQueryPsychologistService
 {
     private $query_repository;
 
@@ -25,13 +26,12 @@ class SendEmailNewQueryClientService
         if(!$query)
             return false;
 
-
         $data = new stdClass();
         $data =  [
-            'email' => $query->client->email,
-            'name' => $query->client->name,
-            'psychologist_name' => $query->psychologist->name,
-            'psychologist_contact' => maskPhone($query->psychologist->phone),
+            'email' => $query->psychologist->email,
+            'name' => $query->psychologist->name,
+            'client_name' => $query->client->name,
+            'client_contact' => maskPhone($query->client->phone),
             'type_service' => $query->psychologistAvailabilityCalendar->typeService->description,
             'date_query' => dateInFull($query->day_hour),
             'hour_query' => hour($query->day_hour),
@@ -49,6 +49,6 @@ class SendEmailNewQueryClientService
             $data['complement'] = $query->psychologist->serviceAddress->complement;
         }
 
-        Mail::send(new NewQueryClient($data));
+        Mail::send(new NewQueryPsychologist($data));
     }
 }

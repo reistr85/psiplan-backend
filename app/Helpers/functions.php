@@ -50,6 +50,45 @@ if(!function_exists('getNameMonth')){
     }
 }
 
+if(!function_exists('getNameMonthPT')){
+    function getNameMonthPT($month)
+    {
+        if(!is_null($month)) {
+            $dateObj = DateTime::createFromFormat('m', $month);
+            $dateObj->setTimezone(new DateTimeZone('America/Sao_Paulo'));
+            $monthName = strftime('%B', $dateObj->getTimestamp());
+
+            if($monthName === 'January'){
+                return 'Janeiro';
+            }else if($monthName === 'February'){
+                return 'Fevereiro';
+            }else if($monthName === 'March'){
+                return 'Março';
+            }else if($monthName === 'April'){
+                return 'Abril';
+            }else if($monthName === 'May'){
+                return 'Maio';
+            }else if($monthName === 'June'){
+                return 'Junho';
+            }else if($monthName === 'July'){
+                return 'Julho';
+            }else if($monthName === 'August'){
+                return 'Agosto';
+            }else if($monthName === 'September'){
+                return 'Setembro';
+            }else if($monthName === 'October'){
+                return 'Outubro';
+            }else if($monthName === 'November'){
+                return 'Novembro';
+            }else if($monthName === 'December'){
+                return 'Dezembro';
+            }
+        }
+
+        return '';
+    }
+}
+
 if(!function_exists('checkCPF')){
     function checkCPF($cpf = null)
     {
@@ -144,6 +183,38 @@ if(!function_exists('checkPIS')){
             return ($pis{$c} == $d) ? true : false;
 
         }
+    }
+}
+
+if(!function_exists('dateInFull')){
+    function dateInFull($date)
+    {
+        $year = substr($date, 0, 4);
+        $month = substr($date, 5, 2);
+        $day = substr($date, 8, 2);
+
+
+        return $day." de ".getNameMonthPT($month)." de ".$year." (".weekDayPT("{$year}-{$month}-{$day}").")";
+
+    }
+}
+
+if(!function_exists('weekDayPT')){
+    function weekDayPT($date)
+    {
+        $week_day = array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado');
+        $week_day_number = date('w', strtotime($date));
+
+        return  $week_day[$week_day_number];
+
+    }
+}
+
+if(!function_exists('hour')){
+    function hour($date)
+    {
+        return  substr($date, 11, 5);
+
     }
 }
 

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use stdClass;
 
-class NewQueryClient extends Mailable
+class ForgotPasswordClient extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,10 +31,10 @@ class NewQueryClient extends Mailable
      */
     public function build()
     {
-        $this->subject('Nova consulta agendada - PSIPLAN Brasil');
+        $this->subject('Recuperar senha - PSIPLAN Brasil');
         $this->to($this->data['email'], $this->data['name']);
 
-        return $this->markdown('mails.new_query_client', [
+        return $this->markdown('mails.forgot_password_client', [
             'data' => $this->data
         ]);
     }

@@ -37,8 +37,6 @@ class ListPsychologistController extends Controller
 
     public function index(Request $request)
     {
-        $t = app(SendEmailNewQueryClientService::class);
-        $t->execute(39);
         try{
             $params = $request->only(['text', 'city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id',
                 'language_id']);

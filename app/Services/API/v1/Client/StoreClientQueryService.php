@@ -72,6 +72,7 @@ class StoreClientQueryService
             'day_hour' => "{$data['day_hour']}:00",
             'price' => $price,
             'coupon_id' => $coupon_id,
+            'video_platform_id' => $data['video_platform_id'],
         ];
 
         $query = $this->query_repositories->store($dataQuery);
