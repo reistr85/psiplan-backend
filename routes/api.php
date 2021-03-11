@@ -1,44 +1,67 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
-    /*
-     * AuthController
-     * */
-    Route::post('login', 'AuthController@login');
-    Route::post('forgot-password', 'AuthController@forgotPassword');
+Route::group(['prefix' => 'psiplan/v1'], function() {
+    Route::post('forgot-password', function(Request $request){
+        try{
+            app(ForgotPasswordController::class)->sendResetLinkEmail($request);
+            return response()->json(['status' => true,], 200);
+        }catch(\Exception $ex){
+            return response()->json(['status' => true, 'message' => $ex->getMessage()], 500);
+        }
+
+    });
+
+    Route::post('reset-password', function(Request $request){
+        try{
+            app(ResetPasswordController::class)->reset($request);
+            return response()->json(['status' => true,], 200);
+        }catch(\Exception $ex){
+            return response()->json(['status' => true, 'message' => $ex->getMessage()], 500);
+        }
+
+    });
+
+    Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
+        /*
+         * AuthController
+         * */
+        Route::post('login', 'AuthController@login');
 
 
-    /*
-     * UserController
-     * */
-    Route::resource('users', 'UserController');
-    Route::post('forgot-password', 'UserController@forgotPassword');
+        /*
+         * UserController
+         * */
+        Route::resource('users', 'UserController');
 
-    /*
-     * ListPsychologist
-     * */
-    Route::get('list-psychologist', 'ListPsychologistController@index');
-    Route::get('get-filters', 'ListPsychologistController@getFilters');
-    Route::post('get-psychologist/{id}', 'ListPsychologistController@show');
-    Route::get('get-psychologist-availability/{psychologist_id}/{type_service_id}', 'ListPsychologistController@getPsychologistAvailabilityByTypeServiceId');
-    Route::post('get-psychologist-service-hours', 'ListPsychologistController@getServiceHours');
+        /*
+         * ListPsychologist
+         * */
+        Route::get('list-psychologist', 'ListPsychologistController@index');
+        Route::get('get-filters', 'ListPsychologistController@getFilters');
+        Route::post('get-psychologist/{id}', 'ListPsychologistController@show');
+        Route::get('get-psychologist-availability/{psychologist_id}/{type_service_id}', 'ListPsychologistController@getPsychologistAvailabilityByTypeServiceId');
+        Route::post('get-psychologist-service-hours', 'ListPsychologistController@getServiceHours');
 
-    /*
-     * CityController
-     * */
-    Route::post('cities-by-name', 'CityController@getCitiesByName');
+        /*
+         * CityController
+         * */
+        Route::post('cities-by-name', 'CityController@getCitiesByName');
 
-    /*
-     * PagarmePlansController
-     * */
-    Route::resource('pagarme/plans', 'PagarmePlansController');
+        /*
+         * PagarmePlansController
+         * */
+        Route::resource('pagarme/plans', 'PagarmePlansController');
 
-    /*
-     * SMS
-     * */
-//    Route::post('sms', 'AuthController@sms');
+        /*
+         * SMS
+         * */
+    //    Route::post('sms', 'AuthController@sms');
+    });
 });
 
 Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' => ['apiKey', 'apiJwt']], function() {

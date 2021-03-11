@@ -56,7 +56,7 @@
 
         <div class="form">
             <form method="POST" action="{{ route('password.email') }}">
-                @csrf
+
                 <div class="form-group row">
                     <div class="col-md-12">
                         @if (session('status'))
