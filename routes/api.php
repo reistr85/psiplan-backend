@@ -2,28 +2,39 @@
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Requests\API\v1\ForgotPasswordRequest;
+use App\Http\Requests\API\v1\ResetPasswordRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'psiplan/v1'], function() {
-    Route::post('forgot-password', function(Request $request){
+    Route::post('forgot-password', function(ForgotPasswordRequest $request){
         try{
-            app(ForgotPasswordController::class)->sendResetLinkEmail($request);
-            return response()->json(['status' => true,], 200);
-        }catch(\Exception $ex){
-            return response()->json(['status' => true, 'message' => $ex->getMessage()], 500);
-        }
+            $user = User::whereEmail($request->input('email'))->first();
 
+            if(!$user)
+                return response()->json(['status' => false, 'message' => 'O e-mail não foi localizado!'], 500);
+
+            $re = app(ForgotPasswordController::class)->sendResetLinkEmail($request);
+            return response()->json(['status' => true, 'response' => $re], 200);
+        }catch(\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
+        }
     });
 
-    Route::post('reset-password', function(Request $request){
+    Route::post('reset-password', function(ResetPasswordRequest $request){
         try{
+            $user = User::whereEmail($request->input('email'))->first();
+
+            if(!$user)
+                return response()->json(['status' => false, 'message' => 'O e-mail não foi localizado!'], 500);
+
             app(ResetPasswordController::class)->reset($request);
             return response()->json(['status' => true,], 200);
         }catch(\Exception $ex){
             return response()->json(['status' => true, 'message' => $ex->getMessage()], 500);
         }
-
     });
 
     Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
@@ -158,6 +169,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::group(['prefix' => 'management'], function() {
         Route::get('queries', 'ManagementQueryController@index');
         Route::put('queries/{id}', 'ManagementQueryController@update');
+        Route::delete('queries/{id}', 'ManagementQueryController@destroy');
         Route::get('payments', 'ManagementPaymentController@index');
         Route::get('receipts', 'ManagementReceiptController@index');
         Route::get('evaluations', 'ManagementEvaluationController@index');

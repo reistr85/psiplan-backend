@@ -61,4 +61,9 @@ class QueryRepository extends BaseRepository
     public function edit(Model $model, array $data){
         return parent::update($model, $data);
     }
+
+    public function destroy($model)
+    {
+        return parent::delete($model);
+    }
 }

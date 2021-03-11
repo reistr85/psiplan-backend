@@ -6,7 +6,7 @@ namespace App\Services\API\v1\Management;
 
 use App\Repositories\QueryRepository;
 
-class GetQueriesServices
+class GetQueryByIdService
 {
     private $query_repository;
 
@@ -16,9 +16,13 @@ class GetQueriesServices
         $this->query_repository = $query_repository;
     }
 
-    public function execute(int $psychologist_id)
+    public function execute(int $id)
     {
-        return $this->query_repository->getAllQueriesFindByPsychologistId($psychologist_id)
-            ->with('videoPlatform')->get();
+        $query = $this->query_repository->find($id);
+
+        if(!$query)
+            throw new \Exception("Consulta não localizada.", 500);
+
+        return $query;
     }
 }

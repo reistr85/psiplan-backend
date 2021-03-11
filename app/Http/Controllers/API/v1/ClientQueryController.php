@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Enums\CouponSourceEnum;
+use App\Enums\CouponStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Mail\NewQueryClient;
@@ -78,11 +79,14 @@ class ClientQueryController extends Controller
     {
         DB::beginTransaction();
         try{
+            $client = auth()->user()->client;
             $data = $request->all();
             $coupons = [];
 
             if($data['query_box'])
-                $coupons = $this->store_coupon_client_service->execute($data, CouponSourceEnum::QUERY_PACKAGE);
+                $coupons = $this->store_coupon_client_service
+                    ->execute($data['psychologist_id'], $client->id,  CouponSourceEnum::QUERY_PACKAGE, 4,
+                        CouponStatusPaymentEnum::STATUS_PAYMENT_UNPAID);
 
             $query = $this->storeClientQueryService->execute($data, $coupons);
             $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
