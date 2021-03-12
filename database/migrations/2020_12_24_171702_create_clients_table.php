@@ -27,6 +27,7 @@ class CreateClientsTable extends Migration
             $table->string('neighborhood')->nullable();
             $table->string('street')->nullable();
             $table->string('number')->nullable();
+            $table->string('first_consultation_status')->default('not_used');
             $table->string('is_active');
             $table->softDeletes();
             $table->timestamps();

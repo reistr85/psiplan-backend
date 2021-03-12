@@ -30,9 +30,9 @@ Route::get('new-query-client', function(){
         'value_query' => 'Online',
     ];
 
-    Mail::send(new \App\Mail\NewQueryClient($data));
+    //Mail::send(new \App\Mail\NewQueryClient($data));
 
-    //return new \App\Mail\NewQueryClient($data);
+    return new \App\Mail\NewQueryClient($data);
 });
 
 Route::get('forgot-password-client', function(){
@@ -48,3 +48,23 @@ Route::get('forgot-password-client', function(){
 
     return new \App\Mail\ForgotPasswordClient($data);
 });
+
+    Route::get('query-canceled-client', function(){
+
+        $data = new stdClass();
+        $data =  [
+            'email' => 'reis_trindade@hotmail.com',
+            'name' => 'Renan Reis',
+            'psychologist_name' => 'Igor de Oliveira JR.',
+            'psychologist_contact' => '(84)98848-1941',
+            'type_service' => 'Online',
+            'video_platform' => 'Skype',
+            'date_query' => '12 de Março (Sexta-feira)',
+            'value_query' => 'Online',
+            'hour_query' => '00:00',
+        ];
+
+        //Mail::send(new \App\Mail\NewQueryClient($data));
+
+        return new \App\Mail\QueryCanceledClient($data);
+    });

@@ -39,7 +39,7 @@ class ListPsychologistController extends Controller
     {
         try{
             $params = $request->only(['text', 'city_id', 'target_audience_id', 'genre_id', 'order_price', 'specialty_id',
-                'language_id']);
+                'language_id', 'first_consultation']);
             $return = $this->listPsychologistService->index($params);
 
             return response()->json($return, 200);

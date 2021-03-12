@@ -53,6 +53,9 @@ class PsychologistRepository extends BaseRepository
         if($params['city_id'])
             $query->where('psychologists.complete_profile', $params['city_id'])->whereNull('cities.deleted_at');
 
+        if($params['first_consultation'])
+            $query->where('psychologists.first_free_consultation', 1);
+
         $query->where('psychologists.complete_profile', 'completed');
 
         if($params['order_price'])
