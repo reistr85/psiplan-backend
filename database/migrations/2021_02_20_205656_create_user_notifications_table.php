@@ -16,14 +16,11 @@ class CreateUserNotificationsTable extends Migration
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('type_user');
             $table->integer('notification_id');
             $table->string('title');
             $table->text('description');
-            $table->string('url');
-            $table->string('url_children');
             $table->string('status')->default('not_read');
-            $table->integer('is_active');
+            $table->integer('is_active')->default(1);
             $table->softDeletes();
             $table->timestamps();
 

@@ -4,17 +4,21 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Enums\CouponSourceEnum;
 use App\Enums\CouponStatusPaymentEnum;
+use App\Enums\NotificationsEnum;
+use App\Enums\NotificationsStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Mail\NewQueryClient;
 use App\Services\API\v1\Client\StoreClientQueryService;
 use App\Services\API\v1\Client\StoreCouponClientService;
 use App\Services\API\v1\Client\UpdateAllCouponsByCouponsService;
+use App\Services\API\v1\Psychologist\GetPsychologistByIdService;
 use App\Services\API\v1\Query\GetAllQueriesByClientIdService;
 use App\Services\API\v1\Client\GetClientByUserIdService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
 use App\Services\API\v1\SendEmail\SendEmailNewQueryClientService;
 use App\Services\API\v1\SendEmail\SendEmailNewQueryPsychologistService;
+use App\Services\API\v1\User\StoreUserNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +34,8 @@ class ClientQueryController extends Controller
     private $update_all_coupons_by_coupons_service;
     private $send_email_new_query_client_service;
     private $send_email_new_query_psychologist_service;
+    private $store_user_notification_service;
+    private $get_psychologist_by_id_service;
 
     public function __construct(
         GetClientByUserIdService $getClientByUserIdService,
@@ -39,7 +45,9 @@ class ClientQueryController extends Controller
         StoreCouponClientService $store_coupon_client_service,
         UpdateAllCouponsByCouponsService $update_all_coupons_by_coupons_service,
         SendEmailNewQueryClientService $send_email_new_query_client_service,
-        SendEmailNewQueryPsychologistService $send_email_new_query_psychologist_service)
+        SendEmailNewQueryPsychologistService $send_email_new_query_psychologist_service,
+        StoreUserNotificationService $store_user_notification_service,
+        GetPsychologistByIdService $get_psychologist_by_id_service)
     {
         $this->getClientByUserIdService = $getClientByUserIdService;
         $this->getAllQueriesByClientIdService = $getAllQueriesByClientIdService;
@@ -49,6 +57,8 @@ class ClientQueryController extends Controller
         $this->update_all_coupons_by_coupons_service = $update_all_coupons_by_coupons_service;
         $this->send_email_new_query_client_service = $send_email_new_query_client_service;
         $this->send_email_new_query_psychologist_service = $send_email_new_query_psychologist_service;
+        $this->store_user_notification_service = $store_user_notification_service;
+        $this->get_psychologist_by_id_service = $get_psychologist_by_id_service;
     }
 
     /**
@@ -92,6 +102,26 @@ class ClientQueryController extends Controller
             $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
             $this->send_email_new_query_client_service->execute($query->id);
             $this->send_email_new_query_psychologist_service->execute($query->id);
+
+            $data_notification_client = [
+                'user_id' => $client->user_id,
+                'notification_id' => NotificationsEnum::NOTIFICATION_NEW_QUERY['id'],
+                'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
+                'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
+                'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            ];
+
+            $psychologist = $this->get_psychologist_by_id_service->execute($data['psychologist_id']);
+            $data_notification_psychologist = [
+                'user_id' => $psychologist->user_id,
+                'notification_id' => NotificationsEnum::NOTIFICATION_NEW_QUERY['id'],
+                'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
+                'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
+                'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            ];
+
+            $this->store_user_notification_service->execute($data_notification_client);
+            $this->store_user_notification_service->execute($data_notification_psychologist);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Success', 'query' => $query], 200);
