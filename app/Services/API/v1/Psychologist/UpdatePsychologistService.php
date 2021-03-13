@@ -31,11 +31,11 @@ class UpdatePsychologistService extends PsychologistRepository
         if(array_key_exists('upload_image', $data)){
             if($data['action'] === 'avatar'){
                 $this->uploadService = new UploadImagesService(300, 300);
-                $this->path = "images/users/{$psychologist->id}/avatar";
+                $this->path = "images/users/{$psychologist->user_id}/avatar";
                 $this->path_file_delete = "{$this->path}/{$psychologist->avatar}";
             }else{
                 $this->uploadService = new UploadImagesService(1024, 768, true);
-                $this->path = "images/users/{$psychologist->id}/gallery";
+                $this->path = "images/users/{$psychologist->user_id}/gallery";
                 $this->path_file_delete = "{$this->path}/{$psychologist[$data['action']]}";
                 Storage::disk('s3')->delete("{$this->path}/thumbnail_{$psychologist[$action]}");
             }
