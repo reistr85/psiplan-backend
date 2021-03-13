@@ -41,4 +41,9 @@ class UserNotificationRepository extends BaseRepository
     {
         return parent::update($model, $data);
     }
+
+    public function store(array $data)
+    {
+        return parent::save($this->model, $data);
+    }
 }

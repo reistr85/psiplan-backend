@@ -215,6 +215,11 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         * ClientCoupons
         * */
         Route::resource('coupons', 'CouponController');
+
+        /*
+        * ClientConsultationFree
+        * */
+        Route::resource('consultation-free', 'ClientConsultationFreeController');
     });
 });
 

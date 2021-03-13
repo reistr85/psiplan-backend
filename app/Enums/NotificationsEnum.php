@@ -8,13 +8,15 @@ use MyCLabs\Enum\Enum;
 
 class NotificationsEnum extends Enum
 {
-    public const NOTIFICATIONS = [
+    public const NOTIFICATION_NEW_QUERY = [
         'id' => 1,
-        'type_user' => 2,
         'title' => 'Nova consulta',
         'description' => 'Você tem uma nova consulta agendada.',
-        'url' => '/conta/notificacoes',
-        'url_action' => '/gestao/consultas',
-        'is_active' => 1,
+    ];
+
+    public const NOTIFICATION_FIRST_CONSULTATION_FREE_PSYCHOLOGIST = [
+        'id' => 2,
+        'title' => 'Solicitação de consulta grátis',
+        'description' => 'Você tem uma nova solicitação para consulta grátis. Acesse o seu e-mail para ver mais detalhes.',
     ];
 }
