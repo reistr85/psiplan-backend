@@ -58,7 +58,16 @@ class UpdatePsychologistRequest extends APIFormRequest
 
         if($this->input('action') === 'infoadditional') {
             return [
-                'infoAdditional.crp' => 'required|min:3',
+                'infoAdditional.crp' => function ($att, $value, $fail) {
+                    $crp = onlyNumber($value);
+                    $region = ltrim(substr($crp, 0, 2), '0');
+
+                    if ($region < 1 || $region > 24)
+                        return $fail("Digite um CRP válido");
+
+                    if (strlen($crp) < 3)
+                        return $fail("Digite um CRP válido");
+                },
                 'infoAdditional.pis' => function ($att, $value, $fail) {
                     $pis = onlyNumber($value);
                     if (!checkPIS($pis))
