@@ -48,8 +48,8 @@ class PagarmePostBackController extends Controller
             Log::error($request->all());
 
             $data = [
-                'pagarme_post_back_type' => '',
-                'pagarme_post_back_id' => '',
+                'pagarme_post_back_type' => $request->transaction['metadata']['model'],
+                'pagarme_post_back_id' => $request->transaction['metadata']['model'],
                 'postback_id' => $request->id,
                 'postback_event' => $request->event,
                 'postback_object' => $request->object,
