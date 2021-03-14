@@ -35,7 +35,12 @@ class StoreUserRequest extends APIFormRequest
             },
             'name' => 'required|min:3|max:150',
             'email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
-            'phone' => 'required|min:11',
+            'phone' => function($att, $value, $fail){
+                $phone = onlyNumber($value);
+
+                if(strlen($phone) != 11)
+                    return $fail("Digite um telefone válido.");
+            },
             'password' => 'required|min:6',
         ];
     }

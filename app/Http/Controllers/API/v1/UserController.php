@@ -99,7 +99,7 @@ class UserController extends Controller
             return response()->json(['status' => true, 'message' => 'Successfully'], 200);
         }catch(\Exception $e){
             DB::rollBack();
-            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
