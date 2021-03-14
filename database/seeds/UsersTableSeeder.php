@@ -27,10 +27,10 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'type_user_id' => 2,
-                'name' => 'Psicólogo de Teste',
-                'email' => 'psiteste@gmail.com',
+                'name' => 'Renan Reis',
+                'email' => 'reistr85@gmail.com',
                 'cpf' => '39793947004',
-                'password' => bcrypt('12345678'),
+                'password' => bcrypt('re851120'),
                 'is_active' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp

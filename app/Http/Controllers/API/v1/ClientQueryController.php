@@ -8,6 +8,7 @@ use App\Enums\NotificationsEnum;
 use App\Enums\NotificationsStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
+use App\Jobs\FreeDayScheduling;
 use App\Mail\NewQueryClient;
 use App\Services\API\v1\Client\StoreClientQueryService;
 use App\Services\API\v1\Client\StoreCouponClientService;
@@ -32,8 +33,6 @@ class ClientQueryController extends Controller
     private $storeClientQueryService;
     private $store_coupon_client_service;
     private $update_all_coupons_by_coupons_service;
-    private $send_email_new_query_client_service;
-    private $send_email_new_query_psychologist_service;
     private $store_user_notification_service;
     private $get_psychologist_by_id_service;
 
@@ -44,8 +43,6 @@ class ClientQueryController extends Controller
         StoreClientQueryService $storeClientQueryService,
         StoreCouponClientService $store_coupon_client_service,
         UpdateAllCouponsByCouponsService $update_all_coupons_by_coupons_service,
-        SendEmailNewQueryClientService $send_email_new_query_client_service,
-        SendEmailNewQueryPsychologistService $send_email_new_query_psychologist_service,
         StoreUserNotificationService $store_user_notification_service,
         GetPsychologistByIdService $get_psychologist_by_id_service)
     {
@@ -55,8 +52,6 @@ class ClientQueryController extends Controller
         $this->storeClientQueryService = $storeClientQueryService;
         $this->store_coupon_client_service = $store_coupon_client_service;
         $this->update_all_coupons_by_coupons_service = $update_all_coupons_by_coupons_service;
-        $this->send_email_new_query_client_service = $send_email_new_query_client_service;
-        $this->send_email_new_query_psychologist_service = $send_email_new_query_psychologist_service;
         $this->store_user_notification_service = $store_user_notification_service;
         $this->get_psychologist_by_id_service = $get_psychologist_by_id_service;
     }
@@ -100,8 +95,7 @@ class ClientQueryController extends Controller
 
             $query = $this->storeClientQueryService->execute($data, $coupons);
             $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
-            $this->send_email_new_query_client_service->execute($query->id);
-            $this->send_email_new_query_psychologist_service->execute($query->id);
+            FreeDayScheduling::dispatch($query)->delay(now()->addMinutes(30));
 
             $data_notification_client = [
                 'user_id' => $client->user_id,

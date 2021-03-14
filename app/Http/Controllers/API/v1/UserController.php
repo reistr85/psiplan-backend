@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreUserRequest;
 use App\Http\Requests\API\v1\UpdateUserPasswordRequest;
+use App\Jobs\SendEmailNewClient;
+use App\Jobs\SendEmailNewPsychologist;
 use App\Mail\NewClient;
 use App\Mail\NewPsychologist;
 use App\Services\API\v1\Client\CreateClientService;
@@ -78,7 +80,7 @@ class UserController extends Controller
                 $psychologist = $this->createPsychologist->execute($data_psychologist);
                 $this->create_psychologist_preferences_service->execute($psychologist->id);
 
-                Mail::send(new NewPsychologist($data_psychologist));
+                SendEmailNewPsychologist::dispatch($data_psychologist);
             }
 
             if($user->type_user_id == 3) {
@@ -91,7 +93,7 @@ class UserController extends Controller
                 ];
 
                 $this->createClientService->execute($data_client);
-                Mail::send(new NewClient($data_client));
+                SendEmailNewClient::dispatch($data_client);
             }
 
             DB::commit();

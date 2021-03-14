@@ -14,6 +14,8 @@ use App\Services\API\v1\PaymentQueryClient\CreatePaymentQueryClientCouponService
 use App\Services\API\v1\PaymentQueryClient\GetAllTransactionsPagarmeClientService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
 use App\Services\API\v1\Query\UpdateQueryByIdService;
+use App\Services\API\v1\SendEmail\SendEmailNewQueryClientService;
+use App\Services\API\v1\SendEmail\SendEmailNewQueryPsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,6 +32,8 @@ class PaymentQueryClientController extends Controller
     private $update_coupon_client_by_id_service;
     private $update_all_coupons_by_query_id_service;
     private $create_payment_query_client_coupon_service;
+    private $send_email_new_query_client_service;
+    private $send_email_new_query_psychologist_service;
 
     public function __construct(
         CreatePaymentClientUniqueQueryPagarmeService $createPaymentClientUniqueQueryPagarmeService,
@@ -39,7 +43,9 @@ class PaymentQueryClientController extends Controller
         GetQueriesByIdService $get_query_by_id_service,
         UpdateCouponClientByIdService $update_coupon_client_by_id_service,
         UpdateAllCouponsByQueryIdService $update_all_coupons_by_query_id_service,
-        CreatePaymentQueryClientCouponService $create_payment_query_client_coupon_service)
+        CreatePaymentQueryClientCouponService $create_payment_query_client_coupon_service,
+        SendEmailNewQueryClientService $send_email_new_query_client_service,
+        SendEmailNewQueryPsychologistService $send_email_new_query_psychologist_service)
     {
         $this->createPaymentClientUniqueQueryPagarmeService = $createPaymentClientUniqueQueryPagarmeService;
         $this->createPagarmeTransactionService = $createPagarmeTransactionService;
@@ -49,6 +55,8 @@ class PaymentQueryClientController extends Controller
         $this->update_coupon_client_by_id_service = $update_coupon_client_by_id_service;
         $this->update_all_coupons_by_query_id_service = $update_all_coupons_by_query_id_service;
         $this->create_payment_query_client_coupon_service = $create_payment_query_client_coupon_service;
+        $this->send_email_new_query_client_service = $send_email_new_query_client_service;
+        $this->send_email_new_query_psychologist_service = $send_email_new_query_psychologist_service;
     }
 
     /**
@@ -115,16 +123,19 @@ class PaymentQueryClientController extends Controller
                 'status_payment' => $response->status,
             ]);
 
-            $dataCoupon = [
-                'status_payment' => CouponStatusPaymentEnum::STATUS_PAYMENT_PAID,
-                'situation' => CouponSituationEnum::SITUATION_USED,
-            ];
-
             if($response->status == CouponStatusPaymentEnum::STATUS_PAYMENT_PAID && $query->coupon_id) {
+                $dataCoupon = [
+                    'status_payment' => CouponStatusPaymentEnum::STATUS_PAYMENT_PAID,
+                    'situation' => CouponSituationEnum::SITUATION_USED,
+                ];
+
                 $this->update_all_coupons_by_query_id_service->execute($query->id, ['status_payment' => CouponStatusPaymentEnum::STATUS_PAYMENT_PAID]);
                 $this->update_coupon_client_by_id_service
                     ->execute($dataCoupon, $query->coupon_id);
             }
+
+            $this->send_email_new_query_client_service->execute($query->id);
+            $this->send_email_new_query_psychologist_service->execute($query->id);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Seu pagamento foi efetuado com sucesso.', 'pagarme_transaction' => $pagarme_transaction], 200);
