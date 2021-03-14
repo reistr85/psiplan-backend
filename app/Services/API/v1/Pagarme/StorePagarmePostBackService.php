@@ -86,6 +86,10 @@ class StorePagarmePostBackService
 //            'postback_payload' => $payload
 //        ];
 
+        if($data['pagarme_post_back_type'] == 'Query'){
+            $data['pagarme_post_back_type'] = 'App\\Models\\Query';
+        }
+
         return $this->pagarme_post_back_repository->store($data);
     }
 }

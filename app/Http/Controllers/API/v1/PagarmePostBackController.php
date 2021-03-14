@@ -49,7 +49,7 @@ class PagarmePostBackController extends Controller
 
             $data = [
                 'pagarme_post_back_type' => $request->transaction['metadata']['model'],
-                'pagarme_post_back_id' => $request->transaction['metadata']['model'],
+                'pagarme_post_back_id' => $request->transaction['metadata']['model_id'],
                 'postback_id' => $request->id,
                 'postback_event' => $request->event,
                 'postback_object' => $request->object,
@@ -58,10 +58,8 @@ class PagarmePostBackController extends Controller
                 'postback_payload' => '',
             ];
 
-            //$payload = $request->input('payload');
             $post_back = $this->store_pagarme_post_back_service->execute($data);
-
-            return response()->json(['status' => true], 200);
+            echo 'success';
         }catch (\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
