@@ -79,12 +79,23 @@ class CreatePaymentClientUniqueQueryPagarmeService extends QueryRepository
 
         $data['api_key'] = env('API_KEY_PAGARME');
         $data['amount'] = onlyNumber($data['amount']);
+
+        $data['card_holder_name'] = removeAccents($data['card_holder_name']);
         $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
+
+        $data['billing']['name'] = removeAccents($data['billing']['name']);
         $data['billing']['address']['country'] = "br";
+        $data['billing']['address']['city'] = removeAccents($data['billing']['address']['city']);
+        $data['billing']['address']['neighborhood'] = removeAccents($data['billing']['address']['neighborhood']);
+        $data['billing']['address']['street'] = removeAccents($data['billing']['address']['street']);
         $data['billing']['address']['street_number'] = $data['billing']['address']['street_number'] ?? 'S/N';
+
+        $data['customer']['name'] = removeAccents($data['customer']['name']);
         $data['customer']['documents'][0]['number'] = onlyNumber($data['customer']['documents'][0]['number']);
         $data['customer']['phone_numbers'] = ["+55".onlyNumber($data['customer']['phone_numbers'][0])];
         $data['customer']['birthday'] = dateEN($data['customer']['birthday']);
+
+        $data['postback_url'] = env('URL_POST_BACK');
 
         $response = $client_guzlle->post("{$url_base}/transactions", [
             'headers' => [

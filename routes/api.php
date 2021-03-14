@@ -37,6 +37,10 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
         }
     });
 
+    Route::group(['namespace' => 'API\\v1'], function() {
+        Route::resource('post-backs', 'PagarmePostBackController');
+    });
+
     Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
         /*
          * AuthController

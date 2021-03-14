@@ -94,6 +94,8 @@ class PaymentQueryClientController extends Controller
             $data['metadata']['query_id'] = $query->id;
             $data['metadata']['client_id'] = $query->client_id;
             $data['metadata']['psychologist_id'] = $query->psychologist_id;
+            $data['metadata']['model'] = 'Query';
+            $data['metadata']['model_id'] = $query->id;
 
             $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
             $amount = $response->amount;
