@@ -7,6 +7,7 @@ use App\Models\PagarmePostBack;
 use App\Services\API\v1\Pagarme\StorePagarmePostBackService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PagarmePostBackController extends Controller
 {
@@ -44,10 +45,23 @@ class PagarmePostBackController extends Controller
     public function store(Request $request)
     {
         try{
-            $payload = $request->input('payload');
-            $post_back = $this->store_pagarme_post_back_service->execute($payload);
+            Log::error($request->all());
 
-            return response()->json(['status' => true, 'request' => $request->all(), 'post_back' => $post_back], 200);
+            $data = [
+                'pagarme_post_back_type' => '',
+                'pagarme_post_back_id' => '',
+                'postback_id' => $request->id,
+                'postback_event' => $request->event,
+                'postback_object' => $request->object,
+                'postback_old_status' => $request->old_status,
+                'postback_current_status' => $request->current_status,
+                'postback_payload' => '',
+            ];
+
+            //$payload = $request->input('payload');
+            $post_back = $this->store_pagarme_post_back_service->execute($data);
+
+            return response()->json(['status' => true], 200);
         }catch (\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
