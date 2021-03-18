@@ -129,4 +129,17 @@ class PsychologistAvailabilityCalendarRepository extends BaseRepository
 
         return $this->model::where('psychologist_id', $psychologist_id)->whereBetween('day_hour', [$start_day, $final_day]);
     }
+
+    /**
+     * Get ALl
+     *
+     * @param int $psychologist_id
+     * @param int $type_service_id
+     * @return Builder
+     */
+    public function getAllByPsychologistIdAnTypeServiceIdNotAvailable(int $psychologist_id, $type_service_id)
+    {
+        return $this->model->where('psychologist_id', $psychologist_id)->where('type_service_id', $type_service_id)
+            ->whereNull('available');
+    }
 }

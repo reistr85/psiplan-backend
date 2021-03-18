@@ -27,7 +27,7 @@ class QueryRepository extends BaseRepository
     {
         return $this->model->where('id', $id)
             ->with('psychologist', 'psychologist.serviceAddress', 'client',
-                'psychologistAvailabilityCalendar.typeService', 'psychologistAvailabilityCalendar', 'videoPlatform')
+                'psychologistAvailabilityCalendar', 'psychologistAvailabilityCalendar.typeService', 'videoPlatform')
             ->first();
     }
 

@@ -13,6 +13,19 @@ Route::get('new-psychologist', function(){
 
     //Mail::send(new \App\Mail\NewPsychologist($user));
 
+    return new \App\Mail\NewPsychologist($user);
+});
+
+Route::get('new-client', function(){
+
+    $user = new stdClass();
+    $user =  [
+        'name' => 'Renan Reis',
+        'email' => 'reis_trindade@hotmail.com'
+    ];
+
+    //Mail::send(new \App\Mail\NewPsychologist($user));
+
     return new \App\Mail\NewClient($user);
 });
 
@@ -28,6 +41,27 @@ Route::get('new-query-client', function(){
         'video_platform' => 'Skype',
         'date_query' => '12 de Março (Sexta-feira)',
         'value_query' => 'Online',
+        'hour_query' => '12:00',
+    ];
+
+    //Mail::send(new \App\Mail\NewQueryClient($data));
+
+    return new \App\Mail\NewQueryClient($data);
+});
+
+Route::get('new-query-psychologist', function(){
+
+    $data = new stdClass();
+    $data =  [
+        'email' => 'reis_trindade@hotmail.com',
+        'name' => 'Renan Reis',
+        'psychologist_name' => 'Igor de Oliveira JR.',
+        'psychologist_contact' => '(84)98848-1941',
+        'type_service' => 'Online',
+        'video_platform' => 'Skype',
+        'date_query' => '12 de Março (Sexta-feira)',
+        'value_query' => 'Online',
+        'hour_query' => '12:00',
     ];
 
     //Mail::send(new \App\Mail\NewQueryClient($data));
@@ -82,4 +116,40 @@ Route::get('consultation-free-client', function(){
     //Mail::send(new \App\Mail\NewQueryClient($data));
 
     return new \App\Mail\ConsultationFreeClient($data);
+});
+
+Route::get('consultation-free-psychologist', function(){
+
+    $data = new stdClass();
+    $data =  [
+        'client_email' => 'reis_trindade@hotmail.com',
+        'client_name' => 'Renan Reis',
+        'psychologist_name' => 'Igor de Oliveira JR.',
+        'psychologist_email' => 'igorluz@gmail.com',
+        'client_phone' => '(84)98848-1941)',
+    ];
+
+    //Mail::send(new \App\Mail\NewQueryClient($data));
+
+    return new \App\Mail\ConsultationFreePsychologist($data);
+});
+
+Route::get('query-confirmed-client', function(){
+
+    $data = new stdClass();
+    $data =  [
+        'email' => 'reis_trindade@hotmail.com',
+        'name' => 'Renan Reis',
+        'psychologist_name' => 'Igor de Oliveira JR.',
+        'psychologist_contact' => '(84)98848-1941',
+        'type_service' => 'Online',
+        'video_platform' => 'Skype',
+        'date_query' => '12 de Março (Sexta-feira)',
+        'value_query' => 'Online',
+        'hour_query' => '12:00',
+    ];
+
+    //Mail::send(new \App\Mail\NewQueryClient($data));
+
+    return new \App\Mail\NewQueryClient($data);
 });

@@ -4,9 +4,11 @@
 namespace App\Services\API\v1\PaymentPlanPsychologist;
 
 
+use App\Enums\TypeServiceEnum;
 use App\Repositories\PagarmeSubscriptionRepository;
 use App\Repositories\PlanRepository;
 use App\Repositories\PsychologistRepository;
+use App\Services\API\v1\Psychologist\DeleteAllAvailabilityCalendarByPsychologistIdAndTypeServiceIdService;
 use GuzzleHttp\Client;
 
 class UpdatePagarmePlanPsychologistService
@@ -15,14 +17,19 @@ class UpdatePagarmePlanPsychologistService
     private $plan_repository;
     private $psychologist_repository;
     private $pagarme_subscription_repository;
+    private $delete_all_availability_calendar_by_psychologist_id_by_type_service_id_service;
 
     public function __construct(
         PlanRepository $plan_repository, PsychologistRepository $psychologist_repository,
-        PagarmeSubscriptionRepository $pagarme_subscription_repository)
+        PagarmeSubscriptionRepository $pagarme_subscription_repository,
+        DeleteAllAvailabilityCalendarByPsychologistIdAndTypeServiceIdService
+        $delete_all_availability_calendar_by_psychologist_id_by_type_service_id_service)
     {
         $this->plan_repository = $plan_repository;
         $this->psychologist_repository = $psychologist_repository;
         $this->pagarme_subscription_repository = $pagarme_subscription_repository;
+        $this->delete_all_availability_calendar_by_psychologist_id_by_type_service_id_service =
+            $delete_all_availability_calendar_by_psychologist_id_by_type_service_id_service;
     }
 
     public function execute($pagarme_subscription, $plan_name)
@@ -54,6 +61,10 @@ class UpdatePagarmePlanPsychologistService
 
         $this->pagarme_subscription_repository->edit($pagarme_subscription, ['plan_id' => $plan->id]);
         $this->psychologist_repository->edit($psychologist, ['plan_id' => $plan->id]);
+
+        if($plan->id == TypeServiceEnum::PLAN_ID_SIMPLE_TRI || $plan->id == TypeServiceEnum::PLAN_ID_SIMPLE_SEM)
+            $this->delete_all_availability_calendar_by_psychologist_id_by_type_service_id_service
+                ->execute($psychologist->id, TypeServiceEnum::TYPE_SERVICE_ONLINE);
 
         $response = json_decode($response->getBody()->getContents());
 
