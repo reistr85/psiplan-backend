@@ -43,6 +43,13 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
 
     Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
         /*
+         * Config
+         * */
+        Route::get('maintenance', function(){
+            return response()->json(['status' => true]);
+        });
+
+        /*
          * AuthController
          * */
         Route::post('login', 'AuthController@login');
