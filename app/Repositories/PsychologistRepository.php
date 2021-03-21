@@ -79,6 +79,7 @@ class PsychologistRepository extends BaseRepository
         return [
             'psychologists.id',
             'psychologists.user_id',
+            'psychologists.plan_id',
             'psychologists.avatar',
             'psychologists.consultation_value',
             'psychologists.consultation_duration',
