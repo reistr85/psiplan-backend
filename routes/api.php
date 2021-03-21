@@ -49,7 +49,7 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
             if($request->header('environment') === 'dev')
                 return response()->json(['status' => false]);
 
-            return response()->json(['status' => true]);
+            return response()->json(['status' => env('APP_MAINTENANCE')]);
         });
 
         /*
