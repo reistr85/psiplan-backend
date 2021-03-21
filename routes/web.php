@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Facades\Mail;
 
+Route::get('/', function(){
+    return response()->json(['status' => true]);
+});
+
 Route::get('new-psychologist', function(){
 
     $user = new stdClass();
