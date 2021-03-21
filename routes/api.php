@@ -45,7 +45,10 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
         /*
          * Config
          * */
-        Route::get('maintenance', function(){
+        Route::get('maintenance', function(Request $request){
+            if($request->header('environment') === 'dev')
+                return response()->json(['status' => false]);
+
             return response()->json(['status' => true]);
         });
 
