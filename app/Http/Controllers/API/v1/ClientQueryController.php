@@ -95,7 +95,7 @@ class ClientQueryController extends Controller
 
             $query = $this->storeClientQueryService->execute($data, $coupons);
             $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
-            FreeDayScheduling::dispatch($query)->delay(now()->addMinutes(30));
+            FreeDayScheduling::dispatch($query)->delay(now()->addMinutes(env('TIME_QUERY_CANCELED')));
 
             $data_notification_client = [
                 'user_id' => $client->user_id,
