@@ -9,7 +9,8 @@ class PagarmeTransaction extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'transaction_id', 'query_id', 'status', 'amount', 'is_active'];
+    protected $fillable = ['user_id', 'transaction_id', 'query_id', 'status', 'amount', 'payment_method',
+        'billet_url', 'billet_barcode', 'is_active'];
 
     public function queries()
     {

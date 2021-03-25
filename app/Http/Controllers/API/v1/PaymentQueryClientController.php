@@ -116,6 +116,9 @@ class PaymentQueryClientController extends Controller
                     'query_id' => $query->id,
                     'status' => $response->status,
                     'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
+                    'payment_method' => $response->payment_method,
+                    'billet_url' => $response->boleto_url,
+                    'billet_barcode' => $response->boleto_barcode,
                 ]);
 
             $this->update_query_by_id_service->execute($query->id, [

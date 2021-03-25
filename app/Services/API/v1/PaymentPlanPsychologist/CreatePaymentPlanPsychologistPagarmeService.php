@@ -50,6 +50,7 @@ class CreatePaymentPlanPsychologistPagarmeService
 
 
         $data['api_key'] = env('API_KEY_PAGARME');
+        $data['postback_url'] = env('URL_POST_BACK');
         $data['amount'] = onlyNumber($data['amount']);
         $data['card_expiration_date'] = onlyNumber($data['card_expiration_date']);
         $data['customer']['address']['street_number'] = "000";

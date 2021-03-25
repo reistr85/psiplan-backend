@@ -23,7 +23,7 @@ class QueryPaymentClientRequest extends APIFormRequest
     public function rules()
     {
         if(!$this->input('coupon')){
-            return [
+            $return =  [
                 'customer.name' => 'required',
                 'customer.email' => 'required|email',
                 'customer.documents.0.number' => function ($att, $value, $fail) {
@@ -42,22 +42,27 @@ class QueryPaymentClientRequest extends APIFormRequest
                 'billing.address.city' => 'required',
                 'billing.address.neighborhood' => 'required',
                 'billing.address.street' => 'required',
-                'card_number' => function ($att, $value, $fail) {
+            ];
+
+            if($this->input('payment_method') == 'credit_card'){
+                $return['card_number'] = function ($att, $value, $fail) {
                     $card_number = preg_replace('#\s+#', '', $value);
 
                     if (strlen($card_number) != 16)
                         return $fail("Digite um número de cartão válido.");
-                },
-                'card_cvv' => 'required|min:3|max:3',
-                'card_expiration_date' => function ($att, $value, $fail) {
+                };
+                $return['card_cvv'] = 'required|min:3|max:3';
+                $return['card_expiration_date'] = function ($att, $value, $fail) {
                     $month = substr($value, 0, 2);
                     $year = substr(@date("Y"), 0, 2) . substr($value, 3, 2);
 
                     if ($month < @date("m") || !is_numeric($month) || $year < @date("Y") || !is_numeric($year))
                         return $fail("Digite um vencimento válido");
-                },
-                'card_holder_name' => 'required',
-            ];
+                };
+                $return['card_holder_name'] = 'required';
+            }
+
+            return $return;
         }
 
         return [];
