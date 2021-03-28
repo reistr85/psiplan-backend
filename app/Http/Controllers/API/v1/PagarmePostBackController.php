@@ -55,7 +55,7 @@ class PagarmePostBackController extends Controller
                 'postback_object' => $request->object,
                 'postback_old_status' => $request->old_status,
                 'postback_current_status' => $request->current_status,
-                'postback_payload' => '',
+                'postback_payload' => $request->all(),
             ];
 
             $post_back = $this->store_pagarme_post_back_service->execute($data);
