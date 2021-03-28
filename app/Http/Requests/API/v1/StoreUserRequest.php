@@ -34,7 +34,7 @@ class StoreUserRequest extends APIFormRequest
                 }
             },
             'name' => 'required|min:3|max:150',
-            'email' => 'required|unique:users,email,'.$this->id.',id,deleted_at,NULL',
+            'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
             'phone' => function($att, $value, $fail){
                 $phone = onlyNumber($value);
 
