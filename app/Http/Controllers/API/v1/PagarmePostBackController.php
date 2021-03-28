@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\QueryStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Models\PagarmePostBack;
 use App\Services\API\v1\Pagarme\StorePagarmePostBackService;
+use App\Services\API\v1\Query\DestroyQueryPostBackService;
+use App\Services\API\v1\Query\UpdateQueryPostBackService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -12,11 +15,17 @@ use Illuminate\Support\Facades\Log;
 class PagarmePostBackController extends Controller
 {
     private $store_pagarme_post_back_service;
+    private $update_query_post_back_service;
+    private $destroy_query_post_back_service;
 
     public function __construct(
-        StorePagarmePostBackService $store_pagarme_post_back_service)
+        StorePagarmePostBackService $store_pagarme_post_back_service,
+        UpdateQueryPostBackService $update_query_post_back_service,
+        DestroyQueryPostBackService $destroy_query_post_back_service)
     {
         $this->store_pagarme_post_back_service = $store_pagarme_post_back_service;
+        $this->update_query_post_back_service = $update_query_post_back_service;
+        $this->destroy_query_post_back_service = $destroy_query_post_back_service;
     }
 
     /**
@@ -58,7 +67,21 @@ class PagarmePostBackController extends Controller
                 'postback_payload' => '',
             ];
 
-            $post_back = $this->store_pagarme_post_back_service->execute($data);
+            $this->store_pagarme_post_back_service->execute($data);
+
+            if($request->transaction['metadata']['model'] == 'Query'){
+                $query_id = $request->transaction['metadata']['model_id'];
+                $status_payment = $request->current_status;
+
+                $data = ['status_payment' => $status_payment];
+                $this->update_query_post_back_service->execute($query_id, $data);
+
+                /*TODO verify delete query in payment not approve*/
+                /*if($status_payment != QueryStatusPaymentEnum::STATUS_PAYMENT_PAID &&
+                    $status_payment != QueryStatusPaymentEnum::STATUS_PAYMENT_AUTHORIZED)
+                    $this->destroy_query_post_back_service->execute($query_id);*/
+            }
+
             echo 'success';
         }catch (\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
