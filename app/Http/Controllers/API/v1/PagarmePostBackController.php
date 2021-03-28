@@ -54,8 +54,6 @@ class PagarmePostBackController extends Controller
     public function store(Request $request)
     {
         try{
-            Log::error($request->all());
-
             $data = [
                 'pagarme_post_back_type' => $request->transaction['metadata']['model'],
                 'pagarme_post_back_id' => $request->transaction['metadata']['model_id'],
@@ -75,11 +73,6 @@ class PagarmePostBackController extends Controller
 
                 $data = ['status_payment' => $status_payment];
                 $this->update_query_post_back_service->execute($query_id, $data);
-
-                /*TODO verify delete query in payment not approve*/
-                /*if($status_payment != QueryStatusPaymentEnum::STATUS_PAYMENT_PAID &&
-                    $status_payment != QueryStatusPaymentEnum::STATUS_PAYMENT_AUTHORIZED)
-                    $this->destroy_query_post_back_service->execute($query_id);*/
             }
 
             echo 'success';
