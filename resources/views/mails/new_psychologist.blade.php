@@ -7,7 +7,7 @@
     <br />
     <p>Vamos começar? </p>
     <p>Aperte o botão abaixo, preencha o seu perfil e deixe o resto com a gente! </p>
-    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br'])
+    @component('mail::button', ['url' => env('APP_URL')])
         Clique aqui
     @endcomponent
 @endcomponent
