@@ -12,7 +12,7 @@
     </ul>
     <br><p>Atenciosamente,</p>
     <p style="text-align: justify">Equipe Psiplan Brasil.</p>
-    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br/#/login'])
+    @component('mail::button', ['url' => env('APP_URL').'/#/login'])
         Clique aqui
     @endcomponent
 @endcomponent

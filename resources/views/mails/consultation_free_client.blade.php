@@ -9,7 +9,7 @@
     <p style="text-align: justify">E-mail: {{ $data['psychologist_email'] }}</p>
     <br><p>Atenciosamente,</p>
     <p style="text-align: justify">Equipe Psiplan Brasil</p>
-    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br/#/'])
+    @component('mail::button', ['url' => env('APP_URL')])
         Clique aqui
     @endcomponent
 @endcomponent
