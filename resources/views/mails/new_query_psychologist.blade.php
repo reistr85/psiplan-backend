@@ -1,4 +1,4 @@
-@c style="text-align: justify"omponent('mail::message')
+@component('mail::message')
     <h1>Olá Psicólogo(a) {{ $data['name'] }} como você está?</h1>
     <p style="text-align: justify">Uma consulta foi confirmada com sucesso!</p>
     <p style="text-align: justify">Você pode ter acesso a mais informações, através de seu perfil acessando a sua área de GESTÃO.</p>
