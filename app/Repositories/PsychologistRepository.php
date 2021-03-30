@@ -17,6 +17,11 @@ class PsychologistRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll()
+    {
+        return $this->model;
+    }
+
     public function find(int $id)
     {
         return parent::findById($this->model, $id);

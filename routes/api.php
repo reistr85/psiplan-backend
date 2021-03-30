@@ -42,6 +42,12 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
     });
 
     Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
+
+        Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function() {
+            Route::resource('psychologists', 'PsychologistController');
+            Route::resource('clients', 'ClientsController');
+        });
+
         /*
          * Config
          * */
