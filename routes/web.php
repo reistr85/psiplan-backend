@@ -66,11 +66,13 @@ Route::get('new-query-psychologist', function(){
         'date_query' => '12 de Março (Sexta-feira)',
         'value_query' => 'Online',
         'hour_query' => '12:00',
+        'client_name' => 'Nome Cliente',
+        'client_contact' => '(84)98888-1944',
     ];
 
     //Mail::send(new \App\Mail\NewQueryClient($data));
 
-    return new \App\Mail\NewQueryClient($data);
+    return new \App\Mail\NewQueryPsychologist($data);
 });
 
 Route::get('forgot-password-client', function(){
