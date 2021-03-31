@@ -8,6 +8,7 @@ use App\Models\PagarmePostBack;
 use App\Services\API\v1\Pagarme\StorePagarmePostBackService;
 use App\Services\API\v1\Query\DestroyQueryPostBackService;
 use App\Services\API\v1\Query\UpdateQueryPostBackService;
+use App\Services\API\v1\PaymentQueryClient\UpdatePagarmeTransactionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,15 +18,18 @@ class PagarmePostBackController extends Controller
     private $store_pagarme_post_back_service;
     private $update_query_post_back_service;
     private $destroy_query_post_back_service;
+    private $update_pagarme_transaction_service;
 
     public function __construct(
         StorePagarmePostBackService $store_pagarme_post_back_service,
         UpdateQueryPostBackService $update_query_post_back_service,
-        DestroyQueryPostBackService $destroy_query_post_back_service)
+        DestroyQueryPostBackService $destroy_query_post_back_service,
+        UpdatePagarmeTransactionService $update_pagarme_transaction_service)
     {
         $this->store_pagarme_post_back_service = $store_pagarme_post_back_service;
         $this->update_query_post_back_service = $update_query_post_back_service;
         $this->destroy_query_post_back_service = $destroy_query_post_back_service;
+        $this->update_pagarme_transaction_service = $update_pagarme_transaction_service;
     }
 
     /**
@@ -37,7 +41,6 @@ class PagarmePostBackController extends Controller
     {
         try{
             $post_backs = PagarmePostBack::all();
-
 
             return response()->json(['status' => true, 'post_backs' => $post_backs], 200);
         }catch (\Exception $ex){
@@ -54,6 +57,7 @@ class PagarmePostBackController extends Controller
     public function store(Request $request)
     {
         try{
+
             $data = [
                 'pagarme_post_back_type' => $request->transaction['metadata']['model'],
                 'pagarme_post_back_id' => $request->transaction['metadata']['model_id'],
@@ -66,9 +70,20 @@ class PagarmePostBackController extends Controller
             ];
 
             $this->store_pagarme_post_back_service->execute($data);
+            $query_id = $request->transaction['metadata']['model_id'];
+
+            if($request->model == 'transaction'){
+                $data = [
+                    'status' => $request->current_status,
+                    'billet_url' => $request->boleto_url,
+                    'billet_barcode' => $request->boleto_barcode,
+                    'billet_expiration_date' => $request->boleto_expiration_date,
+                ];
+
+                $this->update_pagarme_transaction_service->execute($query_id, $data);
+            }
 
             if($request->transaction['metadata']['model'] == 'Query'){
-                $query_id = $request->transaction['metadata']['model_id'];
                 $status_payment = $request->current_status;
 
                 $data = ['status_payment' => $status_payment];
@@ -77,6 +92,7 @@ class PagarmePostBackController extends Controller
 
             echo 'success';
         }catch (\Exception $ex){
+            Log::error('PostBack', ['error' => $ex->getMessage()]);
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }

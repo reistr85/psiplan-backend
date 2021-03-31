@@ -20,9 +20,6 @@ class CreatePagarmeTransactionsTable extends Migration
             $table->integer('query_id')->unsigned();
             $table->string('status');
             $table->decimal('amount', 10, 2);
-            $table->string('payment_method');
-            $table->string('billet_url')->nullable();
-            $table->string('billet_barcode')->nullable();
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();
