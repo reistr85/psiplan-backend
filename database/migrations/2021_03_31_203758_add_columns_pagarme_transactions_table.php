@@ -14,7 +14,7 @@ class AddColumnsPagarmeTransactionsTable extends Migration
     public function up()
     {
         Schema::table('pagarme_transactions', function (Blueprint $table) {
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
             $table->string('billet_url')->nullable();
             $table->string('billet_barcode')->nullable();
             $table->string('billet_expiration_date')->nullable();
