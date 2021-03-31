@@ -57,7 +57,6 @@ class PagarmePostBackController extends Controller
     public function store(Request $request)
     {
         try{
-
             $data = [
                 'pagarme_post_back_type' => $request->transaction['metadata']['model'],
                 'pagarme_post_back_id' => $request->transaction['metadata']['model_id'],
@@ -66,7 +65,7 @@ class PagarmePostBackController extends Controller
                 'postback_object' => $request->object,
                 'postback_old_status' => $request->old_status,
                 'postback_current_status' => $request->current_status,
-                'postback_payload' => '',
+                'postback_payload' => 'Payload',
             ];
 
             $this->store_pagarme_post_back_service->execute($data);
