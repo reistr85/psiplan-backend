@@ -74,9 +74,9 @@ class PagarmePostBackController extends Controller
             if($request->model == 'transaction'){
                 $data = [
                     'status' => $request->current_status,
-                    'billet_url' => $request->boleto_url,
-                    'billet_barcode' => $request->boleto_barcode,
-                    'billet_expiration_date' => $request->boleto_expiration_date,
+                    'billet_url' => $request->transaction['boleto_url'],
+                    'billet_barcode' => $request->transaction['boleto_barcode'],
+                    'billet_expiration_date' => $request->transaction['boleto_expiration_date'],
                 ];
 
                 $this->update_pagarme_transaction_service->execute($query_id, $data);
