@@ -46,6 +46,9 @@ class FreeDayScheduling implements ShouldQueue
         if($this->query->payment_status != QueryStatusPaymentEnum::STATUS_PAYMENT_REFUSED)
             return;
 
+        if(!$this->query->payment_status)
+            return;
+
         $psychologist_availability_calendar = $this->psychologist_availability_calendar_repository
             ->find($this->query->psychologist_availability_calendar_id);
 
