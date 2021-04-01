@@ -49,6 +49,7 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
             Route::group(['namespace' => 'Dashboard', 'middleware' => ['apiJwt']], function() {
                 Route::resource('psychologists', 'PsychologistController');
                 Route::resource('clients', 'ClientsController');
+                Route::resource('queries', 'QueryController');
             });
         });
 
