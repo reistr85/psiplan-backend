@@ -71,7 +71,7 @@ class PagarmePostBackController extends Controller
             $this->store_pagarme_post_back_service->execute($data);
             $query_id = $request->transaction['metadata']['model_id'];
 
-            if($request->model == 'transaction'){
+            if($request->object == 'transaction'){
                 $data = [
                     'status' => $request->current_status,
                     'billet_url' => $request->transaction['boleto_url'],
