@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\Dashboard\GetAllPsychologistsService;
+use App\Services\API\v1\Dashboard\GetPsychologistService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,11 +13,14 @@ class PsychologistController extends Controller
 {
 
     private $get_all_psychologists_service;
+    private $get_psychologist_service;
 
     public function __construct(
-        GetAllPsychologistsService $get_all_psychologists_service)
+        GetAllPsychologistsService $get_all_psychologists_service,
+        GetPsychologistService $get_psychologist_service)
     {
         $this->get_all_psychologists_service = $get_all_psychologists_service;
+        $this->get_psychologist_service = $get_psychologist_service;
     }
 
     /**
@@ -54,7 +58,13 @@ class PsychologistController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $psychologist = $this->get_psychologist_service->execute($id);
+
+            return response()->json(['status' => false, 'message' => 'success', 'psychologist' => $psychologist], 200);
+        }catch(\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
+        }
     }
 
     /**
