@@ -34,7 +34,8 @@ class PsychologistRepository extends BaseRepository
 
     public function index($params)
     {
-        $query = $this->model::select($this->getResumeColumns())->distinct('psychologists.id')
+        $query = $this->model
+            ->select(\DB::raw("DISTINCT psychologists.id, ".implode(', ', $this->getResumeColumns())))
             ->join('psychologist_specialties', function ($query) use($params) {
                 $query->on('psychologist_specialties.psychologist_id', '=', 'psychologists.id');
             })->join('psychologist_target_audiences', function ($query) use($params) {
@@ -56,7 +57,8 @@ class PsychologistRepository extends BaseRepository
             $query->where('psychologist_specialties.specialty_id', $params['specialty_id'])->whereNull('psychologist_specialties.deleted_at');
 
         if($params['city_id'])
-            $query->where('psychologists.complete_profile', $params['city_id'])->whereNull('cities.deleted_at');
+            $query->where('psychologists.city_id', $params['city_id'])
+                ->whereNull('cities.deleted_at');
 
         if($params['first_consultation'] == 'true')
             $query->where('psychologists.first_free_consultation', 1);
@@ -64,7 +66,7 @@ class PsychologistRepository extends BaseRepository
         $query->where('psychologists.complete_profile', 'completed');
 
         if($params['order_price'])
-            $query->orderBy('consultation_value', $params['order_price']);
+            $query->orderBy('psychologists.consultation_value', $params['order_price']);
 
         return  $query;
     }
@@ -82,7 +84,6 @@ class PsychologistRepository extends BaseRepository
     private function getResumeColumns()
     {
         return [
-            'psychologists.id',
             'psychologists.user_id',
             'psychologists.plan_id',
             'psychologists.avatar',

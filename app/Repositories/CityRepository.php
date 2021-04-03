@@ -33,7 +33,7 @@ class CityRepository extends BaseRepository
 
     public function getByName(string $name): Builder
     {
-        return $this->model::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc');
+        return $this->model::where('description', 'ilike', '%' . $name . '%')->orderBy('description', 'asc');
     }
 
 
