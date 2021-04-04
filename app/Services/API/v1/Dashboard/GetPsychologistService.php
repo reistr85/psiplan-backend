@@ -18,6 +18,8 @@ class GetPsychologistService
 
     public function execute(int $id)
     {
-        return $this->psychologist_repository->getPsychologist($id)->with('specialties', 'academicFormations')->first();
+        return $this->psychologist_repository->getPsychologist($id)
+            ->with('specialties', 'academicFormations', 'documents', 'city', 'languages', 'bank')
+            ->first();
     }
 }

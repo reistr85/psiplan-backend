@@ -19,7 +19,7 @@ class ApiKey
         if(empty($request->header('ApiKey')))
             return response()->json(['error' => 'ApiKey not found'], 401);
 
-        if($request->header('ApiKey') != 'base64:MSIE1FPQzRRDEN3jEfgpPD8z+X8HE0neFHI2kgnowXY=')
+        if($request->header('ApiKey') != 'base64:5TetPRa/6TSFN+aqOfZHqJmkHzb+THnb38fcC4B1ICI=')
             return response()->json(['error' => 'ApiKey invalid'], 401);
 
         return $next($request);

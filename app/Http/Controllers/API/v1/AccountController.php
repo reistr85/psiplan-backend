@@ -61,7 +61,7 @@ class AccountController extends Controller
                 'languages' => $languages,
             ], 200);
         }catch(\Exception $e){
-            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
