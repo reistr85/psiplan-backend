@@ -18,7 +18,10 @@ class CheckRouteClient
         $user = auth()->user();
 
         if($user->type_user_id != 3)
-            return response()->json(['status' => 'Not Authorization Route'], 401);
+            return response()->json([
+                'status' => false,
+                'message' => 'Acesso não permitido, faça o seu login como cliente!'
+            ], 401);
 
         return $next($request);
     }
