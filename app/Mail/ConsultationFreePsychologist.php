@@ -31,7 +31,7 @@ class ConsultationFreePsychologist extends Mailable
      */
     public function build()
     {
-        $this->subject('Consulta grátis - PSIPLAN Brasil');
+        $this->subject('Nova Solicitação de Consulta Experimental - PSIPLAN Brasil');
         $this->to($this->data['psychologist_email'], $this->data['psychologist_name']);
 
         return $this->markdown('mails.consultation_free_psychologist', [
