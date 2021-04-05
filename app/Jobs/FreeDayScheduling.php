@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\TypeServiceEnum;
 use App\Enums\QueryStatusPaymentEnum;
 use App\Models\Query;
 use App\Repositories\PsychologistAvailabilityCalendarRepository;
@@ -43,11 +44,23 @@ class FreeDayScheduling implements ShouldQueue
      */
     public function handle()
     {
-        if($this->query->payment_status != QueryStatusPaymentEnum::STATUS_PAYMENT_REFUSED)
-            return;
+        $psychologist = $this->query->psychologist;
 
-        if(!$this->query->payment_status)
+        if($psychologist->plan_id == TypeServiceEnum::PLAN_ID_SIMPLE_TRI
+            || $psychologist->plan_id == TypeServiceEnum::PLAN_ID_SIMPLE_SEM){
+
             return;
+        }
+
+        if($this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_PROCESSING
+            || $this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_AUTHORIZED
+            || $this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_PAID
+            || $this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_WAITING
+            || $this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_PENDING_REVIEW
+            || $this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_ANALYZING){
+
+            return;
+        }
 
         $psychologist_availability_calendar = $this->psychologist_availability_calendar_repository
             ->find($this->query->psychologist_availability_calendar_id);
