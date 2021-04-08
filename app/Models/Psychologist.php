@@ -105,4 +105,9 @@ class Psychologist extends Model
     {
         return $this->hasOne(PsychologistBank::class);
     }
+
+    public function queries()
+    {
+        return $this->hasMany(Query::class);
+    }
 }

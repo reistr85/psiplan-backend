@@ -19,7 +19,9 @@ class GetPsychologistService
     public function execute(int $id)
     {
         return $this->psychologist_repository->getPsychologist($id)
-            ->with('specialties', 'academicFormations', 'documents', 'city', 'languages', 'bank')
+            ->with('specialties', 'academicFormations', 'documents', 'city', 'languages',
+                'bank', 'queries', 'queries.client', 'queries.psychologistAvailabilityCalendar',
+                'queries.psychologistAvailabilityCalendar.typeService')
             ->first();
     }
 }
