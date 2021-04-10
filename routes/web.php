@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Facades\Mail;
 
 Route::get('/', function(){
-    return response()->json(['status' => true]);
+    return response()->json(['status' => true, 'APP_NAME' => env('APP_NAME')]);
 });
 
 Route::get('new-psychologist', function(){
