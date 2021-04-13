@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -81,6 +82,16 @@ class Psychologist extends Model
         return $this->belongsTo(Plan::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(PsychologistPlan::class);
+    }
+
     public function address()
     {
         return $this->hasOne(PsychologistAddress::class);
@@ -109,5 +120,10 @@ class Psychologist extends Model
     public function queries()
     {
         return $this->hasMany(Query::class);
+    }
+
+    public function pagarmeSubscriptionTransactions()
+    {
+        return $this->hasMany(PagarmeSubscriptionTransaction::class);
     }
 }

@@ -26,6 +26,9 @@ class GetPsychologistProfileDetailsService extends PsychologistRepository
             ->with('specialties', 'academicFormations', 'targetAudiences', 'languages', 'serviceAddress', 'videoPlatforms')
             ->first();
 
+        if (!$psychologist)
+            throw new \Exception("Psicólogo não encontrado", 500);
+
         if(!$user) {
             if ($psychologist->complete_profile == 'incomplete')
                 throw new \Exception("Psicólogo não encontrado", 500);

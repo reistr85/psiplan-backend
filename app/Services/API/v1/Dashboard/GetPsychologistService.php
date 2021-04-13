@@ -20,8 +20,8 @@ class GetPsychologistService
     {
         return $this->psychologist_repository->getPsychologist($id)
             ->with('specialties', 'academicFormations', 'documents', 'city', 'languages',
-                'bank', 'queries', 'queries.client', 'queries.psychologistAvailabilityCalendar',
-                'queries.psychologistAvailabilityCalendar.typeService')
+                'bank', 'plans', 'plans.pagarmeSubscription', 'queries', 'queries.client', 'queries.psychologistAvailabilityCalendar',
+                'queries.psychologistAvailabilityCalendar.typeService', 'pagarmeSubscriptionTransactions', 'user', 'user.notifications')
             ->first();
     }
 }

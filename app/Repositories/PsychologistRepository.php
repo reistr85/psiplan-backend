@@ -29,7 +29,8 @@ class PsychologistRepository extends BaseRepository
 
     public function getPsychologist($id)
     {
-        return $this->model->where('id', $id);
+        return $this->model->where('id', $id)
+          ->whereNotNull('psychologists.plan_id');
     }
 
     public function index($params)
@@ -63,7 +64,8 @@ class PsychologistRepository extends BaseRepository
         if($params['first_consultation'] == 'true')
             $query->where('psychologists.first_free_consultation', 1);
 
-        $query->where('psychologists.complete_profile', 'completed');
+        $query->where('psychologists.complete_profile', 'completed')
+              ->whereNotNull('psychologists.plan_id');
 
         if($params['order_price'])
             $query->orderBy('psychologists.consultation_value', $params['order_price']);

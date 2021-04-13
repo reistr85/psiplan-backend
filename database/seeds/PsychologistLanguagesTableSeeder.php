@@ -18,10 +18,6 @@ class PsychologistLanguagesTableSeeder extends Seeder
             ['psychologist_id' => 1, 'language_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'language_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
             ['psychologist_id' => 1, 'language_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 2, 'language_id' => 3, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 2, 'language_id' => 4, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 3, 'language_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 3, 'language_id' => 2, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         PsychologistLanguage::insert($data);
     }

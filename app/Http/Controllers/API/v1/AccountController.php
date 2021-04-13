@@ -9,6 +9,7 @@ use App\Services\API\v1\City\GetCityByIdService;
 use App\Services\API\v1\Language\GetAllLanguagesService;
 use App\Services\API\v1\City\GetAllCitiesService;
 use App\Services\API\v1\City\GetCitiesByStateService;
+use App\Services\API\v1\Psychologist\CancelAccountPsychologistService;
 use App\Services\API\v1\Psychologist\CreatePsychologistLanguageService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
 use App\Services\API\v1\Psychologist\UpdatePsychologistBankService;
@@ -24,6 +25,7 @@ class AccountController extends Controller
     private $createPsychologistLanguageService;
     private $get_city_by_id_service;
     private $update_psychologist_bank_service;
+    private $cancel_account_psychologist_service;
 
     public function __construct(GetPsychologistByUserIdService $getPsychologistByUserIdService,
         GetCitiesByStateService $getCitiesByStateService,
@@ -31,7 +33,8 @@ class AccountController extends Controller
         GetAllLanguagesService $getAllLanguagesService,
         CreatePsychologistLanguageService $createPsychologistLanguageService,
         GetCityByIdService $get_city_by_id_service,
-                                UpdatePsychologistBankService $update_psychologist_bank_service)
+        UpdatePsychologistBankService $update_psychologist_bank_service,
+        CancelAccountPsychologistService $cancel_account_psychologist_service)
     {
         $this->getPsychologistByUserIdService = $getPsychologistByUserIdService;
         $this->getCitiesByStateService = $getCitiesByStateService;
@@ -40,6 +43,7 @@ class AccountController extends Controller
         $this->createPsychologistLanguageService = $createPsychologistLanguageService;
         $this->get_city_by_id_service = $get_city_by_id_service;
         $this->update_psychologist_bank_service = $update_psychologist_bank_service;
+        $this->cancel_account_psychologist_service = $cancel_account_psychologist_service;
     }
 
     public function index()
@@ -104,5 +108,18 @@ class AccountController extends Controller
         }catch(\Exception $e){
             return response()->json(['error' => true, 'status' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+
+    public function destroy(Request $request)
+    {
+      try{
+        $psychologist = auth()->user()->psychologist;
+
+        $this->cancel_account_psychologist_service->execute($psychologist);
+
+        return response()->json(['status' => true, 'messagem' => 'succes'], 200);
+      }catch(\Exception $ex){
+        return response()->json(['status' => false, 'messagem' => $ex->getMessage()], 500);
+      }
     }
 }

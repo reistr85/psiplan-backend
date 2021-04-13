@@ -15,4 +15,9 @@ class PsychologistPlan extends Model
     {
         return $this->belongsTo(Plan::class);
     }
+
+    public function pagarmeSubscription()
+    {
+        return $this->hasMany(PagarmeSubscription::class);
+    }
 }

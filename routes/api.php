@@ -144,6 +144,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * */
     Route::get('account/account', 'AccountController@index');
     Route::post('account/account', 'AccountController@store');
+    Route::delete('account/account', 'AccountController@destroy');
 
     /*
      * QueryController
@@ -246,4 +247,3 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         Route::resource('consultation-free', 'ClientConsultationFreeController');
     });
 });
-
