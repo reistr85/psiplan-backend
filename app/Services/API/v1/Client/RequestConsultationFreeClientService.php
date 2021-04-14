@@ -45,6 +45,7 @@ class RequestConsultationFreeClientService
             'title' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['title'],
             'description' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['description'],
             'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            'details' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['details'],
         ];
 
         $data_notification_psychologist = [
@@ -53,6 +54,7 @@ class RequestConsultationFreeClientService
             'title' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['title'],
             'description' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['description'],
             'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            'details' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['details'],
         ];
 
         $this->store_user_notification_service->execute($data_notification_client);

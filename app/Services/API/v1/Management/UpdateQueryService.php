@@ -5,6 +5,7 @@ namespace App\Services\API\v1\Management;
 
 
 use App\Repositories\QueryRepository;
+use App\Jobs\SendEmailEvaluationQuery;
 
 class UpdateQueryService
 {
@@ -22,6 +23,12 @@ class UpdateQueryService
 
         if(!$query)
             throw new \Exception("Consulta não localizada.", 500);
+
+        if($data['status_query'] ==  'fulfilled'){
+          $client = $query->client;
+          $data = ['name' => $client->email, 'email' => $client->email];
+          SendEmailEvaluationQuery::dispatch($data);
+        }
 
         return $this->query_repository->edit($query, $data);
     }

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use stdClass;
 
-class CancelAccount extends Mailable
+class UpdatePlan extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,10 +31,10 @@ class CancelAccount extends Mailable
      */
     public function build()
     {
-        $this->subject('Cancelamento de plano - PSIPLAN Brasil');
+        $this->subject('Plano alterado - PSIPLAN Brasil');
         $this->to($this->data['email'], $this->data['name']);
 
-        return $this->markdown('mails.cancel_account', [
+        return $this->markdown('mails.update_plan', [
             'data' => $this->data
         ]);
     }

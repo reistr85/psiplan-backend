@@ -12,11 +12,13 @@ class NotificationsEnum extends Enum
         'id' => 1,
         'title' => 'Nova consulta',
         'description' => 'Você tem uma nova consulta agendada.',
+        'details' => 'yes'
     ];
 
     public const NOTIFICATION_FIRST_CONSULTATION_FREE = [
         'id' => 2,
         'title' => 'Solicitação de consulta grátis',
         'description' => 'Você tem uma nova solicitação para consulta grátis. Acesse o seu e-mail para ver mais detalhes.',
+        'details' => 'not'
     ];
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Facades\Mail;
 use App\Jobs\FreeDayScheduling;
+use App\Jobs\SendEmailUpdatePlan;
+use App\Jobs\SendEmailEvaluationQuery;
 
 Route::get('/', function(){
     return response()->json(['status' => true, 'APP_NAME' => env('APP_NAME')]);
@@ -172,7 +174,39 @@ Route::get('cancel-account', function(){
         'name' => 'Renan Reis',
     ];
 
-    //Mail::send(new \App\Mail\NewPsychologist($user));
+    //Mail::send(new \App\Mail\CancelAccount($user));
+
+    //\App\Jobs\SendEmailCancelAccount::dispatch($user);
 
     return new \App\Mail\CancelAccount($user);
+});
+
+Route::get('update-plan', function(){
+
+    $user = new stdClass();
+    $user =  [
+        'email' => 'reis_trindade@hotmail.com',
+        'name' => 'Renan Reis',
+    ];
+
+    //Mail::send(new \App\Mail\NewPsychologist($user));
+
+    //\App\Jobs\SendEmailUpdatePlan::dispatch($user);
+
+    return new \App\Mail\UpdatePlan($user);
+});
+
+Route::get('evaluation-query', function(){
+
+    $user = new stdClass();
+    $user =  [
+        'email' => 'reis_trindade@hotmail.com',
+        'name' => 'Renan Reis',
+    ];
+
+    //Mail::send(new \App\Mail\EvaluationQuery($user));
+
+    //\App\Jobs\SendEmailEvaluationQuery::dispatch($user);
+
+    return new \App\Mail\EvaluationQuery($user);
 });
