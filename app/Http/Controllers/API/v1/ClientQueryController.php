@@ -103,7 +103,7 @@ class ClientQueryController extends Controller
                 'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
                 'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
                 'status' => NotificationsStatusEnum::STATUS_NOT_READ,
-                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['destails'],
+                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['details'],
             ];
 
             $psychologist = $this->get_psychologist_by_id_service->execute($data['psychologist_id']);
@@ -113,7 +113,7 @@ class ClientQueryController extends Controller
                 'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
                 'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
                 'status' => NotificationsStatusEnum::STATUS_NOT_READ,
-                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['destails'],
+                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['details'],
             ];
 
             $this->store_user_notification_service->execute($data_notification_client);

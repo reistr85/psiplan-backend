@@ -50,7 +50,7 @@ class ManagementQueryController extends Controller
 
             return response()->json(['status' => true, 'message' => 'success', 'queries' => $queries], 200);
         }catch (\Exception $ex){
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 
@@ -91,7 +91,7 @@ class ManagementQueryController extends Controller
 
             return response()->json(['status' => true, 'message' => 'success'], 200);
         }catch (\Exception $ex){
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 
@@ -118,7 +118,7 @@ class ManagementQueryController extends Controller
             return response()->json(['status' => true, 'message' => 'success'], 200);
         }catch (\Exception $ex){
             DB::rollBack();
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 }

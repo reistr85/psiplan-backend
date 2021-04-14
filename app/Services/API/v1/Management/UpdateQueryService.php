@@ -26,8 +26,8 @@ class UpdateQueryService
 
         if($data['status_query'] ==  'fulfilled'){
           $client = $query->client;
-          $data = ['name' => $client->email, 'email' => $client->email];
-          SendEmailEvaluationQuery::dispatch($data);
+          $dataEmail = ['name' => $client->name, 'email' => $client->email];
+          SendEmailEvaluationQuery::dispatch($dataEmail);
         }
 
         return $this->query_repository->edit($query, $data);

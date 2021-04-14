@@ -6,6 +6,7 @@ namespace App\Services\API\v1\Management;
 
 use App\Mail\QueryCanceledClient;
 use App\Repositories\QueryRepository;
+use App\Jobs\SendEmailQueryCanceled;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
@@ -37,8 +38,7 @@ class DestroyQueryService
             'email' => $query->client->email,
         ];
 
-        Mail::send(new QueryCanceledClient($data));
-
+        SendEmailQueryCanceled::dispatch($data);
         return $this->query_repository->destroy($query);
     }
 }

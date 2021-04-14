@@ -31,7 +31,7 @@ class QueryCanceledClient extends Mailable
      */
     public function build()
     {
-        $this->subject('Consulta confirmada - PSIPLAN Brasil');
+        $this->subject('Consulta cancelada - PSIPLAN Brasil');
         $this->to($this->data['email'], $this->data['name']);
 
         return $this->markdown('mails.query_canceled_client', [
