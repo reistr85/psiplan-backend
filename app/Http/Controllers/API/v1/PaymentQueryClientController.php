@@ -92,6 +92,9 @@ class PaymentQueryClientController extends Controller
             $data = $request->all();
 
             if($data['coupon']){
+                if($query->query_box == 'yes')
+                    throw new \Exception("Um pacote de consulta não é possível ser pago com Cupom.");
+
                 $this->create_payment_query_client_coupon_service->execute($query->id, $data['coupon']);
 
                 DB::commit();
