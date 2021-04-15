@@ -58,11 +58,12 @@ class StoreClientQueryService
             throw new Exception("A hora da consulta precisa ser pelo menos com 6 horas de antecedência.", 500);
 
         $price = $psychologist->consultation_value;
-        $coupon_id = null;
 
-        if(count($coupons)) {
-            $price = $psychologist->consultation_package_value;
-            $coupon_id = $coupons[0]['id'];
+        if($data['query_box']){
+          $data['query_box'] = 'yes';
+          $price = $psychologist->consultation_package_value;
+        }else{
+          $data['query_box'] = 'not';
         }
 
         $dataQuery = [
@@ -71,8 +72,9 @@ class StoreClientQueryService
             'psychologist_availability_calendar_id' => $psychologist_availability_calendar->id,
             'day_hour' => "{$data['day_hour']}:00",
             'price' => $price,
-            'coupon_id' => $coupon_id,
+            'coupon_id' => null,
             'video_platform_id' => $data['video_platform_id'],
+            'query_box' => $data['query_box']
         ];
 
         $query = $this->query_repositories->store($dataQuery);

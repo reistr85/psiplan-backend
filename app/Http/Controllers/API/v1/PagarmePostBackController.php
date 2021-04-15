@@ -83,10 +83,10 @@ class PagarmePostBackController extends Controller
             }
 
             if($request->transaction['metadata']['model'] == 'Query'){
+                $query_box = $request->transaction['metadata']['query_box'];
                 $status_payment = $request->current_status;
-
                 $data = ['status_payment' => $status_payment];
-                $this->update_query_post_back_service->execute($query_id, $data);
+                $this->update_query_post_back_service->execute($query_id, $data, $query_box);
             }
 
             echo 'success';
