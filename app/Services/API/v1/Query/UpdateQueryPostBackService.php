@@ -35,10 +35,10 @@ class UpdateQueryPostBackService
         if(!$query)
             throw new \Exception("Consulta não encontrada", 500);
 
-        if($query_box == 'yes' && ($data['status_payment'] == QueryStatusPaymentEnum::STATUS_PAYMENT_PAID ||
-                $data['status_payment'] == QueryStatusPaymentEnum::STATUS_PAYMENT_AUTHORIZED)){
+        if($query_box == 'yes' && $data['status_payment'] == QueryStatusPaymentEnum::STATUS_PAYMENT_PAID ||
+            $query->status_payment != QueryStatusPaymentEnum::STATUS_PAYMENT_PAID){
           $coupons = $this->store_coupon_client_service
-              ->execute($data['psychologist_id'], $query->client_id,  CouponSourceEnum::QUERY_PACKAGE, 4,
+              ->execute($query->psychologist_id, $query->client_id,  CouponSourceEnum::QUERY_PACKAGE, 4,
                   CouponStatusPaymentEnum::STATUS_PAYMENT_PAID);
 
           if(count($coupons)) {
@@ -51,6 +51,9 @@ class UpdateQueryPostBackService
         $query_update = $this->query_repository->edit($query, $data);
 
         if($query_update)
-            return $this->coupon_repository->edit($coupon, ['situation' => CouponSituationEnum::SITUATION_USED]);
+            return $this->coupon_repository->edit($coupon, [
+                'query_id' => $query_id,
+                'situation' => CouponSituationEnum::SITUATION_USED
+            ]);
     }
 }
