@@ -10,6 +10,8 @@ Route::get('/', function(){
     return response()->json(['status' => true, 'APP_NAME' => env('APP_NAME')]);
 });
 
+//Route::resource('/', 'API\\v1\\PagarmePostBackController');
+
 Route::get('new-psychologist', function(){
 
     $user = new stdClass();

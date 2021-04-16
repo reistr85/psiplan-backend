@@ -39,6 +39,7 @@ class PagarmePostBackController extends Controller
      */
     public function index()
     {
+        //$this->store($request);
         try{
             $post_backs = PagarmePostBack::all();
 
