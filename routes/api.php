@@ -120,7 +120,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('account/profile/gallery_three', 'ProfileController@update');
     Route::post('account/profile/gallery_four', 'ProfileController@update');
     Route::post('account/profile/gallery_five', 'ProfileController@update');
-    //Route::post('account/delete-image-gallery', 'ProfileController@deleteImageGallery');
+    Route::post('account/profile/delete_gallery', 'ProfileController@deleteImageGalery');
 
 
     /*
