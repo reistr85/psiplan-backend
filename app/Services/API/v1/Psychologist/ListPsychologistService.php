@@ -38,7 +38,12 @@ class ListPsychologistService
     {
         $query = $this->psychologistRepository->index($params)->with('availabilityCalendars', 'languages');
 
-        return $query->paginate(10);
+        $query = $query->get()->map(function($item) {
+            $item->star = $item->stars();
+            return $item;
+        });
+
+        return $query;
     }
 
     public function getFilters()

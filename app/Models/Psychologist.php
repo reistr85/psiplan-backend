@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\QueryRepository;
 use App\Scopes\ActiveScope;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -125,5 +126,27 @@ class Psychologist extends Model
     public function pagarmeSubscriptionTransactions()
     {
         return $this->hasMany(PagarmeSubscriptionTransaction::class);
+    }
+
+    public function stars()
+    {
+        $queries = $this->queries()->with('star')->get();
+        $stars = 0;
+
+        foreach ($queries as $query){
+            if($query->star)
+                $stars += $query->star->star;
+        }
+
+        $qtd_queries = $queries->count();
+        $number_of_possible_stars = $qtd_queries * 5;
+        $percentage_star = $stars / $number_of_possible_stars;
+        $qtd_stars = ceil(($percentage_star * 5));
+
+        //$this->star = $qtd_stars;
+
+        //dd($this);
+        //dd($qtd_stars);
+        return $qtd_stars;
     }
 }

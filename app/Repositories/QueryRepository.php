@@ -44,7 +44,13 @@ class QueryRepository extends BaseRepository
      */
     public function getAllQueriesFindByClientId(int $id): Collection
     {
-        return $this->model::where('client_id', $id)->with(['psychologist'])->get();
+        return $this->model::where('client_id', $id)->with(
+            [
+                'psychologist',
+                'psychologistAvailabilityCalendar',
+                'psychologistAvailabilityCalendar.typeService',
+                'videoPlatform',
+            ])->get();
     }
 
     /**

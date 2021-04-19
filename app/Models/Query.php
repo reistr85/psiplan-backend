@@ -31,4 +31,9 @@ class Query extends Model
     {
         return $this->belongsTo(PsychologistAvailabilityCalendar::class);
     }
+
+    public function star()
+    {
+        return $this->hasOne(Evaluation::class);
+    }
 }
