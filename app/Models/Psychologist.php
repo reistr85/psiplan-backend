@@ -140,13 +140,13 @@ class Psychologist extends Model
 
         $qtd_queries = $queries->count();
         $number_of_possible_stars = $qtd_queries * 5;
+
+        if(!$number_of_possible_stars)
+            return 5;
+        
         $percentage_star = $stars / $number_of_possible_stars;
         $qtd_stars = ceil(($percentage_star * 5));
 
-        //$this->star = $qtd_stars;
-
-        //dd($this);
-        //dd($qtd_stars);
         return $qtd_stars;
     }
 }
