@@ -27,6 +27,10 @@ class GetTotalStarByPsychologistIdService
 
         $qtd_queries = $queries->count();
         $number_of_possible_stars = $qtd_queries * 5;
+
+        if(!$number_of_possible_stars)
+            return 5;
+
         $percentage_star = $stars / $number_of_possible_stars;
         $qtd_stars = ceil(($percentage_star * 5));
 
