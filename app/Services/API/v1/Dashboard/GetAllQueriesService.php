@@ -19,6 +19,8 @@ class GetAllQueriesService
     public function execute()
     {
         return $this->query_repository->getAll()
-            ->with('psychologist', 'psychologist.city', 'client')->get();
+            ->with('psychologist', 'psychologist.city', 'client',
+                'psychologistAvailabilityCalendar', 'psychologistAvailabilityCalendar.typeService',
+                'videoPlatform')->get();
     }
 }

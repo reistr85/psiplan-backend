@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Services\API\v1\Dashboard\GetAllQueriesService;
 use App\Services\API\v1\Dashboard\GetAllPsychologistsService;
+use App\Services\API\v1\Dashboard\GetQueryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,11 +14,14 @@ class QueryController extends Controller
 {
 
     private $get_all_queries_service;
+    private $get_query_service;
 
     public function __construct(
-        GetAllQueriesService $get_all_queries_service)
+        GetAllQueriesService $get_all_queries_service,
+        GetQueryService $get_query_service)
     {
         $this->get_all_queries_service = $get_all_queries_service;
+        $this->get_query_service = $get_query_service;
     }
 
     /**
@@ -51,11 +55,17 @@ class QueryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return JsonResponse
      */
     public function show($id)
     {
-        //
+        try {
+            $query = $this->get_query_service->execute($id);
+
+            return response()->json(['status' => false, 'message' => 'success', 'query' => $query], 200);
+        }catch(\Exception $ex){
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
+        }
     }
 
     /**
