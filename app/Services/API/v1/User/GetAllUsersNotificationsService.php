@@ -4,6 +4,7 @@
 namespace App\Services\API\v1\User;
 
 
+use App\Enums\NotificationsStatusEnum;
 use App\Repositories\UserNotificationRepository;
 use App\User;
 
@@ -22,6 +23,10 @@ class GetAllUsersNotificationsService
         if(!$user)
             throw new \Exception("Usuário não localizado", 500);
 
-        return $this->user_notification_repository->getAllByUserId($user->id)->with('user')->orderBy('id', 'desc')->get();
+        return $this->user_notification_repository
+            ->getAllByUserId($user->id, NotificationsStatusEnum::STATUS_NOT_READ)
+            ->with('user')
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }

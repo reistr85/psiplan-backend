@@ -22,8 +22,8 @@ Route::get('new-psychologist', function(){
 
     //Mail::send(new \App\Mail\NewPsychologist($user));
 
-    $query = App\Models\Query::find(1);
-    FreeDayScheduling::dispatch($query);
+    //$query = App\Models\Query::find(1);
+    //FreeDayScheduling::dispatch($query);
 
     return new \App\Mail\NewPsychologist($user);
 });

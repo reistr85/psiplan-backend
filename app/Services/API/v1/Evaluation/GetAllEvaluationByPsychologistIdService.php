@@ -4,6 +4,7 @@
 namespace App\Services\API\v1\Evaluation;
 
 
+use App\Enums\NotificationsStatusEnum;
 use App\Repositories\EvaluationRepository;
 
 class GetAllEvaluationByPsychologistIdService
