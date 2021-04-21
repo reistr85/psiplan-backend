@@ -17,7 +17,7 @@ class ApiKey
     public function handle($request, Closure $next)
     {
         if(empty($request->header('ApiKey')))
-            return response()->json(['error' => $request], 401);
+            return response()->json(['error' => 'ApiKey not found'], 401);
 
         if($request->header('ApiKey') != 'base64:5TetPRa/6TSFN+aqOfZHqJmkHzb+THnb38fcC4B1ICI=')
             return response()->json(['error' => 'ApiKey invalid'], 401);

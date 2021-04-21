@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Enums\CouponSourceEnum;
-use App\Enums\CouponStatusPaymentEnum;
 use App\Enums\NotificationsEnum;
 use App\Enums\NotificationsStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\StoreClientQueryRequest;
 use App\Jobs\FreeDayScheduling;
-use App\Mail\NewQueryClient;
 use App\Services\API\v1\Client\StoreClientQueryService;
 use App\Services\API\v1\Client\StoreCouponClientService;
 use App\Services\API\v1\Client\UpdateAllCouponsByCouponsService;
@@ -17,13 +14,10 @@ use App\Services\API\v1\Psychologist\GetPsychologistByIdService;
 use App\Services\API\v1\Query\GetAllQueriesByClientIdService;
 use App\Services\API\v1\Client\GetClientByUserIdService;
 use App\Services\API\v1\Query\GetQueriesByIdService;
-use App\Services\API\v1\SendEmail\SendEmailNewQueryClientService;
-use App\Services\API\v1\SendEmail\SendEmailNewQueryPsychologistService;
 use App\Services\API\v1\User\StoreUserNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class ClientQueryController extends Controller
 {
@@ -88,14 +82,9 @@ class ClientQueryController extends Controller
             $data = $request->all();
             $coupons = [];
 
-            if($data['query_box'])
-                $coupons = $this->store_coupon_client_service
-                    ->execute($data['psychologist_id'], $client->id,  CouponSourceEnum::QUERY_PACKAGE, 4,
-                        CouponStatusPaymentEnum::STATUS_PAYMENT_UNPAID);
-
             $query = $this->storeClientQueryService->execute($data, $coupons);
             $this->update_all_coupons_by_coupons_service->execute($coupons, ['query_id' => $query->id]);
-            FreeDayScheduling::dispatch($query)->delay(now()->addMinutes(30));
+            FreeDayScheduling::dispatch($query)->delay(now()->addMinutes(env('TIME_QUERY_CANCELED')));
 
             $data_notification_client = [
                 'user_id' => $client->user_id,
@@ -103,6 +92,7 @@ class ClientQueryController extends Controller
                 'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
                 'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
                 'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['details'],
             ];
 
             $psychologist = $this->get_psychologist_by_id_service->execute($data['psychologist_id']);
@@ -112,6 +102,7 @@ class ClientQueryController extends Controller
                 'title' => NotificationsEnum::NOTIFICATION_NEW_QUERY['title'],
                 'description' => NotificationsEnum::NOTIFICATION_NEW_QUERY['description'],
                 'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+                'details' => NotificationsEnum::NOTIFICATION_NEW_QUERY['details'],
             ];
 
             $this->store_user_notification_service->execute($data_notification_client);

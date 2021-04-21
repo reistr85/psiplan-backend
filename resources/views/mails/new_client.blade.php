@@ -6,7 +6,7 @@
     <p style="text-align: justify">Faça sua consulta Online ou presencial. Todos os nossos profissionais são certificados pelo Conselho Federal de Psicologia (CFP), o que garante a segurança de seu atendimento e qualificação.</p>
     <p style="text-align: justify">Ahh e não esqueça de avaliar o profissional que lhe atendeu, a sua opinião é muito importante para nós! Disponibilizamos um perfil exclusivo para você, basta acessar com o seu e-mail e senha.</p>
     <p style="text-align: justify">Aproveite esta jornada de autoconhecimento!</p>
-    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br'])
+    @component('mail::button', ['url' => env('APP_URL')])
         Clique aqui
     @endcomponent
 @endcomponent

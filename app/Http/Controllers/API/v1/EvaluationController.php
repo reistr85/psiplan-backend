@@ -53,13 +53,13 @@ class EvaluationController extends Controller
             $this->createEvaluationPsychologistService->execute($data_evaluation);
             $this->update_query_service->execute(
                 $data_evaluation['query_id'],
-                ['status_evaluation' => QueryStatusEvaluationEnum::STATUS_EVALUATION_EVALUATED]);
+                ['status_query' => 'fulfilled', 'status_evaluation' => QueryStatusEvaluationEnum::STATUS_EVALUATION_EVALUATED]);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Sua avaliação foi registrada com sucesso'], 200);
         }catch (\Exception $ex){
             DB::rollBack();
-            return response()->json(['status' => false, 'message' => $ex->getMessage()], $ex->getCode());
+            return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }
 

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Repositories\QueryRepository;
 use App\Scopes\ActiveScope;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -55,6 +57,11 @@ class Psychologist extends Model
             'psychologist_id', 'language_id')->whereNull('psychologist_languages.deleted_at');
     }
 
+    public function documents()
+    {
+        return $this->hasOne(PsychologistDocument::class);
+    }
+
     public function videoPlatforms()
     {
         return $this->belongsToMany('App\Models\VideoPlatform','psychologist_video_platforms',
@@ -74,6 +81,16 @@ class Psychologist extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(PsychologistPlan::class);
     }
 
     public function address()
@@ -99,5 +116,37 @@ class Psychologist extends Model
     public function bank()
     {
         return $this->hasOne(PsychologistBank::class);
+    }
+
+    public function queries()
+    {
+        return $this->hasMany(Query::class);
+    }
+
+    public function pagarmeSubscriptionTransactions()
+    {
+        return $this->hasMany(PagarmeSubscriptionTransaction::class);
+    }
+
+    public function stars()
+    {
+        $queries = $this->queries()->with('star')->get();
+        $stars = 0;
+
+        foreach ($queries as $query){
+            if($query->star)
+                $stars += $query->star->star;
+        }
+
+        $qtd_queries = $queries->count();
+        $number_of_possible_stars = $qtd_queries * 5;
+
+        if(!$number_of_possible_stars)
+            return 5;
+        
+        $percentage_star = $stars / $number_of_possible_stars;
+        $qtd_stars = ceil(($percentage_star * 5));
+
+        return $qtd_stars;
     }
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Client;
 use App\Models\Psychologist;
+use App\Models\UserNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -95,5 +96,10 @@ class User extends Authenticatable implements JWTSubject
     public function psychologist(): HasOne
     {
         return $this->hasOne(Psychologist::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(UserNotification::class);
     }
 }

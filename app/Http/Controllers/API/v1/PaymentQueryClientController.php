@@ -6,6 +6,7 @@ use App\Enums\CouponSituationEnum;
 use App\Enums\CouponStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\QueryPaymentClientRequest;
+use App\Jobs\SendEmailPackageQuery;
 use App\Services\API\v1\Client\UpdateAllCouponsByQueryIdService;
 use App\Services\API\v1\Client\UpdateCouponClientByIdService;
 use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
@@ -92,6 +93,9 @@ class PaymentQueryClientController extends Controller
             $data = $request->all();
 
             if($data['coupon']){
+                if($query->query_box == 'yes')
+                    throw new \Exception("Um pacote de consulta não é possível ser pago com Cupom.");
+
                 $this->create_payment_query_client_coupon_service->execute($query->id, $data['coupon']);
 
                 DB::commit();
@@ -104,6 +108,7 @@ class PaymentQueryClientController extends Controller
             $data['metadata']['psychologist_id'] = $query->psychologist_id;
             $data['metadata']['model'] = 'Query';
             $data['metadata']['model_id'] = $query->id;
+            $data['metadata']['query_box'] = $query->query_box;
 
             $response = $this->createPaymentClientUniqueQueryPagarmeService->execute($user->client->id, $data);
             $amount = $response->amount;
@@ -116,6 +121,9 @@ class PaymentQueryClientController extends Controller
                     'query_id' => $query->id,
                     'status' => $response->status,
                     'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
+                    'payment_method' => $response->payment_method,
+                    'billet_url' => $response->boleto_url,
+                    'billet_barcode' => $response->boleto_barcode,
                 ]);
 
             $this->update_query_by_id_service->execute($query->id, [
@@ -136,6 +144,10 @@ class PaymentQueryClientController extends Controller
 
             $this->send_email_new_query_client_service->execute($query->id);
             $this->send_email_new_query_psychologist_service->execute($query->id);
+
+            if($query->query_box == 'yes')
+                SendEmailPackageQuery::dispatch(['name' => $user->client->name, 'email' => $user->client->email]);
+
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Seu pagamento foi efetuado com sucesso.', 'pagarme_transaction' => $pagarme_transaction], 200);

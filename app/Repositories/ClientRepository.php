@@ -17,6 +17,11 @@ class ClientRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll()
+    {
+        return $this->model;
+    }
+
     /**
      * Find
      *

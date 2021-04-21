@@ -1,19 +1,17 @@
 <?php
 
-
 namespace App\Services\API\v1\Client;
 
 
 use App\Enums\FirstConsultationStatusEnum;
 use App\Enums\NotificationsEnum;
 use App\Enums\NotificationsStatusEnum;
-use App\Mail\ConsultationFreeClient;
-use App\Mail\ConsultationFreePsychologist;
+use App\Jobs\SendEmailConsultationFreePsychologist;
+use App\Jobs\SendEmailConsultationFreeClient;
 use App\Repositories\ClientRepository;
 use App\Repositories\PsychologistRepository;
 use App\Repositories\QueryRepository;
 use App\Services\API\v1\User\StoreUserNotificationService;
-use Illuminate\Support\Facades\Mail;
 
 class RequestConsultationFreeClientService
 {
@@ -47,6 +45,7 @@ class RequestConsultationFreeClientService
             'title' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['title'],
             'description' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['description'],
             'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            'details' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['details'],
         ];
 
         $data_notification_psychologist = [
@@ -55,6 +54,7 @@ class RequestConsultationFreeClientService
             'title' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['title'],
             'description' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['description'],
             'status' => NotificationsStatusEnum::STATUS_NOT_READ,
+            'details' => NotificationsEnum::NOTIFICATION_FIRST_CONSULTATION_FREE['details'],
         ];
 
         $this->store_user_notification_service->execute($data_notification_client);
@@ -70,7 +70,7 @@ class RequestConsultationFreeClientService
             'psychologist_phone' => $psychologist->phone,
         ];
 
-        Mail::send(new ConsultationFreeClient($data));
-        Mail::send(new ConsultationFreePsychologist($data));
+        SendEmailConsultationFreePsychologist::dispatch($data);
+        SendEmailConsultationFreeClient::dispatch($data);
     }
 }

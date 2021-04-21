@@ -15,7 +15,7 @@ class ClientsTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
 
         $data = [
-            ['user_id' => 3, 'name' => 'Cliente de Teste 1', 'email' => 'cliente1@gmail.com', 'phone' => '84988481919','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
+            ['user_id' => 3, 'name' => 'Cliente de Teste', 'email' => 'cliteste@gmail.com', 'phone' => '84988481919','is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         Client::insert($data);
     }

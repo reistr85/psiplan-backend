@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetCitiesByNameService extends CityRepository
 {
-    public function execute(string $name): Collection
+    public function execute($name)
     {
+        if(!$name)
+            return [];
+
         $cities = parent::getByName($name)->get();
 
         return $cities;

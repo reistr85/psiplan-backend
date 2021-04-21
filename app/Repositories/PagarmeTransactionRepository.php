@@ -20,6 +20,11 @@ class PagarmeTransactionRepository extends BaseRepository
         return parent::findAll($this->model);
     }
 
+    public function findByQueryId(int $query_id)
+    {
+        return $this->model->where('query_id', $query_id);
+    }
+
     public function getAllByClientId(int $client_id)
     {
         return $this->model::select("pagarme_transactions.id", "pagarme_transactions.status",
@@ -34,5 +39,10 @@ class PagarmeTransactionRepository extends BaseRepository
     public function create(array $data)
     {
         return parent::save($this->model, $data);
+    }
+
+    public function edit($model, array $data)
+    {
+        return parent::update($model, $data);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Enums\TypeServiceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
+use App\Services\API\v1\Psychologist\DeleteImageGalleryService;
 use App\Services\API\v1\Psychologist\GetAcademicFormationsByPsychologistIdService;
 use App\Services\API\v1\Psychologist\GetAllSpecialtyService;
 use App\Services\API\v1\Psychologist\GetPsychologistByUserIdService;
@@ -25,6 +26,7 @@ class ProfileController extends Controller
     private $updatePsychologistService;
     private $getPsychologistDocumentService;
     private $update_psychologist_percentage_profile_service;
+    private $delete_image_gallery_service;
 
     public function __construct(
         GetAllSpecialtyService $getAllSpecialtiesService,
@@ -33,7 +35,8 @@ class ProfileController extends Controller
         GetAcademicFormationsByPsychologistIdService $getAcademicFormationsByPsychologistIdService,
         UpdatePsychologistService $updatePsychologistService,
         GetPsychologistDocumentService $getPsychologistDocumentService,
-        UpdatePsychologistPercentageProfileService $update_psychologist_percentage_profile_service)
+        UpdatePsychologistPercentageProfileService $update_psychologist_percentage_profile_service,
+        DeleteImageGalleryService $delete_image_gallery_service)
     {
         $this->getAllSpecialtiesService = $getAllSpecialtiesService;
         $this->getSpecialtiesByPsychologistIdService = $getSpecialtiesByPsychologistIdService;
@@ -42,6 +45,7 @@ class ProfileController extends Controller
         $this->updatePsychologistService = $updatePsychologistService;
         $this->getPsychologistDocumentService = $getPsychologistDocumentService;
         $this->update_psychologist_percentage_profile_service = $update_psychologist_percentage_profile_service;
+        $this->delete_image_gallery_service = $delete_image_gallery_service;
     }
 
     /**
@@ -132,6 +136,19 @@ class ProfileController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso', 'image' => $image,
                 'percentage' => $percentage], 200);
+        }catch (\Exception $e){
+            return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteImageGalery(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $psychologist = $user->psychologist;
+
+            $this->delete_image_gallery_service->execute($psychologist, $request->all());
+            return response()->json(['status' => true, 'message' => 'Registro alterado com sucesso'], 200);
         }catch (\Exception $e){
             return response()->json(['error' => true, 'message' => $e->getMessage()], 500);
         }

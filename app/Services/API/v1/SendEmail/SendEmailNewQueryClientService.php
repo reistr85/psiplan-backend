@@ -3,6 +3,7 @@
 
 namespace App\Services\API\v1\SendEmail;
 
+use App\Jobs\SendEmailNewQueryClient;
 use App\Mail\NewQueryClient;
 use App\Repositories\QueryRepository;
 use Illuminate\Support\Facades\Mail;
@@ -49,6 +50,6 @@ class SendEmailNewQueryClientService
             $data['complement'] = $query->psychologist->serviceAddress->complement;
         }
 
-        Mail::send(new NewQueryClient($data));
+        SendEmailNewQueryClient::dispatch($data);
     }
 }

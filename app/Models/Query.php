@@ -10,7 +10,7 @@ class Query extends Model
     use SoftDeletes;
 
     protected $fillable = ['psychologist_id', 'client_id', 'psychologist_availability_calendar_id', 'coupon_id', 'video_platform_id',
-        'day_hour', 'price', 'evaluation', 'status_query', 'transaction_id',  'status_payment', 'status_evaluation', 'is_active'];
+        'day_hour', 'price', 'evaluation', 'status_query', 'transaction_id',  'status_payment', 'status_evaluation', 'query_box', 'is_active'];
 
     public function psychologist()
     {
@@ -30,5 +30,10 @@ class Query extends Model
     public function psychologistAvailabilityCalendar()
     {
         return $this->belongsTo(PsychologistAvailabilityCalendar::class);
+    }
+
+    public function star()
+    {
+        return $this->hasOne(Evaluation::class);
     }
 }

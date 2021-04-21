@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\QueryStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Models\PagarmePostBack;
 use App\Services\API\v1\Pagarme\StorePagarmePostBackService;
+use App\Services\API\v1\Query\DestroyQueryPostBackService;
+use App\Services\API\v1\Query\UpdateQueryPostBackService;
+use App\Services\API\v1\PaymentQueryClient\UpdatePagarmeTransactionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -12,11 +16,20 @@ use Illuminate\Support\Facades\Log;
 class PagarmePostBackController extends Controller
 {
     private $store_pagarme_post_back_service;
+    private $update_query_post_back_service;
+    private $destroy_query_post_back_service;
+    private $update_pagarme_transaction_service;
 
     public function __construct(
-        StorePagarmePostBackService $store_pagarme_post_back_service)
+        StorePagarmePostBackService $store_pagarme_post_back_service,
+        UpdateQueryPostBackService $update_query_post_back_service,
+        DestroyQueryPostBackService $destroy_query_post_back_service,
+        UpdatePagarmeTransactionService $update_pagarme_transaction_service)
     {
         $this->store_pagarme_post_back_service = $store_pagarme_post_back_service;
+        $this->update_query_post_back_service = $update_query_post_back_service;
+        $this->destroy_query_post_back_service = $destroy_query_post_back_service;
+        $this->update_pagarme_transaction_service = $update_pagarme_transaction_service;
     }
 
     /**
@@ -26,9 +39,9 @@ class PagarmePostBackController extends Controller
      */
     public function index()
     {
+        //$this->store($request);
         try{
             $post_backs = PagarmePostBack::all();
-
 
             return response()->json(['status' => true, 'post_backs' => $post_backs], 200);
         }catch (\Exception $ex){
@@ -45,8 +58,6 @@ class PagarmePostBackController extends Controller
     public function store(Request $request)
     {
         try{
-            Log::error($request->all());
-
             $data = [
                 'pagarme_post_back_type' => $request->transaction['metadata']['model'],
                 'pagarme_post_back_id' => $request->transaction['metadata']['model_id'],
@@ -55,12 +66,33 @@ class PagarmePostBackController extends Controller
                 'postback_object' => $request->object,
                 'postback_old_status' => $request->old_status,
                 'postback_current_status' => $request->current_status,
-                'postback_payload' => '',
+                'postback_payload' => 'Payload',
             ];
 
-            $post_back = $this->store_pagarme_post_back_service->execute($data);
+            $this->store_pagarme_post_back_service->execute($data);
+            $query_id = $request->transaction['metadata']['model_id'];
+
+            if($request->object == 'transaction'){
+                $data = [
+                    'status' => $request->current_status,
+                    'billet_url' => $request->transaction['boleto_url'],
+                    'billet_barcode' => $request->transaction['boleto_barcode'],
+                    'billet_expiration_date' => $request->transaction['boleto_expiration_date'],
+                ];
+
+                $this->update_pagarme_transaction_service->execute($query_id, $data);
+            }
+
+            if($request->transaction['metadata']['model'] == 'Query'){
+                $query_box = $request->transaction['metadata']['query_box'];
+                $status_payment = $request->current_status;
+                $data = ['status_payment' => $status_payment];
+                $this->update_query_post_back_service->execute($query_id, $data, $query_box);
+            }
+
             echo 'success';
         }catch (\Exception $ex){
+            Log::error('PostBack', ['error' => $ex->getMessage()]);
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
     }

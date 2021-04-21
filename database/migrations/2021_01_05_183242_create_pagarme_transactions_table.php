@@ -19,7 +19,7 @@ class CreatePagarmeTransactionsTable extends Migration
             $table->integer('transaction_id');
             $table->integer('query_id')->unsigned();
             $table->string('status');
-            $table->integer('amount');
+            $table->decimal('amount', 10, 2);
             $table->integer('is_active');
             $table->softDeletes();
             $table->timestamps();

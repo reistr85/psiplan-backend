@@ -17,6 +17,11 @@ class PsychologistRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll()
+    {
+        return $this->model;
+    }
+
     public function find(int $id)
     {
         return parent::findById($this->model, $id);
@@ -24,12 +29,14 @@ class PsychologistRepository extends BaseRepository
 
     public function getPsychologist($id)
     {
-        return $this->model->where('id', $id);
+        return $this->model->where('id', $id)
+          ->whereNotNull('psychologists.plan_id');
     }
 
     public function index($params)
     {
-        $query = $this->model::select($this->getResumeColumns())->distinct('psychologists.id')
+        $query = $this->model
+            ->select(\DB::raw("DISTINCT psychologists.id, ".implode(', ', $this->getResumeColumns())))
             ->join('psychologist_specialties', function ($query) use($params) {
                 $query->on('psychologist_specialties.psychologist_id', '=', 'psychologists.id');
             })->join('psychologist_target_audiences', function ($query) use($params) {
@@ -51,15 +58,17 @@ class PsychologistRepository extends BaseRepository
             $query->where('psychologist_specialties.specialty_id', $params['specialty_id'])->whereNull('psychologist_specialties.deleted_at');
 
         if($params['city_id'])
-            $query->where('psychologists.complete_profile', $params['city_id'])->whereNull('cities.deleted_at');
+            $query->where('psychologists.city_id', $params['city_id'])
+                ->whereNull('cities.deleted_at');
 
         if($params['first_consultation'] == 'true')
             $query->where('psychologists.first_free_consultation', 1);
 
-        $query->where('psychologists.complete_profile', 'completed');
+        $query->where('psychologists.complete_profile', 'completed')
+              ->whereNotNull('psychologists.plan_id');
 
         if($params['order_price'])
-            $query->orderBy('consultation_value', $params['order_price']);
+            $query->orderBy('psychologists.consultation_value', $params['order_price']);
 
         return  $query;
     }
@@ -77,8 +86,8 @@ class PsychologistRepository extends BaseRepository
     private function getResumeColumns()
     {
         return [
-            'psychologists.id',
             'psychologists.user_id',
+            'psychologists.plan_id',
             'psychologists.avatar',
             'psychologists.consultation_value',
             'psychologists.consultation_duration',

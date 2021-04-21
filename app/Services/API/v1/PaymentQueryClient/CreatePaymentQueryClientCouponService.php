@@ -34,6 +34,8 @@ class CreatePaymentQueryClientCouponService
     public function execute(int $query_id, $coupon)
     {
         $coupon = $this->coupon_repository->getCouponByCoupon($coupon)->first();
+        $psychologist = $coupon->psychologist;
+        $query = $this->query_repository->find($query_id);
 
         if(!$coupon)
             throw new \Exception("Cupom não localizado.");
@@ -43,6 +45,9 @@ class CreatePaymentQueryClientCouponService
 
         if($coupon->situation == CouponSituationEnum::SITUATION_USED)
             throw new \Exception("Este cupom já foi ultilizado.");
+
+        if($psychologist->id != $query->psychologist_id)
+            throw new \Exception("Este cupom não pode ser utilizado com esse Psicólogo.");
 
         $update_coupon = $this->update_coupon_client_by_id_service
             ->execute([

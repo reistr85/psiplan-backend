@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\TypeServiceEnum;
 use App\Enums\QueryStatusPaymentEnum;
 use App\Models\Query;
 use App\Repositories\PsychologistAvailabilityCalendarRepository;
@@ -27,8 +28,7 @@ class FreeDayScheduling implements ShouldQueue
      *
      * @param Query $query
      */
-    public function __construct(
-        Query $query)
+    public function __construct(Query $query)
     {
         $this->query = $query;
         $this->psychologist_availability_calendar_repository = app(PsychologistAvailabilityCalendarRepository::class);
@@ -43,18 +43,35 @@ class FreeDayScheduling implements ShouldQueue
      */
     public function handle()
     {
-        if($this->query->payment_status == QueryStatusPaymentEnum::STATUS_PAYMENT_PAID)
-            return;
+        Log::info('Init');
+        $psychologist = $this->query->psychologist;
+        $query = Query::find($this->query->id);
 
-        $psychologist_availability_calendar = $this->psychologist_availability_calendar_repository
-            ->find($this->query->psychologist_availability_calendar_id);
+        if($psychologist->plan_id == TypeServiceEnum::PLAN_ID_SIMPLE_TRI
+            || $psychologist->plan_id == TypeServiceEnum::PLAN_ID_SIMPLE_SEM){
 
-        $this->psychologist_availability_calendar_repository->edit($psychologist_availability_calendar, [
-            'available' => null
-        ]);
+            return true;
+        }
 
-        $this->query_repository->destroy($this->query);
+        if($query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_PROCESSING
+            || $query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_AUTHORIZED
+            || $query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_PAID
+            || $query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_WAITING
+            || $query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_PENDING_REVIEW
+            || $query->status_payment == QueryStatusPaymentEnum::STATUS_PAYMENT_ANALYZING){
 
-        return true;
+            return true;
+        }else{
+            $psychologist_availability_calendar = $this->psychologist_availability_calendar_repository
+                ->find($query->psychologist_availability_calendar_id);
+
+            $this->psychologist_availability_calendar_repository->edit($psychologist_availability_calendar, [
+                'available' => null
+            ]);
+
+            $this->query_repository->destroy($query);
+            Log::info('Finish');
+            return true;
+        }
     }
 }

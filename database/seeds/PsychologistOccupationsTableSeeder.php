@@ -16,8 +16,6 @@ class PsychologistOccupationsTableSeeder extends Seeder
 
         $data = [
             ['psychologist_id' => 1, 'occupation_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 2, 'occupation_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
-            ['psychologist_id' => 3, 'occupation_id' => 1, 'is_active' => 1, 'created_at' => $timestamp, 'updated_at' => $timestamp],
         ];
         PsychologistOccupation::insert($data);
     }

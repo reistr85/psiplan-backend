@@ -27,8 +27,8 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'type_user_id' => 2,
-                'name' => 'Renan Reis',
-                'email' => 'reistr85@gmail.com',
+                'name' => 'Psicólogo de Teste',
+                'email' => 'psiteste@gmail.com',
                 'cpf' => '39793947004',
                 'password' => bcrypt('re851120'),
                 'is_active' => 1,
@@ -37,8 +37,8 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'type_user_id' => 3,
-                'name' => 'Cliente de Teste 1',
-                'email' => 'cliente1@gmail.com',
+                'name' => 'Cliente de Teste',
+                'email' => 'cliteste@gmail.com',
                 'cpf' => '39793947004',
                 'password' => bcrypt('12345678'),
                 'is_active' => 1,

@@ -1,4 +1,4 @@
-@c style="text-align: justify"omponent('mail::message')
+@component('mail::message')
     <h1>Olá Psicólogo(a) {{ $data['name'] }} como você está?</h1>
     <p style="text-align: justify">Uma consulta foi confirmada com sucesso!</p>
     <p style="text-align: justify">Você pode ter acesso a mais informações, através de seu perfil acessando a sua área de GESTÃO.</p>
@@ -29,7 +29,7 @@
     <p style="text-align: justify">• Seu dispositivo deve estar posicionado em um local em que sua imagem seja visível ao terapeuta (mostrando rosto e ombro, ângulo foto 3x4)</p>
     <p style="text-align: justify">Seu atraso, em ambas modalidades de consultas, acarreta na REDUÇÃO do seu tempo de atendimento. E o NÃO COMPARECIMENTO, não acarretará nenhum reembolso da consulta, visto que o profissional reservou aquele horário para você ( Favor verificar Política de cancelamento em <a href="https://psiplan.mgetech.com.br/#/termosespecialistas">"TERMOS DE USO"</a>)</p>
     <p style="text-align: justify">Tenha uma boa Sessão!</p>
-    @component('mail::button', ['url' => 'https://psiplan.mgetech.com.br/#/login'])
+    @component('mail::button', ['url' => env('APP_URL').'/#/login'])
         Clique aqui
     @endcomponent
 @endcomponent

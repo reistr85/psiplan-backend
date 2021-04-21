@@ -42,6 +42,17 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
     });
 
     Route::group(['namespace' => 'API\\v1', 'middleware' => ['apiKey']], function() {
+
+        Route::group(['prefix' => 'dashboard'], function() {
+            Route::post('login', 'AuthController@login');
+
+            Route::group(['namespace' => 'Dashboard', 'middleware' => ['apiJwt']], function() {
+                Route::resource('psychologists', 'PsychologistController');
+                Route::resource('clients', 'ClientsController');
+                Route::resource('queries', 'QueryController');
+            });
+        });
+
         /*
          * Config
          * */
@@ -109,7 +120,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
     Route::post('account/profile/gallery_three', 'ProfileController@update');
     Route::post('account/profile/gallery_four', 'ProfileController@update');
     Route::post('account/profile/gallery_five', 'ProfileController@update');
-    //Route::post('account/delete-image-gallery', 'ProfileController@deleteImageGallery');
+    Route::post('account/profile/delete_gallery', 'ProfileController@deleteImageGalery');
 
 
     /*
@@ -133,6 +144,7 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
      * */
     Route::get('account/account', 'AccountController@index');
     Route::post('account/account', 'AccountController@store');
+    Route::delete('account/account', 'AccountController@destroy');
 
     /*
      * QueryController
@@ -235,4 +247,3 @@ Route::group(['prefix' => 'psiplan/v1', 'namespace' => 'API\\v1', 'middleware' =
         Route::resource('consultation-free', 'ClientConsultationFreeController');
     });
 });
-
