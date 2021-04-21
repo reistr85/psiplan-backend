@@ -57,6 +57,7 @@ class CreatePaymentPlanPsychologistPagarmeService
         $data['customer']['document_number'] = onlyNumber($data['customer']['document_number']);
         $data['customer']['phone']['ddd'] = substr($data['customer']['phone']['number'], 1, 2);
         $data['customer']['phone']['number'] = onlyNumber(substr($data['customer']['phone']['number'], 4, 9));
+        $data['plan_id'] = $plan->pagarme_plan_id;
 
         $response = $client_guzlle->post("{$url_base}/subscriptions", [
             'headers' => [
@@ -69,7 +70,9 @@ class CreatePaymentPlanPsychologistPagarmeService
             throw new \Exception("Ocorre um erro no pagamento!", $response->getStatusCode());
 
         $response = json_decode($response->getBody()->getContents());
-        $transaction_id = $response->current_transaction->id;
+
+        //$transaction_id = $response->current_transaction->id;
+        $transaction_id = null;
         $subscription_id = $response->id;
 
         return $response;

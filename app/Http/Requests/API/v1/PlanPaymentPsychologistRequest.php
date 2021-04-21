@@ -52,7 +52,10 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
                 $month = substr($value, 0, 2);
                 $year = substr(@date("Y"), 0, 2).substr($value, 3, 2);
 
-                if($month < @date("m") || !is_numeric($month) || $year < @date("Y") || !is_numeric($year))
+                $venc = "{$year}-{$month}-01";
+                $now = @date("Y-m")."-01";
+
+                if($venc < $now)
                     return $fail("Digite um vencimento válido");
             },
             'payment.card_holder_name' => 'required',
@@ -71,5 +74,6 @@ class PlanPaymentPsychologistRequest extends APIFormRequest
                     return $fail("Selecione o Tipo de Conta");
             },
         ];
+dd(123);
     }
 }
