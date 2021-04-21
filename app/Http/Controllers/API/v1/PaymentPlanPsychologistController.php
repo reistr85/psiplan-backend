@@ -118,21 +118,15 @@ class PaymentPlanPsychologistController extends Controller
             $transaction = $this->create_payment_plan_psychologist_pagarme_service->execute(
                 $request->input('payment'), $recipient_id, $subscription_id, $transaction_id);
 
-            if($transaction->current_transaction->status != "paid") {
-                if($bank_id)
-                    //$this->reverse_payment_plan_psychologist_service->execute($transaction_id);
-
-                if($recipient_id)
+            //if($transaction->current_transaction->status != "paid") {
+                //if($subscription_id)
                     //$this->reverse_subscription_psychologist_service->execute($subscription_id);
 
-                if($subscription_id)
-                    $this->reverse_subscription_psychologist_service->execute($subscription_id);
+                //if($subscription_id)
+                    //$this->reverse_subscription_psychologist_service->execute($subscription_id);
 
-                if($subscription_id)
-                    $this->reverse_subscription_psychologist_service->execute($subscription_id);
-
-                return response()->json(['status' => false, 'message' => 'Ocorreu um erro ao contratar o plano. Tente novamente!'], 500);
-            }
+                //return response()->json(['status' => false, 'message' => 'Ocorreu um erro ao contratar o plano. Tente novamente!'], 500);
+            //}
 
             $psychologist_plan = $this->create_psychologist_plan_service->execute($psychologist, $request->input('payment.plan_selected.name'));
             $pagarme_subscription = $this->create_pagarme_subscription_service->execute([
@@ -142,14 +136,14 @@ class PaymentPlanPsychologistController extends Controller
                 'status' => $transaction->status,
             ]);
 
-            $amount = $transaction->current_transaction->amount;
-            $this->create_pagarme_subscription_transaction_service->execute([
-                'user_id' => $user->id,
-                'pagarme_subscription_id' => $pagarme_subscription->id,
-                'transaction_id' => $transaction->current_transaction->id,
-                'status' => $transaction->current_transaction->status,
-                'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
-            ]);
+            //$amount = $transaction->current_transaction->amount;
+            //$this->create_pagarme_subscription_transaction_service->execute([
+            //   'user_id' => $user->id,
+            //   'pagarme_subscription_id' => $pagarme_subscription->id,
+            //'transaction_id' => $transaction->current_transaction->id,
+            //    'status' => $transaction->current_transaction->status,
+            //    'amount' => substr($amount, '0', (strlen($amount)-2)).".".substr($amount, (strlen($amount)-2), (strlen($amount))),
+            //]);
 
             $dataBank['bank_id'] = $bank_id;
             $this->define_plan_psychologist_service->execute($psychologist_plan->plan_id, $recipient_id);
