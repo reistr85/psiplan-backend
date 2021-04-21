@@ -42,4 +42,10 @@ class PsychologistTypeServiceRepository extends BaseRepository
     {
         return $this->model::where('psychologist_id', $psychologist_id);
     }
+
+    public function getPsychologistTypeServiceByTypeServiceIdByPsychologistId(int $psychologist_id, int $type_service_id)
+    {
+        return $this->model::where('psychologist_id', $psychologist_id)
+            ->where('type_service_id', $type_service_id);
+    }
 }

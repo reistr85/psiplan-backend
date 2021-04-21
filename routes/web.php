@@ -212,3 +212,18 @@ Route::get('evaluation-query', function(){
 
     return new \App\Mail\EvaluationQuery($user);
 });
+
+    Route::get('pakage-query', function(){
+
+        $user = new stdClass();
+        $user =  [
+            'email' => 'reis_trindade@hotmail.com',
+            'name' => 'Renan Reis',
+        ];
+
+        //Mail::send(new \App\Mail\PackageQuery($user));
+
+        //\App\Jobs\SendEmailPackageQuery::dispatch($user);
+
+        return new \App\Mail\PackageQuery($user);
+    });

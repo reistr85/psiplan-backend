@@ -6,6 +6,7 @@ use App\Enums\CouponSituationEnum;
 use App\Enums\CouponStatusPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\QueryPaymentClientRequest;
+use App\Jobs\SendEmailPackageQuery;
 use App\Services\API\v1\Client\UpdateAllCouponsByQueryIdService;
 use App\Services\API\v1\Client\UpdateCouponClientByIdService;
 use App\Services\API\v1\PaymentQueryClient\CreatePagarmeTransactionService;
@@ -143,6 +144,10 @@ class PaymentQueryClientController extends Controller
 
             $this->send_email_new_query_client_service->execute($query->id);
             $this->send_email_new_query_psychologist_service->execute($query->id);
+
+            if($query->query_box == 'yes')
+                SendEmailPackageQuery::dispatch(['name' => $user->client->name, 'email' => $user->client->email]);
+
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Seu pagamento foi efetuado com sucesso.', 'pagarme_transaction' => $pagarme_transaction], 200);
