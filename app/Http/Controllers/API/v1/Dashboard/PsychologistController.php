@@ -46,8 +46,8 @@ class PsychologistController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param Request $request
+     * @return void
      */
     public function store(Request $request)
     {
@@ -58,7 +58,7 @@ class PsychologistController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -74,7 +74,7 @@ class PsychologistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return Response
      */
