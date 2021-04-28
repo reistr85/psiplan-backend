@@ -3,36 +3,35 @@
 namespace App\Http\Controllers\API\v1\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Services\API\v1\Dashboard\GetAllPsychologistSearchPeriodService;
+use App\Services\API\v1\Dashboard\GetAllSearchPeriodService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class PsychologistSearchPeriodController extends Controller
+class SearchPeriodController extends Controller
 {
-
-    private $get_all_psychologists_search_period_service;
+    private $get_all_search_period_service;
 
     public function __construct(
-        GetAllPsychologistSearchPeriodService $get_all_psychologists_search_period_service
+        GetAllSearchPeriodService $get_all_search_period_service
     )
     {
-        $this->get_all_psychologists_search_period_service = $get_all_psychologists_search_period_service;
+        $this->get_all_search_period_service = $get_all_search_period_service;
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param $type
      * @param $data_initial
      * @param $data_final
      * @return JsonResponse
      */
-    public function index($data_initial, $data_final)
+    public function index($type, $data_initial, $data_final)
     {
         try {
-            $psychologists = $this->get_all_psychologists_search_period_service->execute($data_initial, $data_final);
+            $items = $this->get_all_search_period_service->execute($type, $data_initial, $data_final);
 
-            return response()->json(['status' => false, 'message' => 'success', 'psychologists' => $psychologists], 200);
+            return response()->json(['status' => false, 'message' => 'success', 'items' => $items], 200);
         }catch(\Exception $ex){
             return response()->json(['status' => false, 'message' => $ex->getMessage()], 500);
         }
@@ -41,8 +40,8 @@ class PsychologistSearchPeriodController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -53,7 +52,7 @@ class PsychologistSearchPeriodController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -63,9 +62,9 @@ class PsychologistSearchPeriodController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -76,7 +75,7 @@ class PsychologistSearchPeriodController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
