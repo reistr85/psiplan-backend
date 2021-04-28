@@ -77,4 +77,9 @@ class QueryRepository extends BaseRepository
     {
         return parent::delete($model);
     }
+
+    public function getAllSearchPeriod(string $data_initial, string $data_final)
+    {
+        return $this->model->whereBetween('created_at',[$data_initial, $data_final]);
+    }
 }
