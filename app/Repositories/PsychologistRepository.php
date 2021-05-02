@@ -215,4 +215,9 @@ class PsychologistRepository extends BaseRepository
     {
         return $this->model->whereBetween('created_at',[$data_initial, $data_final]);
     }
+
+    public function getPsychologistAvailabilityCalendarAndAvailabilityNull($psychologist_id)
+    {
+        return $this->model->getPsychologistAvailabilityCalendarAndAvailabilityNull($psychologist_id);
+    }
 }

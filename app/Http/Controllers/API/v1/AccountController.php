@@ -4,10 +4,8 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\UpdatePsychologistRequest;
-use App\Services\API\v1\City\GetCitiesByNameService;
 use App\Services\API\v1\City\GetCityByIdService;
 use App\Services\API\v1\Language\GetAllLanguagesService;
-use App\Services\API\v1\City\GetAllCitiesService;
 use App\Services\API\v1\City\GetCitiesByStateService;
 use App\Services\API\v1\Psychologist\CancelAccountPsychologistService;
 use App\Services\API\v1\Psychologist\CreatePsychologistLanguageService;
