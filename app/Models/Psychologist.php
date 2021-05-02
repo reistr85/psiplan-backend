@@ -143,10 +143,16 @@ class Psychologist extends Model
 
         if(!$number_of_possible_stars)
             return 5;
-        
+
         $percentage_star = $stars / $number_of_possible_stars;
         $qtd_stars = ceil(($percentage_star * 5));
 
         return $qtd_stars;
+    }
+
+    public function getPsychologistAvailabilityCalendarAndAvailabilityNull($psychologist_id)
+    {
+        return PsychologistAvailabilityCalendar::where('psychologist_id', $psychologist_id)
+            ->whereNull('available');
     }
 }

@@ -13,18 +13,28 @@ class TypeServiceEnum extends Enum
     public const TYPE_USER_ID_ADMIN = 1;
     public const TYPE_USER_ID_PSYCHOLOGIST = 2;
     public const TYPE_USER_ID_CLIENT = 3;
+
     public const PLAN_ID_SIMPLE_TRI = 1;
     public const PLAN_ID_HASH_SIMPLE_TRI = 'jR';
+    public const PLAN_NAME_SIMPLE_TRI = 'simple-tri';
     public const PLAN_ID_SIMPLE_SEM = 2;
     public const PLAN_ID_HASH_SIMPLE_SEM = 'k5';
+    public const PLAN_NAME_SIMPLE_SEM = 'simple-sem';
+
     public const PLAN_ID_ECONOMIC_TRI = 3;
     public const PLAN_ID_HASH_ECONOMIC_TRI = 'l5';
+    public const PLAN_NAME_ECONOMIC_TRI = 'economic-tri';
     public const PLAN_ID_ECONOMIC_SEM = 4;
     public const PLAN_ID_HASH_ECONOMIC_SEM = 'mO';
+    public const PLAN_NAME_ECONOMIC_SEM = 'economic-sem';
+
     public const PLAN_ID_PREMIUM_TRI = 5;
     public const PLAN_ID_HASH_PREMIUM_TRI = 'nR';
+    public const PLAN_NAME_PREMIUM_TRI = 'premium-tri';
     public const PLAN_ID_PREMIUM_SEM = 6;
     public const PLAN_ID_HASH_PREMIUM_SEM = 'oj';
+    public const PLAN_NAME_PREMIUM_SEM = 'premium-sem';
+
     public const PERCENTAGE_AVATAR_VALUE = 10;
     public const PERCENTAGE_YOUTUBE_VALUE = 5;
     public const PERCENTAGE_GALLERY_VALUE = 5;
