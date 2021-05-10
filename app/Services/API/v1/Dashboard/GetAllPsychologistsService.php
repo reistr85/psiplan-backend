@@ -18,6 +18,7 @@ class GetAllPsychologistsService
 
     public function execute()
     {
-        return $this->psychologist_repository->getAll()->with('city')->get();
+        return $this->psychologist_repository->getAll()->with('city')
+            ->orderBy('created_at', 'desc')->get();
     }
 }
