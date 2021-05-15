@@ -56,9 +56,8 @@ class CreateOrUpdateInfoTypeServiceRequest extends APIFormRequest
             },
             'target_audiences' => 'required',
             'consultation_value' => function ($att, $value, $fail) {
-                if ($value <= 0) {
-                    return $fail("O valor da consulta precisa ser maior que zero.");
-                }
+                if ($value < 70)
+                    return $fail("O valor da consulta não pode ser menor que R$70,00");
             },
         ];
     }
