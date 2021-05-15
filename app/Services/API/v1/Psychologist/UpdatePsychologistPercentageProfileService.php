@@ -54,10 +54,6 @@ class UpdatePsychologistPercentageProfileService
 
         if($percentage) {
             $data = ['percentage_profile' => $percentage];
-
-            if($percentage == 90)
-                $data['complete_profile'] = 'completed';
-
             $this->psychologist_repository->update($psychologist, $data);
         }
 
