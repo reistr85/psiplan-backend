@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Models\Evaluation;
+use Illuminate\Database\Eloquent\Model;
 
 class EvaluationRepository extends BaseRepository
 {
@@ -22,10 +23,20 @@ class EvaluationRepository extends BaseRepository
             ->with('client');
     }
 
+    public function find(int $id): ?Model
+    {
+        return $this->model->where('id', $id)
+            ->with('querie', 'querie.client', 'querie.psychologist')
+            ->first();
+    }
+
     public function store($data)
     {
         return parent::save($this->model, $data);
     }
 
-
+    public function getAll()
+    {
+        return $this->model;
+    }
 }
