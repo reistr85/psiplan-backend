@@ -50,6 +50,7 @@ Route::group(['prefix' => 'psiplan/v1'], function() {
                 Route::resource('psychologists', 'PsychologistController');
                 Route::resource('clients', 'ClientsController');
                 Route::resource('queries', 'QueryController');
+                Route::resource('evaluations', 'EvaluationController');
                 Route::get('search-period/{type}/{date_initial}/{date_final}', 'SearchPeriodController@index');
             });
         });

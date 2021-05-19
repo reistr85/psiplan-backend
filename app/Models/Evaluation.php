@@ -15,4 +15,9 @@ class Evaluation extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function querie()
+    {
+        return $this->belongsTo(Query::class, 'query_id', 'id', 'queries');
+    }
 }
