@@ -73,7 +73,7 @@ class UserController extends Controller
             if($user->type_user_id == TypeServiceEnum::TYPE_USER_ID_PSYCHOLOGIST) {
                 $data_psychologist = [
                     'user_id' => $user->id,
-                    'plan_id' => TypeServiceEnum::PLAN_ID_PREMIUM_SEM,
+//                    'plan_id' => TypeServiceEnum::PLAN_ID_PREMIUM_SEM,
                     'city_id' => 1,
                     'name' => $user->name,
                     'email' => $user->email,
@@ -82,11 +82,11 @@ class UserController extends Controller
                 ];
 
                 $psychologist = $this->createPsychologist->execute($data_psychologist);
-                $this->create_psychologist_plan->execute($psychologist, TypeServiceEnum::PLAN_NAME_PREMIUM_SEM);
+                //$this->create_psychologist_plan->execute($psychologist, TypeServiceEnum::PLAN_NAME_PREMIUM_SEM);
                 $this->create_psychologist_preferences_service->execute($psychologist->id);
 
                 SendEmailNewPsychologist::dispatch($data_psychologist);
-                DisablePsychologistPlan::dispatch($psychologist)->delay(now()->addMinutes(10080));
+                //DisablePsychologistPlan::dispatch($psychologist)->delay(now()->addMinutes(10080));
             }
 
             if($user->type_user_id == TypeServiceEnum::TYPE_USER_ID_CLIENT) {
