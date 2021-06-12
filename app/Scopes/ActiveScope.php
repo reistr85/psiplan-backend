@@ -11,6 +11,7 @@ class ActiveScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where($model->getTable().'.is_active', 1);
+        if(explode('/', \Request::route()->uri())[3] != 'dashboard')
+            $builder->where($model->getTable().'.is_active', 1);
     }
 }
